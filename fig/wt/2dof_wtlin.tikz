@@ -1,0 +1,131 @@
+% This file was created by matplotlib2tikz v0.6.13.
+\begin{tikzpicture}
+
+\definecolor{color2}{rgb}{0,0.896078431372549,0.97090449082859}
+\definecolor{color5}{rgb}{0.970904490828589,0.959331880900509,0}
+\definecolor{color1}{rgb}{0,0.503921568627451,1}
+\definecolor{color7}{rgb}{1,0.218591140159768,0}
+\definecolor{color6}{rgb}{1,0.581699346405229,0}
+\definecolor{color3}{rgb}{0.325743200506009,1,0.641998734977862}
+\definecolor{color0}{rgb}{0,0.096078431372549,1}
+\definecolor{color4}{rgb}{0.641998734977862,1,0.325743200506009}
+
+\begin{axis}[
+xlabel={Sweep frequency (rad/s)},
+ylabel={Instantaneous frequency (rad/s)},
+xmin=0, xmax=20,
+ymin=0, ymax=20,
+xtick={0,5,10,15,20},
+ytick={0,5,10,15,20},
+minor xtick={},
+minor ytick={},
+tick align=outside,
+tick pos=left,
+xmajorgrids,
+x grid style={white!69.019607843137251!black},
+ymajorgrids,
+y grid style={white!69.019607843137251!black}
+]
+\addplot [only marks, fill=blue!71.390374331550802!black, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color0, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color1, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color2, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color3, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color4, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color5, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color6, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=color7, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\addplot [only marks, fill=red!71.390374331550817!black, colormap/viridis]
+table{%
+x                      y
++0.000000000000000e+00 +0.000000000000000e+00
+};
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:0,20);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:1,20);
+
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:20,0);
+
+\path [draw=black, fill opacity=0] (axis cs:0,1)
+--(axis cs:20,1);
+
+\end{axis}
+
+\begin{axis}[
+ylabel={Amplitude (dB)},
+xmin=0, xmax=1,
+ymin=0, ymax=1,
+axis y line=right,
+xtick=\empty,
+ytick={0,0.2,0.4,0.6,0.8,1},
+yticklabels={−200,−150,−100,−50,0,50},
+minor xtick={},
+minor ytick={},
+tick align=outside,
+xtick pos=left,
+ytick pos=right,
+y grid style={white!69.019607843137251!black}
+]
+\path [draw=white, fill=white] (axis cs:0,0)
+--(axis cs:0,0.00390625)
+--(axis cs:0,0.99609375)
+--(axis cs:0,1)
+--(axis cs:1,1)
+--(axis cs:1,0.99609375)
+--(axis cs:1,0.00390625)
+--(axis cs:1,0)
+--cycle;
+
+\addplot graphics [includegraphics cmd=\pgfimage,xmin=0, xmax=1, ymin=0, ymax=1] {2dof_wtlin_img000.png};
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:0,0.00390625)
+--(axis cs:0,0.99609375)
+--(axis cs:0,1)
+--(axis cs:1,1)
+--(axis cs:1,0.99609375)
+--(axis cs:1,0.00390625)
+--(axis cs:1,0)
+--cycle;
+
+\end{axis}
+
+\end{tikzpicture}

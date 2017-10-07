@@ -1,22 +1,4 @@
-
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @pawsen
- Sign out
- Watch 2,231
-  Star 55,415  Fork 24,374 github/gitignore
- Code  Pull requests 158  Projects 0 Insights
-Branch: master Find file Copy pathgitignore/TeX.gitignore
-2e94cf6  on Jun 26
- Niklas Holm Add extended DVI (XDV) to TeX.gitignore
-38 contributors @maieul @shiftkey @koppor @arcresu @habi @lszeremeta @tjgrilley @seungwonpark @dopefishh @Konfekt @153957 @wojciechwasko @thomwiggers @thilaire @rogierslag @ptigwe @orzechow @vkusvody @masgo @lucasgautheron @lighght @izuzak @Gurmeet-Singh @JelteF @flashspys @DSIW and others
-RawBlameHistory
-222 lines (174 sloc)  2.15 KB
+build/
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
