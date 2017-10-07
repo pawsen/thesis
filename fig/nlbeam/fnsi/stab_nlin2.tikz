@@ -1,0 +1,94 @@
+% This file was created by matplotlib2tikz v0.6.13.
+\begin{tikzpicture}
+
+\begin{axis}[
+xlabel={Frequency (Hz)},
+ylabel={Model order},
+xmin=5, xmax=500,
+ymin=0, ymax=22,
+xtick={0,100,200,300,400,500},
+ytick={0,4,8,12,16,20},
+minor xtick={},
+minor ytick={},
+tick align=outside,
+tick pos=left,
+x grid style={lightgray!92.026143790849673!black},
+y grid style={lightgray!92.026143790849673!black}
+]
+\addplot [line width=1.5pt, red, mark=x, mark size=3, mark options={solid}, only marks, forget plot]
+table {%
+60.5573963347785 16
+176.647607069808 16
+287.80466369536 16
+390.872232521295 16
+472.861733587669 16
+54.7560681633339 18
+157.596716454168 18
+257.685012023155 18
+350.666117511961 18
+430.23829997474 18
+370.437852583303 8
+261.924635043181 10
+391.19575180085 10
+84.585664587013 12
+309.075023468046 12
+431.26658919871 12
+55.2583029256571 14
+226.431973464745 14
+333.552105429511 14
+441.165944991184 14
+};
+\addplot [line width=1.5pt, black, mark=*, mark size=3, mark options={solid,fill opacity=0}, only marks, forget plot]
+table {%
+484.94903820236 18
+31.3142805460364 4
+144.13033287393 4
+99.7457999537889 20
+196.559724753879 20
+442.213113548106 20
+487.885233970551 20
+};
+\addplot [line width=1.5pt, black, mark=triangle, mark size=3, mark options={solid,fill opacity=0}, only marks, forget plot]
+table {%
+31.2800575880185 16
+143.637368830129 16
+397.8149476894 16
+31.2800610784315 18
+143.637368700523 18
+397.814939215622 18
+31.2800671809159 6
+143.637362739914 6
+397.814979703504 6
+31.2800670133217 8
+143.637358276924 8
+397.814982821719 8
+31.2801003291879 20
+143.63736267509 20
+288.765668574732 20
+372.594732942038 20
+397.814937787683 20
+31.2800691929205 10
+143.637341232946 10
+397.815008460038 10
+31.2800728175947 12
+143.637391616248 12
+397.814953209285 12
+31.2800579856222 14
+143.637390153687 14
+397.814935350941 14
+};
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:0,22);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:1,22);
+
+\path [draw=black, fill opacity=0] (axis cs:5,0)
+--(axis cs:500,0);
+
+\path [draw=black, fill opacity=0] (axis cs:5,1)
+--(axis cs:500,1);
+
+\end{axis}
+
+\end{tikzpicture}

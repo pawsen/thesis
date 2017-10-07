@@ -1,0 +1,31 @@
+
+\chapter{Numerical considerations}
+\label{chap:numerical_appendix}
+
+We want to solve a system of linear equations
+\begin{equation}
+  \bm A \bm x = \bm b
+\end{equation}
+where $\bm A$ is not square. How to solve such a system most efficient
+computationally wise is not always straight forward and might also depends on
+the library being used.
+
+
+Formally we want to solve
+\begin{equation}
+  \min_x \norm{\bm A \bm x - \bm b}_2
+\end{equation}
+such systems are often seen solved as
+\begin{equation}
+  \bm x = \bm A^+\bm b
+\end{equation}
+where $\A^+$ is the Moore-Penrose pseudoinverse. This gives $\bm x$ in a least
+square sense. But in numerical implementations, one should not use the
+Moore-Penrose pseudoinverse, but a iterative least square solver. For instance
+one often see \texttt{x = pinv(A)*b;} in matlab, where ideally
+\texttt{lsqminnorm(A,b)} should be used.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../report"
+%%% End:

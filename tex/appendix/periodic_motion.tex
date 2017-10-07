@@ -1,0 +1,284 @@
+
+\chapter{Periodic solution}
+\label{chap:per_sol}
+
+\section{Shooting method}
+\label{sec:shooting_appendix}
+
+The state space formulated for the full eom \eqref{eq:per_eom} is
+
+\begin{equation}
+  \label{eq:app_state_space}
+  \dot{\bm z}(t) = \bm L\bm z(t) - \bm g_{nl}(\bm z) + \bm g_{ext}(\omega,t)
+\end{equation}
+where
+
+\begin{equation}
+  \begin{aligned}
+    \bm z =
+    \begin{bmatrix}
+      \bm x \\ \dot{\bm y}
+    \end{bmatrix}, \quad
+    \bm L =
+    \begin{bmatrix}
+      \bm 0 & \bm I_n \\
+      -\bm M^{-1}\bm K & -\bm M^{-1} \bm C
+    \end{bmatrix} \\
+    \bm g_{nl} =
+    \begin{bmatrix}
+      \bm 0 \\ \bm M^{-1} \bm f_{nl}(\bm x, \dot{\bm x})
+    \end{bmatrix}, \quad
+    \bm g_{ext}
+    \begin{bmatrix}
+      \bm 0 \\ \bm M^{-1} \bm p_{ext}(\omega, t)
+    \end{bmatrix}
+  \end{aligned}
+\end{equation}
+
+Calculating the periodic motion for the full EOM, instead of the unforced and
+undamped case as in section \ref{sec:shooting_method}, only requires changing
+the evaluation of the state space to the formula above. The sensitivity analysis
+in section \ref{sec:newmark_sens} is derived for the full EOM. Thus at max five
+lines of code needs changing.
+
+\section{HB}
+\label{sec:hb_appendix}
+
+The derivation of the equations of motion in frequency domain continues from
+where it was left in section \ref{sec:harmonic_bal}.
+
+The operators $\bm \nabla$ and $\bm \nabla^2$ used in expressing velocities and
+accelerations are given as
+\begin{equation}
+  \label{eq:hb_nabla}
+  \bm \nabla =
+  \begin{bmatrix}
+    \bm 0 &        &                &        & \\
+          & \ddots &                &        & \\
+          &        & \bm \nabla_k   &        & \\
+          &        &                & \ddots & \\
+          &        &                &        & \bm \nabla_{N_H}
+  \end{bmatrix}, \quad
+  \bm \nabla^2 =
+  \begin{bmatrix}
+    \bm 0 &        &                &        & \\
+          & \ddots &                &        & \\
+          &        & \bm \nabla^2_k &        & \\
+          &        &                & \ddots & \\
+          &        &                &        & \bm \nabla^2_{N_H}
+  \end{bmatrix}
+\end{equation}
+with
+
+\begin{equation}
+  \label{eq:hb_nabla2}
+  \bm \nabla_k =
+  \begin{bmatrix}
+    0       & -k\omega \\
+    k\omega & 0
+  \end{bmatrix}, \quad
+  \bm \nabla^2_k =
+  \begin{bmatrix}
+    -(k\omega)^2 & 0 \\
+    0            & -(k\omega)^2
+  \end{bmatrix}
+\end{equation}
+
+Substitute eqs. \eqref{eq:hb_x_expansion}-\eqref{eq:hb_f_expansion} and
+\eqref{eq:hb_vel}-\eqref{eq:hb_acc} into the EOM \eqref{eq:per_eom} to get
+
+\begin{equation}
+  \label{eq:hb_eom_subs}
+  \bm M((Q(t)\bm\nabla^2) \otimes \mathbb{I}_n)\bm z  +
+  \bm C((Q(t)\bm\nabla) \otimes \mathbb{I}_n)\bm z  +
+  \bm K((Q(t) \otimes \mathbb{I}_n)\bm z  =
+  (\bm Q(t)\otimes I_n) \bm b
+\end{equation}
+
+Using the mixed-product product of the Kronecker product $(\bm A \otimes \bm
+B)=(\bm C \otimes \bm D) = (\bm A \bm C) \otimes (\bm B \bm D)$ gives
+
+
+\begin{equation}
+  \begin{aligned}
+    \bm M((Q(t)\bm\nabla^2) \otimes \mathbb{I}_n) &=
+    (1\otimes \bm M) ((\bm Q(t) \bm \nabla^2)\otimes I_n ) =
+    (\bm Q(t)\bm \nabla^2)\otimes \bm M \\
+    \bm C((Q(t)\bm\nabla) \otimes \mathbb{I}_n) &=
+    (1\otimes \bm C) ((\bm Q(t) \bm \nabla)\otimes I_n ) =
+    (\bm Q(t)\bm \nabla)\otimes \bm C \\
+    \bm K(Q(t) \otimes \mathbb{I}_n) &=
+    (1\otimes \bm K) (\bm Q(t) \otimes I_n ) =
+    \bm Q(t)\bm \otimes \bm K
+  \end{aligned}
+\end{equation}
+
+Substituting these into eq. \eqref{eq:hb_eom_subs} gives
+\begin{equation}
+  ((\bm Q(t)\bm \nabla^2) \otimes \bm M)\bm z +
+  ((\bm Q(t)\bm \nabla) \otimes \bm C)\bm z +
+  (\bm Q(t) \otimes \bm K)\bm z =
+  (\bm Q(t) \otimes I_n) \bm b
+  \label{eq:hb_eom_subs2}
+\end{equation}
+
+In order to remove the time dependency and to obtain an expression relating the
+different Fourier coefficients, a Galerkin procedure projects eq.
+\eqref{eq:hb_eom_subs2} on the orthogonal trigonometric basis $\bm Q(t)$
+
+\begin{equation}
+  \begin{aligned}
+    \left( \left( \frac{2}{T}\int^T_0 \bm Q^T(t) \bm Q(t) \d t \bm \nabla^2
+      \right) \otimes \bm M \right) \bm z +
+    \left( \left( \frac{2}{T}\int^T_0 \bm Q^T(t) \bm Q(t) \d t \bm \nabla
+      \right) \otimes \bm C \right) \bm z \\
+    \left( \left( \frac{2}{T}\int^T_0 \bm Q^T(t) \bm Q(t) \d t
+      \right) \otimes \bm K \right) \bm z =
+    \left( \left( \frac{2}{T}\int^T_0 \bm Q^T(t) \bm Q(t) \d t
+      \right) \otimes I_n \right) \bm b
+  \end{aligned}
+\end{equation}
+where $T=2\pi / \omega$ is the period of the external force.
+
+Using that
+\begin{equation}
+  \frac{2}{T}\int^T_0 \bm Q^T(t) \bm Q(t) \d t = I_{2N_H+1}
+\end{equation}
+the equations of motion expressed in frequency domain are
+
+\begin{equation}
+  %\label{eq:hb_feom}
+  (\bm \nabla^2 \otimes \bm M)\bm z + (\bm \nabla \otimes \bm C)\bm z +
+  (\mathbb{I}_{2N_H} \otimes \bm K)\bm z =
+  (\mathbb{I}_{2N_H} \otimes \mathbb{I}_n )\bm b
+\end{equation}
+or in more compact form
+
+\begin{equation}
+  \label{eq:hb_feom_compact}
+  \bm H(\bm z, \omega) = \bm A(\omega) \bm z - \bm b(\bm z) = \bm 0
+\end{equation}
+where $\bm A$ describes the linear dynamics
+
+\begin{equation}
+  \label{eq:hb_A}
+  \begin{aligned}
+    \bm A &= \bm \nabla^2 \otimes \bm M + \bm \nabla \otimes \bm C +
+    \mathbb{I}_{2N_H} \otimes \bm K \\
+    &=
+    \begin{bmatrix}
+      \bm K \\
+      & \bm K - \omega^2 \bm M & -\omega \bm C \\
+      & \omega \bm C & \bm K - \omega^2 \bm M \\
+      & & & \ddots \\
+      & & & & \bm K - (N_H \omega)^2 \bm M & -N_H \omega \bm C \\
+      & & & & N_H \omega \bm C & \bm K - (N_H \omega)^2 \bm M
+    \end{bmatrix}
+  \end{aligned}
+\end{equation}
+
+
+\subsection{Stability}
+\label{sec:hb_stab_appendix}
+
+\textbf{Skal x skrives som fx $x^*$ for at symbolisere at det er en løsning -
+  eller måske ikke med $x^*$, men et tilsvarende symbol?}
+
+To find the stability of a periodic solution, a method known as \textit{Hills
+  method} is used to estimate the Floquet exponents.
+
+A periodic solution $\bm x(t)$ satisfying the eom eq. \eqref{eq:per_eom} is
+perturbed by an exponential decay
+\begin{equation}
+  \label{eq:hb_pert}
+  \bm p(t) = \bm x(t) + e^{\lambda t}\bm s(t)
+\end{equation}
+inserting this into the eom eq. \eqref{eq:per_eom},
+\begin{equation}
+  \bm M\ddot{\bm x} + \bm C\dot{\bm x} + \bm K\bm x +
+  (\lambda^2 \bm M \bm s + \lambda(2\bm M \dot{\bm s}) +
+  \bm M\ddot{\bm s} + \bm C\dot{\bm s} + \bm K \bm s ) e^{\lambda t} =
+  \bm f(\bm p, \dot{\bm p}, \omega, t)
+\end{equation}
+
+Following the outline of section \ref{sec:harmonic_bal}, the solution and
+perturbation are approximated by Fourier series truncated to $N_H$-th order,
+i.e. $\bm x(t) = (\bm Q(t) \otimes I_n)\bm z$ and $\bm s(t) = (\bm Q(t) \otimes
+I_n)\bm u$, where $\bm z$ and $\bm u$ contains the Fourier coefficients of $\bm
+x$ and $\bm s$, respectively. Following section \ref{sec:hb_appendix}, a
+Galerkin is used to obtain
+
+\begin{equation}
+  \bm A \bm z +
+  (\bm \Delta_2\lambda^2 + \bm \Delta_1 \lambda + \bm A) e^{\lambda t} \bm u =
+  \bm b(\bm z + e^{\lambda t} \bm u)
+  \label{eq:hb_pert2}
+\end{equation}
+where $\bm \Delta$ are matrices describing the linear dynamics similar to $\bm
+A$ in eq. \eqref{eq:hb_A} and $\lambda$ are Hills coefficients.
+
+\begin{equation}
+  \begin{aligned}
+    \bm \Delta_1 &= \bm \nabla \otimes 2\bm M + \mathbb{I}_{2N_H+1} \otimes \bm C \\
+    &=
+    \begin{bmatrix}
+      \bm C \\
+      & \bm C & -\omega \bm M \\
+      & 2\omega \bm M & \bm C \\
+      & & & \ddots \\
+      & & & & \bm C & -2N_H \omega \bm M \\
+      & & & & 2N_H \omega \bm M & \bm C
+    \end{bmatrix} \\
+    \bm \Delta_2 &= \mathbb{I}_{2N_H+1} \otimes \bm M
+  \end{aligned}
+\end{equation}
+
+The right-hand side of eq. \eqref{eq:hb_pert2} is evaluated through a Taylor series expansion around
+the solution $\bm z$
+\begin{equation}
+  \bm b(\bm z+e^{\lambda t} \bm u) = \bm b(\bm z) + \frac{\p \bm b}{\p \bm z}\big|_z (e^{\lambda t}\bm u)
+\end{equation}
+
+Since $\bm A \bm z - \bm b(\bm z) = \bm 0$ by definition and given that
+\begin{equation}
+  \bm A - \frac{\p \bm b}{\p \bm z}\big|_z = \bm h_{\bm z}
+\end{equation}
+eq. \eqref{eq:hb_pert2} is rewritten into the quadratic eigenvalue problem
+
+\begin{equation}
+  \left( \bm \Delta_2 \bm \lambda^2 + \bm \Delta_1 \bm \lambda + \bm H_{\bm z}  \right)
+  e^{\lambda t} \bm u = \bm 0
+\end{equation}
+
+
+\subsection{NNM}
+\label{sec:hb_nnm_appendix}
+
+Following the method above, NNMs can be computed using HB in the following way:
+
+\begin{equation}
+  \bm h_{ham} (\bm z, \omega) = (\bm \nabla^2 \otimes \bm M) \bm z +
+  (I_{2N_H+1} \otimes \bm K) \bm z + \bm b_{nl} = \bm 0
+\end{equation}
+where $\bm b_{nl}$ is the vector of the Fourier coefficients of the nonlinear
+forces, defined as
+\begin{equation}
+  \bm f_{nl}(\bm x) = (\bm Q(t)\otimes I_n) \bm b_{nl}
+\end{equation}
+
+The phase condition for frequency-domain methods are often to set a Fourier
+coefficient of a DOF to zero. Doing this, the equation for a NNM motion is
+\begin{equation}
+  \label{eq:hb_nnm}
+  \bm h_{NNM} =
+  \begin{bmatrix}
+    \bm h_{ham}(\bm z, \omega) \\ z_i
+  \end{bmatrix}
+  = \bm 0
+\end{equation}
+where $z_i$ is a component of $\bm z$.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../report"
+%%% End:

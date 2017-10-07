@@ -1,0 +1,58 @@
+% This file was created by matplotlib2tikz v0.6.13.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.12156862745098,0.466666666666667,0.705882352941177}
+\definecolor{color1}{rgb}{1,0.498039215686275,0.0549019607843137}
+
+\begin{axis}[
+title={Linear modes},
+xlabel={Node id},
+ylabel={Displacement (m)},
+xmin=0, xmax=1,
+ymin=-0.777816663400677, ymax=0.777818255208742,
+xtick={0,0.2,0.4,0.6,0.8,1},
+xticklabels={0.0,0.2,0.4,0.6,0.8,1.0},
+ytick={-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8},
+yticklabels={,−0.6,−0.4,−0.2,0.0,0.2,0.4,0.6,},
+minor xtick={},
+minor ytick={},
+tick align=outside,
+tick pos=left,
+x grid style={lightgray!92.026143790849673!black},
+y grid style={lightgray!92.026143790849673!black},
+legend entries={{1.00 (rad/s)},{3.32 (rad/s)}},
+legend style={at={(0.03,0.03)}, anchor=south west, draw=white!80.0!black},
+legend cell align={left}
+]
+\addlegendimage{no markers, color0}
+\addlegendimage{no markers, color1}
+\addplot [line width=1.5pt, color0, mark=asterisk*, mark size=3, mark options={solid}]
+table {%
+0 0.707106776793726
+1 0.707106785579369
+};
+\addplot [line width=1.5pt, color1, mark=asterisk*, mark size=3, mark options={solid}]
+table {%
+0 0.707107577090132
+1 -0.707105985282067
+};
+\addplot [line width=0.5pt, black, dashed, forget plot]
+table {%
+0 0
+1 0
+};
+\path [draw=black, fill opacity=0] (axis cs:0,-0.777816663400677)
+--(axis cs:0,0.777818255208742);
+
+\path [draw=black, fill opacity=0] (axis cs:1,-0.777816663400677)
+--(axis cs:1,0.777818255208742);
+
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:1,0);
+
+\path [draw=black, fill opacity=0] (axis cs:0,1)
+--(axis cs:1,1);
+
+\end{axis}
+
+\end{tikzpicture}

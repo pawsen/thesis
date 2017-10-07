@@ -1,0 +1,294 @@
+
+\chapter{Newmark integration}
+\label{chap:newmark-integration}
+
+Newmarks time integration is used for solving the initial value problem defined by
+the EOM,
+
+\begin{align}
+  \label{eq:nm_eom}
+    \begin{aligned}
+  &\bm M \ddot{\bm x}(t) + \bm C_v \dot{\bm x}(t) + \bm K \bm x(t) +
+    \bm f_{nl} \left( \bm x(t), \dot{ \bm x}(t) \right) = \bm p(t) \\
+  &\qquad \bm z_0 =
+  \begin{bmatrix}
+    \bm x(0) \\
+    \dot{\bm x}(0)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \bm x_0 \\
+    \dot{\bm x}_0
+  \end{bmatrix}
+\end{aligned}
+\end{align}
+where $\bm z_0$ are the initial conditions. $\bm z$ is the state vector.
+
+The associated sensitivity problem, ie. how sensitive the current motion is to
+the initial conditions, is given by
+\begin{equation}
+  \label{eq:nm_sens}
+  \begin{aligned}
+  &\bm M  \frac{\p \ddot{ \bm x}(t)}{\p \bm z_0}  +
+  \bm C_v \frac{\p \dot{\bm x}(t)}{\p \bm z_0}  +
+  \bm K \frac{\p \bm x(t)}{\p \bm z_0}  +
+    \frac{\p \bm f_{nl}}{\p \bm x} \bigg|_{\bm x(t)}
+    \frac{\p \bm x(t)}{\p \bm z_0} +
+    \frac{\p \bm f_{nl}}{\p \dot{\bm x}} \bigg|_{\dot {\bm x}(t)}
+    \frac{\p \dot{ \bm x}(t)}{\p \bm z_0} =
+  \bm 0 \\
+  &\qquad
+  \begin{bmatrix}
+    \frac{\p \bm x(0)}{\p \bm z_0} \\
+    \frac{\p \dot{\bm x}(0)}{\p \bm z_0}
+  \end{bmatrix}
+  = \bm I
+    \end{aligned}
+\end{equation}
+where $\frac{\p \ddot{ \bm x}(t)}{\p \bm z_0}$ is implied to mean
+$\frac{\d^2}{\d t^2} \left[\frac{\p \bm x(t)}{\p \bm z_0} \right]$
+
+\section{Solving EOM}
+\label{sec:nm_solve_eom}
+
+
+The solution of the EOM is done by an implicit nonlinear Newmark scheme.
+Description of the method can be found in \citep{krenk2009non}.
+
+Here follows a more throughout derivation. The algorithm itself, for fixed time
+step, is shown in pseudo-code in Algorithm \ref{algo:nonlin_newmark}.
+
+
+The residual of the EOM eq. \eqref{eq:nm_eom} is
+
+\begin{equation}
+  \label{eq:nm_res}
+  \bm r (\bm x) = \bm M \ddot{\bm x}(t) + \bm C \dot{\bm x}(t) + \bm K \bm x(t) +
+    \bm f_{nl} \left( \bm x(t), \dot{ \bm x}(t) \right) - \bm p(t) = 0
+\end{equation}
+
+From time $t$ to $t+h$, a Taylor series expansion of the velocity and
+displacement with respect to $h$ gives
+
+\begin{equation}
+  \label{eq:nm_taylor}
+  \begin{aligned}
+    \dot {\bm x}_{t+h} &= \dot{\bm x}_t + (1-\gamma)h \ddot{\bm x}_t + \gamma h \ddot{\bm x}_{t+h} \\
+    {\bm x}_{t+h} &= \bm x_t + \dot{\bm x}_t + (\frac{1}{2}-\beta)h^2 \ddot{\bm x}_t + \beta h^2 \ddot{\bm x}_{t+h}
+  \end{aligned}
+\end{equation}
+where $\gamma$ and $\beta$ are weighting constants. Often $\gamma =\frac{1}{2},
+\beta = \frac{1}{4}$ is chosen, which is the Average Acceleration method. This
+gives a scheme that is unconditionally stable and converges as
+$\mathcal{O}(h^2)$
+
+This can be rewritten as
+
+\begin{align}
+  \label{eq:nm_taylor2}
+  &\begin{aligned}
+    \dot {\bm x}_{t+h} &= \dot{\bm x}^*_{t+h} + \gamma h \ddot{\bm x}_{t+h} \\
+    \bm x_{t+h} &= \bm x^*_{t+h} + \beta h^2 \ddot{\bm x}_{t+h}
+  \end{aligned} \\
+  &\begin{aligned}
+    \dot {\bm x}^*_{t+h} &= \dot{\bm x}_t + (1-\gamma)h \ddot{\bm x}_t  \\
+    {\bm x}^*_{t+h} &= \bm x_t + \dot{\bm x}_t + (\frac{1}{2}-\beta)h^2 \ddot{\bm x}_t
+  \end{aligned}
+\end{align}
+where $(^*)$ denotes prediction. The prediction depends on the previous time
+step $t$ and implies the prediction $\ddot{\bm x}^*_{t+h} = 0$.
+
+Rewriting eq. \eqref{eq:nm_taylor2} again
+\begin{equation}
+  \label{eq:nm_scheme}
+  \begin{aligned}
+    &\ddot{\bm x}_{t+h} = \frac{1}{\beta h^2} (\bm x_{t+h} - \bm x^*_{t+h}) \\
+    &\dot{\bm x}_{t+h} = \dot{\bm x}^*_{t+h} \frac{\gamma}{\beta h} (\bm x_{t+h} - \bm x^*_{t+h})
+  \end{aligned}
+\end{equation}
+
+Substituting this into the residual eq. \eqref{eq:nm_res}, the equation is only
+expressed in terms of $\bm x_{t+h}$. Due to the nonlinear stiffness and
+dissipation, the residual equation have to be solved iteratively by Newton-Raphson
+iterations.
+
+
+\begin{equation}
+  \label{eq:nm_nr}
+  \bm r(\bm x^k_{t+h}) + \bm S(\bm x^k_{t+h}) \bm \Delta \bm x = 0
+\end{equation}
+
+The iteration matrix $\bm S$, also called the tangent stiffness, is given by
+
+\begin{equation}
+  \label{eq:nm_tangent}
+  \bm S(\bm x^k_{t+h}) = \left[ \frac{\d \bm r}{\d \bm x} \right]_{\bm x^k_{t+h}} =
+  \frac{1}{\beta h^2} \bm M + \frac{\gamma}{\beta h} \bm C + \bm K +
+  \frac{\p \bm f_{nl}}{\p \bm x} +
+  \frac{\gamma}{\beta h} \frac{\p \bm f_{nl}}{\p \dot{ \bm x}}
+\end{equation}
+
+Thus the correction is found by solving eq. \eqref{eq:nm_nr}
+
+\begin{equation}
+  \label{eq:nm_nr2}
+  \Delta \bm x^k_{t+h} = - \bm S(\bm x^k_{t+h})^{-1} \bm r(\bm x^k_{t+h})
+\end{equation}
+and updating the state variables
+
+\begin{equation}
+  \begin{aligned}
+    &\bm x^{k+1}_{t+h} = \bm x^k_{t+h} + \Delta \bm x^k_{t+h} \\
+    &\dot{\bm x}^{k+1}_{t+h} = \dot{\bm x}^k_{t+h} +
+    \frac{\gamma}{\beta h} \Delta \bm x^k_{t+h} \\
+    &\ddot{\bm x}^{k+1}_{t+h} = \ddot{\bm x}^k_{t+h} +
+    \frac{1}{\beta h^2} \Delta \bm x^k_{t+h} \\
+  \end{aligned}
+\end{equation}
+
+The Newton iterations are carried out until some norm of residual value is below
+a given tolerance. \citet{cook2007concepts} have different examples of norms that
+can be used.
+
+
+\section{Sensitivity Equations}
+\label{sec:newmark_sens}
+
+
+At the end of each time step, the sensitivity matrix $\left[ \frac{\p \bm x}{\p
+    \bm z_0} \right]$ is found by solving eq. \eqref{eq:nm_sens}.
+Using Newmarks scheme given by eq. \eqref{eq:nm_scheme}, at time step $t+h$ one have
+
+\begin{align}
+\label{eq:nm_sens_xdd}
+  &\left[ \frac{\p \ddot{\bm x}}{\p \bm z_0} \right]_{t+h} =
+    \frac{1}{\beta h^2} \left(
+    \left[ \frac{\p \bm x}{\p \bm z_0} \right]_{t+h} -
+    \left[ \frac{\p \bm x}{\p \bm z_0} \right]^*_{t+h}
+    \right) \\
+\label{eq:nm_sens_xd}
+  &\left[ \frac{\p \dot{\bm x}}{\p \bm z_0} \right]_{t+h} =
+    \left[ \frac{\p \dot{\bm x}}{\p \bm z_0} \right]^*_{t+h} +
+    \frac{\gamma}{\beta h^2} \left(
+    \left[ \frac{\p \bm x}{\p \bm z_0} \right]_{t+h} -
+    \left[ \frac{\p \bm x}{\p \bm z_0} \right]^*_{t+h}
+    \right)
+\end{align}
+the predictions are given as (* denote prediction)
+
+\begin{align}
+  \label{eq:nm_sens_predict}
+  &\left[ \frac{\p \dot{\bm x}}{\p \bm z_0} \right]^*_{t+h} =
+    \left[ \frac{\p \dot{\bm x}}{\p \bm z_0} \right]_{t} +
+    (1-\gamma)h \left[ \frac{\p \ddot {\bm x}}{\p \bm z_0} \right]_{t} \\
+  &\left[ \frac{\p \bm x}{\p \bm z_0} \right]^*_{t+h} =
+    \left[ \frac{\p \bm x}{\p \bm z_0} \right]^*_{t}
+    h \left[ \frac{\p \dot {\bm x}}{\p \bm z_0} \right]_{t} +
+    h^2(\frac{1}{2} - \beta) \left[ \frac{\p \ddot{\bm x}}{\p \bm z_0} \right]_{t}
+\end{align}
+
+
+By rearranging and substitution eqs. \eqref{eq:nm_sens_xdd} and
+\eqref{eq:nm_sens_xd} into the linear sensitivity eq. \eqref{eq:nm_sens}, the
+sensitivity acceleration matrix at time $t+h$ is found as
+
+\begin{align}
+  &\frac{1}{\beta h^2}
+  \left[
+    \frac{1}{\beta h^2} \bm M +
+    \frac{\gamma}{\beta h} \bm C +
+    \bm K +
+    \frac{\p \bm f_{nl}}{\p \bm x} +
+    \frac{\gamma}{\beta h} \frac{\p \bm f_{nl}}{\p \dot{\bm x}}
+  \right]
+    \left[ \frac{\p \ddot{\bm x}}{\p \bm z_0} \right]_{t+h} = \nonumber \\
+ & -
+  \left(\bm K + \frac{\bm \p f_{nl}}{\p \bm x} \right)
+  \left[ \frac{\p \bm x}{\p \bm z_0} \right]^*_{t+h}
+  -
+  \left(\bm C + \frac{\bm \p f_{nl}}{\p \dot {\bm x}} \right)
+  \left[ \frac{\p \dot{\bm x}}{\p \bm z_0} \right]^*_{t+h}
+  \label{eq:nm_sens_sol}
+\end{align}
+from where the sensitivity matrix is found by \eqref{eq:nm_sens_xdd}.
+
+
+Thus by marching in time, the current motion and its sensitivity with respect to
+initial conditions are found.
+
+\section{Algorithm}
+\label{sec:newmark_algo}
+
+
+\begin{algorithm}
+  % \setstretch{1.30} % For article class
+  \setSpacing{1.30}
+  Initial conditions, $\bm x_0, \dot{\bm x}_0$. \linebreak
+  $A_1 = (1 - \gamma) h, \quad
+  B_1 = (\frac{1}{2} - \beta) h^2, \quad
+  A_2 = \frac{1}{\beta h^2}, \quad
+  B_2 = \frac{\gamma}{\beta h}$  \linebreak
+  $\bm S_{lin} = \bm K + \frac{\gamma}{\beta h} \bm C + \frac{\beta}{h^2} \bm M$  \linebreak
+  $\ddot{\bm x}_0 = \bm M^{-1}(\bm p_0 - \bm C \dot{\bm x}_0 - \bm K \bm x_0 -
+  \bm f_{nl}\left( \bm u_0,\dot{\bm u}_0 \right))$  \linebreak
+  \If{sensitivity}{
+  \nonl$\bm V = [\bm I,\bm 0; \bm 0, \bm 0], \dot{\bm V} = [\bm 0,\bm
+  0;\bm 0,\bm I]$ \\
+  \nonl$\ddot{\bm V} = - \bm M^{-1} \left((\bm C + \bm f_{nl,\dot{\bm x}}) \dot{\bm
+      V} + (\bm K  + \bm f_{nl,\bm x}) {\bm V} \right)$
+}
+\For{$n \gets 0$ \KwTo $nt$}{
+
+  Prediction step (time integration): \linebreak
+  $\dot{\bm x}_{n+1} = \dot{\bm x}_{n} + A_1 \ddot{\bm x}_n$ \linebreak
+  $\bm x_{n+1} = {\bm x}_{n} + h \dot{\bm x}_n + B_1 \ddot{\bm x}_n$ \linebreak
+  $\ddot{\bm x}_{n+1} = 0$
+
+  Residual calculation: \linebreak
+  $\bm r = \bm M \ddot{\bm x}_{n+1} + \bm f_{nl} + \bm f_{l} -  \bm p_{n+1}$
+
+  \While{norm($\bm r$) > tol}{
+    \nonl NR iteration (increment correction) \linebreak
+    $\bm S_{eff} = \bm f_{nl, \bm x} + B_2\bm f_{nl, \dot{ \bm x}} + \bm S_{lin}$  \linebreak
+    $\Delta \bm x = - \bm S_{eff}^{-1} \bm r$ \linebreak
+    $ \ddot{\bm x}_{n+1} += A_2 \Delta \bm x$ \linebreak
+    $ \dot{\bm x}_{n+1} += B_2 \Delta \bm x$ \linebreak
+    $\bm x_{n+1} += \Delta \bm x$
+
+    $\bm r = \bm M \ddot{\bm x}_{n+1} + \bm f_{nl} + \bm f_{l} -  \bm p_{n+1}$
+  }
+  \If{sensitivity}{
+    prediction \linebreak
+    $\bm V = \bm V + h\dot{\bm V} + B_1 \ddot{\bm V}$\linebreak
+    $\dot{\bm V} = \dot{\bm V} + A_1 \ddot{\bm V}$\linebreak
+    correction \linebreak
+    $\bm S = \bm S_{lin} + \bm f_{nl, \bm x} + B_2 \bm f_{nl,
+      \dot{\bm x}}$\linebreak
+    $\bm S = \beta h^2 \bm S$\linebreak
+    $\ddot{\bm V} = -\bm S^{-1}\left[
+      (\bm C + \bm f_{nl, \dot{\bm x}} )\dot{\bm V} +
+      (\bm K + \bm f_{nl, \bm x} ) \bm V  \right]$ \linebreak
+    $\bm V = \bm V + \beta h^2 \ddot{\bm V}$ \linebreak
+    $\dot{\bm V} = \dot{\bm V} + \gamma h \ddot{\bm V}$\linebreak
+  }
+}
+  \caption{Nonlinear Newmark algorithm}
+  \label{algo:nonlin_newmark}
+\end{algorithm}
+
+\subsection{Summary}
+
+The Newmark-beta method used for implicit time integration was developed in
+1959. Today it is one of the most widely used solvers for dynamics systems, and
+for most problems it performs reasonable well. For problems with very stiff and
+very flexible parts, i.e. where eigenvalues are very separated, it performs
+poorly due to lack of high frequency numerical damping. Interested readers are
+referred to \cite{bathe2012a}, which also suggest one alternative (it should be
+noted that what Bathe calls the Newmark trapezoidal rule is mostly known as the
+Newmark average acceleration method).
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

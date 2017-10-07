@@ -1,0 +1,91 @@
+
+\chapter{Easter egg}
+\label{chap:easter_egg}
+
+Congratulations. You got through and there is no more. This note is not about
+vibrations, but some few things on how you(as a student) do linear algebra
+fast(er) without any effort.
+
+Whenever you find eigenvalues, do SVD decompistion or solve linear systems, you
+use linear algebra. In the end of the seventies a specification for numerical
+linear algebra was made called Basic Linear Algebra Subprograms(BLAS), together
+with a reference implementation written i \texttt{Fortran 77}. Later came an
+extension to BLAS, Linear Algebra Package(LAPACK), also written in \texttt{f77}.
+These specifications are the de-facto standard today. So when you call
+\texttt{eigs} or \texttt{\textbackslash} in matlab, matlab calls LAPACK and BLAS
+compatible routines under the hood.
+
+Now when we run a program, there are many small things that impact performance
+we do not think or care about. These things the software takes care of. For
+instance if we multiply two matrices, then the program decides how the CPU
+should access the memory where the arrays are stored. It decides which rows and
+columns of the arrays should be in the fast accessible caches, when memory is
+moved, what the block size should be, etc. The optimal settings for these things
+differs from architecture to architecture(ie. is it a Pentium, Intel Core, AMD,
+etc. cpu).
+
+Thus it makes a big difference if the BLAS implementation is optimised for your
+computer. The old reference implementation is not written with these
+optimisation in mind, especially because said architectures did not exist back
+then. Still it is the standard implementation that follows with many program.
+
+Today (and for the past five years at least) the best implementation of BLAS and
+ATLAS references are the intel MKL and Openblas libraries. MLK is free for
+students but not open source. Openblas is completely free and open source -
+choose that one. To show the difference, figure ... shows the computation time
+for matrix multiplication for python compiled with Openblas and the standard
+(old reference). The speed difference is remarkable and is the same for all
+other linear algebra operations.
+
+Default BLAS \& LAPACK
+Dotted two 4096x4096 matrices in 64.22 s.
+Dotted two vectors of length 524288 in 0.80 ms.
+SVD of a 2048x1024 matrix in 10.31 s.
+Cholesky decomposition of a 2048x2048 matrix in 6.74 s.
+Eigendecomposition of a 2048x2048 matrix in 53.77 s.
+
+OpenBLAS
+Dotted two 4096x4096 matrices in 3.97 s.
+Dotted two vectors of length 524288 in 0.74 ms.
+SVD of a 2048x1024 matrix in 1.96 s.
+Cholesky decomposition of a 2048x2048 matrix in 0.46 s.
+Eigendecomposition of a 2048x2048 matrix in 32.95 s.
+
+As an extra example, I wrote a matrix multiplication function in \texttt{C}.
+General matrix multiplication is simple, just three loop through rows and
+columns and multiply elements (while this kind of looping of course is a sin in
+matlab, that is the way you should do it manually in compiled languages like C
+and fortran. In fact explicit loops in C are faster than vectorizing in matlab).
+The program was 12 times slower than the reference BLAS and ATLAS. The point is,
+there is no way you can do linear algebra faster than ``production''
+implementations of BLAS and the used version of BLAS matters for speed.
+
+As a closing note: If you want to go really fast, you go parallel using
+clusters. To help you with that, use \texttt{PETSc} which does message parsing,
+preconditioning and includes a variety of iterative solvers. But \textit{that}
+takes a bit of effort.
+
+Ps.
+I gave the impression that matlab comes with a slow version of BLAS. That is not
+the case. Matlab(closed source and expensive) comes with Intel MKL. But why not
+try python, Julia or some of the other open source languages, that are well
+suited for scientific calculation and plotting. It is now, when still in
+university you have the time.
+
+PPs.
+The general matrix multiplication algorithm/implementation scales at
+$\mathbb{O}(n^3)$(asymtotic complexity). The fastest matrix multiplication
+algorithm changes with size matrix size, since even if they scaly better, the
+constant in front might make them unpractical for smaller matrices. A general
+matrix algorithm that performs good is the Strassen algorithm, scaling at
+$\mathbb{O}(n^{2.81})$.
+
+PPPs.
+Performance BLAS libraries are not written in fortran anymore. They are written
+in a combination of assembly and C-code.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../report"
+%%% End:

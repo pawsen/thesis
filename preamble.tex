@@ -1,0 +1,180 @@
+% -*- coding: utf-8 -*-
+
+% \documentclass[a4paper, english,12pt]{article}
+\documentclass[a4paper,12pt,twoside,openright]{memoir}
+\usepackage[
+    backend=biber,
+    %style=authoryear-icomp,% numeric-comp, %
+    style=numeric-comp,
+    %style=numeric,
+    sortlocale=none,%de_DE,
+    % autocite    = superscript,
+   % natbib=true,
+    url=false,
+    doi=true,
+    eprint=false,
+    sortcites   = true,
+    citetracker
+    ]{biblatex}
+\addbibresource{biblio.bib}
+
+\usepackage[rmargin=3cm,tmargin=3cm,bmargin=3cm]{geometry}		% Ændring af margener
+\usepackage[utf8]{inputenc} 		% Skal passe til editorens indstillinger - specificerer input encoding
+\usepackage[english]{babel}			% danske orddelinger
+\usepackage[T1]{fontenc} 			% fonte (output)
+\usepackage{lmodern} 				% vektor fonte
+\usepackage{color}
+
+% \setlength{\parindent}{0pt}			% Intet indryk i nye afsnit
+\usepackage{mathtools} 				% matematik - understøtter muligheden for at bruge \eqref{}
+%\mathtoolsset{showonlyrefs,showmanualtags} %Viser kun formelnumre der er refereret til!
+\usepackage{amsmath,amssymb,bm} % Husk disse pakker når du laver matematik!
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\let\oldnl\nl% Store \nl in \oldnl
+% Remove line number for one line
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}
+
+%multiple columns on a page
+\usepackage{multicol}
+
+% for figures
+\usepackage[font={small,it},labelfont={sc, bf}]{caption}
+\usepackage{graphicx, subcaption}
+% for matplotlib2tikz
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+%\usepackage{fontspec} % XeTex eller LuaTeX krævet
+\newlength\figureheight
+\newlength\figurewidth
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots}
+
+\usepackage{placeins}               % \FloatBarrier
+\usepackage{tikz}
+% \usetikzlibrary{external}
+\usetikzlibrary{shapes,arrows,positioning,external}
+\tikzexternalize[prefix=build/]
+\usepackage{tikzscale}
+\usepackage[]{mdframed}
+\usepackage{multirow} % for tables
+\usepackage{chngcntr} % reset numbering after each section
+\usepackage{import}
+\usepackage{listings}
+
+\usepackage[acronym,nomain,toc,nonumberlist]{glossaries} % ,xindy
+\makeglossaries
+\usepackage[]{hyperref}
+
+% rækkefølge til billedformat
+\DeclareGraphicsExtensions{.tikz,.pdf,.png,.jpg}
+\graphicspath{{./fig/}} 			% stivej til bibliotek med figurer
+
+
+\newcounter{infobox}[section]
+\newenvironment{infobox}[1][]{%
+    \refstepcounter{infobox}
+    \begin{mdframed}[%
+        frametitle={Infobox \theinfobox\ #1},
+        skipabove=\baselineskip plus 2pt minus 1pt,
+        skipbelow=\baselineskip plus 2pt minus 1pt,
+        linewidth=0.5pt,
+        frametitlerule=true,
+        frametitlebackgroundcolor=gray!30
+    ]%
+}{%
+    \end{mdframed}
+}
+
+% Bemærk at "nye" kommandoer bør stå efter \usepackage
+
+% Nedenstående tre kommandoer ændrer figur-, tabel- og ligningsnummereringen
+% således at den starter forfra for hvert afsnit og tilføjer sektionsnummeret.
+\renewcommand{\theequation}{\thesection.\arabic{equation}}		% \arabic{section}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\counterwithin*{equation}{section} % reset numbering after each section
+\counterwithin*{figure}{section} % reset numbering after each section
+\counterwithin*{table}{section} % reset numbering after each section
+
+% show line (symbol) in text. Commands:
+% \sampleline{}
+% \sampleline{dashed}
+% \sampleline{dotted}
+% \sampleline{dash pattern=on .7em off .2em on .2em off .2em}
+% \sampleline{dash pattern=on .7em off .2em on .05em off .2em}
+\DeclareRobustCommand\sampleline[1]{%
+  \tikz\draw[#1] (0,0) (0,\the\dimexpr\fontdimen22\textfont2\relax)
+  -- (2em,\the\dimexpr\fontdimen22\textfont2\relax);%
+}
+
+\tikzset{%
+  do path picture/.style={%
+    path picture={%
+      \pgfpointdiff{\pgfpointanchor{path picture bounding box}{south west}}%
+      {\pgfpointanchor{path picture bounding box}{north east}}%
+      \pgfgetlastxy\x\y%
+      \tikzset{x=\x/2,y=\y/2}%
+      #1
+    }
+  },
+  sin wave/.style={do path picture={
+      \draw [line cap=round] (-3/4,0)
+      sin (-3/8,1/2) cos (0,0) sin (3/8,-1/2) cos (3/4,0);
+    }},
+  cross/.style={do path picture={
+      \draw [line cap=round] (-1,-1) -- (1,1) (-1,1) -- (1,-1);
+    }},
+  plus/.style={do path picture={
+      \draw [line cap=round] (-3/4,0) -- (3/4,0) (0,-3/4) -- (0,3/4);
+    }}
+}
+
+% Lav cirkel uden om bogstav. Kræver pakken \usepackage{tikz}. Benyttes med fx. \mycirc{A}
+\newcommand*\mycirc[1]{
+  \tikz[baseline=(C.base)]\node[draw,circle,inner sep=0.5pt](C) {#1};\! }
+
+% Laver Lapace L ved \L.
+\renewcommand{\L}[1]{\ensuremath{\mathcal{L} \{ {#1} \} }}
+%\renewcommand{\*}{\cdot}
+\newcommand{\p}{\ensuremath{\partial}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\renewcommand{\O}{\ensuremath{\mathcal{O}}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\renewcommand{\d}{\ensuremath{\operatorname{d}\!}}
+% \renewcommand{\(}{\ensuremath{\left( }}
+% \renewcommand{\)}{\ensuremath{\right) }}
+\renewcommand{\Re}{\textup{Re}}
+\renewcommand{\Im}{\textup{Im}}
+\newcommand{\degreeC}{\ensuremath{^\circ \mathrm{C}}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\DeclareMathOperator{\sign}{sign}
+
+\newcommand{\Arch}{\operatorname{\mathit{A\kern-.06em r}}} % http://wikipedia.org/wiki/Archimedes-Zahl
+\newcommand{\Biot}{\operatorname{\mathit{B\kern-.06em i}}} % http://wikipedia.org/wiki/Biot-Zahl
+\newcommand{\Cauc}{\operatorname{\mathit{C\kern-.07em a}}} % http://wikipedia.org/wiki/Cauchy-Zahl
+\newcommand{\Damk}{\operatorname{\mathit{D\kern-.06em a}}} % http://wikipedia.org/wiki/Damk%C3%B6hler-Zahl
+\newcommand{\Eule}{\operatorname{\mathit{E\kern-.03em u}}} % http://wikipedia.org/wiki/Euler-Zahl
+\newcommand{\Four}{\operatorname{\mathit{F\kern-.10em o}}} % http://wikipedia.org/wiki/Fourier-Zahl
+\newcommand{\Frou}{\operatorname{\mathit{F\kern-.07em r}}} % http://wikipedia.org/wiki/Froude-Zahl
+\newcommand{\Gras}{\operatorname{\mathit{G\kern-.05em r}}} % http://wikipedia.org/wiki/Grashof-Zahl
+\newcommand{\Karl}{\operatorname{\mathit{K\kern-.11em a}}} % http://wikipedia.org/wiki/Karlovitz-Zahl
+\newcommand{\Knud}{\operatorname{\mathit{K\kern-.11em n}}} % http://wikipedia.org/wiki/Knudsen-Zahl
+\newcommand{\Lewi}{\operatorname{\mathit{L\kern-.05em e}}} % http://wikipedia.org/wiki/Lewis-Zahl
+\newcommand{\Mach}{\operatorname{\mathit{M\kern-.10em a}}} % http://wikipedia.org/wiki/Mach-Zahl
+\newcommand{\Nuss}{\operatorname{\mathit{N\kern-.09em u}}} % http://wikipedia.org/wiki/Nusselt-Zahl
+\newcommand{\Pecl}{\operatorname{\mathit{P\kern-.08em e}}} % http://wikipedia.org/wiki/P%C3%A9clet-Zahl
+\newcommand{\Pran}{\operatorname{\mathit{P\kern-.03em r}}} % http://wikipedia.org/wiki/Prandtl-Zahl
+\newcommand{\Rayl}{\operatorname{\mathit{R\kern-.04em a}}} % http://wikipedia.org/wiki/Rayleigh-Zahl
+\newcommand{\Reyn}{\operatorname{\mathit{R\kern-.04em e}}} % http://wikipedia.org/wiki/Reynolds-Zahl
+\newcommand{\Schm}{\operatorname{\mathit{S\kern-.07em c}}} % http://wikipedia.org/wiki/Schmidt-Zahl
+\newcommand{\Sher}{\operatorname{\mathit{S\kern-.07em h}}} % http://wikipedia.org/wiki/Sherwood-Zahl
+\newcommand{\Stro}{\operatorname{\mathit{S\kern-.07em r}}} % http://wikipedia.org/wiki/Strouhal-Zahl
+\newcommand{\Webe}{\operatorname{\mathit{W\kern-.14em e}}} % http://wikipedia.org/wiki/Weber-Zahl
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "report"
+%%% End:

@@ -1,0 +1,331 @@
+\chapter{Introduction}
+\label{sec:introduction}
+
+In all structures, nonlinearities which will affect the dynamic behavior of the
+structure are present to some extend. Depending on excitation level, the
+structure will exhibit linear or nonlinear dynamics. Nonlinearities have always
+existed, but are often neglected.
+
+To get a further understanding of the nonlinear effects present, an efficient
+set of tools for identification, characterization and estimation of
+nonlinearities in engineering structures from experimental observations is be
+useful.
+
+The motivation for this thesis is to provide that understanding, hopefully
+giving the reader a ``toolbox'' applicable to nonlinear systems. A toolbox is to
+be understood as a collection of methods, applicable to nonlinear problems.
+Like modal testing is one method in the linear toolbox.
+
+
+To exemplify and test this toolbox, a part of the thesis is dedicated to
+developing, implementing and exemplifying the methods of the toolbox
+numerically.
+
+By using such a ``numerical toolbox'', further understanding of the nonlinear
+dynamics can be obtained by simulation, then what is gained by pure experiment,
+and hopefully assist in virtual prototyping.
+
+One requirement for the toolbox is that it works on experimental data, e.g. time
+series, alone. Methods exists which can do identification and estimation, but
+they often require either that the Equations of Motions(EOM) are assembled or a
+detailed Finite Element Model(FEM) is constructed, and are thus often difficult
+and time consuming to use.
+
+Another aspect of the toolbox is to quantify the size, or importance, of
+nonlinearity:
+
+Even if the area of nonlinear identification and modeling have received a great
+deal more attention within the last ten years, it is still far behind the linear
+counterpart, both in theory and application. Thus a nonlinear toolbox certainly
+requires some specialization to use.
+If the nonlinearity is weak it might suffice with linear analysis, giving access
+to all the traditional methods, with reduced time spend on the analysis as a
+consequence.
+
+% identification, characterization and modeling of localized nonlinearities in
+% structural dynamics. The goal of creating such a toolbox is to get 
+
+% Such a toolbox already exists to some degree, e.g. Ni2D \citep{Ni2D}, developed
+% at Liège University.
+
+% Even if the area of nonlinear identification and modeling have received a great
+% deal more attention within the last ten years, it is still far behind the linear
+% counterpart, both in theory and application. Thus a nonlinear toolbox
+% usefulness is still somewhat limited and certainly requires some specialization
+% to use. This is also true for the Ni2D software.
+
+% The 
+% The identification is done on experimental time data and 
+
+
+\subsection{Why nonlinear modeling}
+\label{sec:why-nonl-model}
+
+For nonlinear systems, the superposition and thus invariance of modes and
+uniqueness of solutions (e.g. the forced steady state response is dependent on
+the initial transient behavior) does no longer hold, and many of the techniques
+from linear analysis cannot be used.
+
+Linear system is an exception. If excited hard enough, all system displays some
+nonlinear behavior. But often the nonlinearity stems from joints (damping),
+contact (stiffness) or geometrical nonlinearities, which is why most of the
+literature today treats localized nonlinearity, assuming the location of the
+nonlinearity is known.
+Another reason for dealing with localized nonlinearities, is that no robust
+method for localization exists. In his thesis \textcite{kragh2010a} test different
+methods for localizing nonlinearity and concludes that ``it was not possible to
+obtain consistent localization of the nonlinearities'' even for simple structures.
+
+With the introduction of ever lighter structures, exotic materials, high speed
+machinery, etc., nonlinear tools are needed to fully understand the dynamics.
+Also to determine if nonlinear analysis is indeed needed, since this kind of
+analysis requires substantial more effort than linear analysis would do.
+
+For a general introduction to nonlinear dynamics, the textbook \textcite{juel2003a}
+can be recommended.
+
+
+
+\subsection{Nonlinear system identification?}
+\label{sec:nonl-syst-ident}
+
+\textcite{kerschen2006a} proposed to regard the identification of nonlinear
+structural models as a progression through three steps: {\textit detection}, {\textit
+  characterization} and {\textit estimation}, as outlined in figure
+\ref{fig:ident_process}
+
+The first book on the topic was \textcite{worden2000nonlinearity}, and even though
+many new methods has been introduced since then, it still gives a good and well
+written introduction to the subject as well as a overview of the common types of
+nonlinearity.
+
+A comprehensive review of the development in nonlinear system identification was
+given by \autocite{kerschen2006a} and just recently in \textcite{noel2016a}. For
+comparison of the many techniques in use, the reader is refereed to these
+reviews. In this thesis, the choice of technique will be motivated but
+alternative techniques will not necessarily be mentioned.
+
+
+%\begin{infobox}]
+
+\begin{figure}[ht!]
+  \centering
+  \begin{mdframed}
+    \begin{enumerate}
+    \item Detection: {\textit Is there?}\\
+      Ascertain if nonlinearity exist in the structural behavior, e.g. yes or
+      no.
+    \item Characterisation: {\textit Where, what and how?}
+      \begin{itemize}
+      \item Localize the nonlinearity, e.g. at the joint
+      \item Determine the type of nonlinearity e.g.  Coulomb friction\\
+        More general: is it stiffness or damping nonlinearity or both. In the
+        case of stiffness: is it hardening or softening
+      \item Select the functional form of the nonlinearity, e.g.
+        $f(x,\dot x) = c \sign (\dot y)$
+      \end{itemize}
+    \item Parameter estimation: {\textit How much?}\\
+      Calculate the coefficients of the nonlinearity model, e.g. $c = 5.47$.\\
+      (Ideally the uncertainty should be quantified, e.g. in a probabilistic
+      sense, $c \sim N(5.47,1)$. But that is a very difficult task and not
+      within the scope of this thesis)
+    \end{enumerate}
+  \end{mdframed}
+  \caption{Identification process for nonlinear structural models}
+  \label{fig:ident_process}
+\end{figure}
+
+% \end{infobox}
+
+
+\subsubsection{Detection}
+\label{sec:detection}
+
+Of the three steps, detection is the easiest. During test, the structure should
+be excited by a sine-sweep and a mere visual inspection of the time series will
+show if nonlinearity is present. Signs includes skewness of the envelope,
+discontinuity, jumps and lack of invariance with increasing force level. The
+excitation level needs to be at an amplitude where the nonlinearity is
+activated.
+
+Random excitation is in general not useful, as the randomness of the amplitude
+and phase of the excitation creates ``linearized'' frequency response functions
+(FRFs). At least multiple test with different rms levels are required, and still
+then it might be difficult to excite the nonlinearities, since the total power
+of the input spectrum is spread over the band-limited frequency range used.
+
+The use of impact excitation, as often used in linear analysis, suffers from the
+same problems as random excitation. That is, the input is a broad spectrum and
+the energy associated with each frequency is low.
+
+
+Formal methods for detection includes
+
+\begin{itemize}
+\item Homogeneity check \\
+  Comparing the response of two sweeps with different forcing and calculating
+  the cross correlation. It is a test of superposition, by testing if the two FRFs
+  normalized with forcing overlay as they will for linear systems.
+\item (ordinary) Coherence function \\
+  The coherence function compares power spectral densities (PSDs) and are
+  required to be unity for all accessible frequencies for the system to be
+  linear {\textit and} free of noise. The advantage is that only one test is needed,
+  but the method does not distinguish between cases of noise and
+  nonlinearity. Instead it is recommend do use:
+\item Hilbert transforms \\
+  This method detects nonlinearity by doing a Hilbert transform of the FRF,
+  which is invariant for a linear FRF.
+  A Hilbert transform also only requires one data set and is more sensitive to
+  nonlinearity than the coherence function, but still reasonable easy to
+  implement. \textcite{kragh2010a} shows that the homogeneity check is superior to
+  the Hilbert transforms, having higher sensitivity to nonlinearity.
+% \item Wavelet transforms \\
+%   Maps a time-history to a time-frequency representation. Fourier transform
+%   cannot be used, since it is a one-to-one transformation from time to frequency
+%   domain.
+\end{itemize}
+
+For all of these methods it is a requirement that the nonlinearities are
+activated, e.g. the forcing level end frequency interval should be chosen
+adequately. Also, the methods are better at detecting nonlinear stiffness than
+nonlinear damping. This is due to the fact that the resonance peak is not
+shifted as with the stiffness nonlinearity case. Since the FRF is not shifted
+but only lowered, the cross correlation coefficient will not decrease as much as
+in the stiffness nonlinearity case. In general damping nonlinearity is difficult
+to identify and will only be touched briefly in this thesis.
+
+\subsubsection{Characterisation}
+\label{sec:characterization}
+
+The second step is the most important and also the most difficult, when
+localization is not considered.
+This step seeks to identify the aspects of the motion that drives the
+nonlinearity, e.g. displacement or velocity and a representative functional form
+to represent the nonlinearity.
+
+
+The most used technique is the {\textit restoring force surface} (RFS). The RFS
+provides information of restoring force in the excited range. To visualize the
+functional of the restoring force and the dissipative force, two slices in the
+RFS is made: at zero displacement and zero velocity. The functional form is then
+found by simple inspection of the slices or fitting polynomials and perform
+goodness of fit.
+
+Another characterisation method, the Morlet wavelet transform, is used to
+visualise how the frequency content changes with amplitude, a consequence of the
+energy-frequency dependency for nonlinear vibrations. The visualised
+instantaneous spectrum can both be used for detection of nonlinearity and help
+estimating the type of nonlinearity,
+
+% Other characterization methods include blackbox modeling, which do
+% characterization without regards to the underlying physics, instead using a rich
+% and flexible mathematical structure to capture all relevant dynamics.
+
+
+\subsubsection{Estimation}
+\label{sec:estimation}
+
+The RFS method can be used for estimation as well, fitting the functional form
+to the surface. But in order to scale the RFS correct, an estimate of the mass
+(or inertia) is needed or the full EOM has to be assembled. This is often
+difficult for MDOF systems and violates the ambition for the toolbox: that it
+works on time series exclusively.
+
+A newer method, introduced by \textcite{noel2013a}, is the frequency-domain
+nonlinear subspace identification(FNSI). This method works on
+time series alone and is able to estimate nonlinear parameters and the
+underlaying linear transfer function.
+
+% Frequency domain
+% methods should generally be less sensitive to noise than time domain
+% methods. {\bf men den har jeg ikke skimmet endnu. Det skulle være en lovende
+%   metode}
+
+
+% the parameter estimation is found  The technique requires the measurement devices (accelerometers) to be
+% places as close to the nonlinearities as possible.  As already stated, the RFS
+% can only estimate parameters within the excited regime.
+
+
+
+\subsection{Beyond nonlinear system identification}
+\label{sec:beyond-nonl-syst}
+
+When the identification steps is completed, a structural model can be build from
+a FEM of the underlying linear structure with the identified nonlinearities
+incorporated. It shall be thought of as (larger) chunks of linear sections
+connected through nonlinear elements. To reduce the computational time, the
+linear model is often reduced using the Craig-Bampton reduction technique
+\autocite{craig1968a}.
+
+If the predictions from the nonlinear FEM can be verified by the
+experimental results, the numerical model can be used to {\textit get further
+  understanding of the nonlinear dynamics}. The latter is the whole goal of the
+identification, as it allows for uncovering new nonlinear regimes of motion and
+to make design modifications. The concept of using numerical experiments to
+assist with the design is referred to as {\textit virtual prototyping}.
+
+
+\subsubsection{Internal resonance}
+\label{sec:internal-resonance}
+
+
+Nonlinear resonances are investigated using an extension of linear normal modes
+(LNMs) to nonlinear theory, the nonlinear normal modes (NNMs) described in
+section \ref{sec:nonl-norm-modes}.
+Where a LNM is interpreted as the deformation along the axis of the vibrating
+structure or the rotation, a NNM does not have such a clear interpretation.
+An NNM is said to be a periodic oscillation of the underlaying undamped and
+unforced nonlinear system and depends on the frequency and energy of the
+system. Additionally, the backbone of NNMs plotted in a frequency-energy plot
+(FEP), track the lotus of the nonlinear frequency response curve (NFRC) for
+the system. Thus knowing the FEP, the resonant response at an arbitrary forcing
+level can be found.
+
+
+\subsubsection{Bifurcation}
+\label{sec:bifurcation}
+
+
+Using the HB method, nonlinear forced response curves(NFRCs) for a periodic
+excitation are calculated. The transition from a stable periodic solution to an
+unstable solution occurs through bifurcations. The type of bifurcation is used
+to qualify the type of unstable solution emerging, following the outline in
+\cite{detroux2015a}.
+
+
+\subsection{Thesis outline}
+\label{sec:thesis-outline}
+
+Section 2 introduces the theoretical methods used: NNMs, RFS and FNSI,
+
+Section 3 introduces the numerical methods: FEM discretization and model
+reduction, Newmark time integration, harmonic balance and continuation for
+calculating NNMs and NFRF.
+
+It also briefly discusses methods for integrating and differentiating time
+signals and filtering techniques.
+
+Section 4 introduce identification and simulation of benchmark data from a
+nonlinear system, the COST beam, \cite{GOLINVAL2003}, which have a cubic
+stiffening nonlinear due to geometry and a squared nonlinearity due to clamping.
+
+Section 5 introduces numerical experiments to investigate how the methods
+performs and their sensitivity to noise.
+
+Finally section 6 contains an discussion and conclusion and suggest further
+studies and implementations.
+
+% There will not be given much attention to the detection of nonlinearity.
+
+% \subsection{Summary}
+% \label{sec:intro-summary}
+
+% With a toolbox for detection, characterization and estimation of nonlinear
+% parameters, numerical modeling will provide additional insight into the dynamics
+% of the system.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

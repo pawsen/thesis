@@ -1,0 +1,70 @@
+
+\section{Numerical example}
+\label{sec:numerical-example}
+
+
+To illustrate the methods presented, the 2-DOF system shown in figure
+\ref{fig:duf_schematic} is used throughout the thesis. It will be referred to as
+the coupled duffing system, with parameters listed in table \ref{tab:duf_par}
+and natural frequencies and damping ratio for the two modes listed in table
+\ref{tab:duf_eigen}. The equations of motion are
+
+\begin{equation}
+  \begin{aligned}
+    &m_1\ddot x_1 + c \dot x_1 + kx_1 + \mu_1x_1^3 + d(x_1 - x_2) = p \\
+    &m_2\ddot x_2 + c \dot x_2 + kx_2 + \mu_2x_2^3 + d(x_2 - x_1) = 0 \\
+  \end{aligned}
+\end{equation}
+where $x_1,x_2, p$ all depends on time.
+
+An example on how a real beam with different nonlinear boundary conditions is
+transformed into a coupled MDOF nonlinear duffing oscillator is given in
+\textcite{mhermansen2017a}
+
+
+\begin{center}
+  \begin{tabular}{*{6}{c}}
+    \hline
+    $m_1$ (kg) & $m_2$ (kg) & $k$ (N/m) & $d$ (N/m) & $c$ (N/ms) & $\mu$ (N/$m^3$) \\
+    1 & 1 & 1 & 5 & 0.1 & 1 \\
+    \hline
+  \end{tabular}
+  \captionof{table}{Linear and nonlinear parameters for the coupled Duffing
+    system}
+  \label{tab:duf_par}
+\end{center}
+
+
+\begin{center}
+  \begin{tabular}{*{3}{c}}
+    \hline
+    Mode & Frequency (rad/s) & Damping ratio (\%) \\
+    1 & 1.00 & 5.00 \\
+    2 & 3.32 & 1.51 \\
+    \hline
+  \end{tabular}
+  \captionof{table}{Linear natural frequencies and damping ratios for the
+    coupled Duffing system}
+  \label{tab:duf_eigen}
+\end{center}
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.5\linewidth]{2dof_duffing/2dof_duffing}
+  \caption{Schematic representation of the coupled duffing system}
+  \label{fig:duf_schematic}
+\end{figure}
+
+For generating data for detection and characterisation with MW and RFS, the
+system is simulated using a logarithmic sine sweep.
+For identification, a single band-limited (0-80 rad/s) normally distributed
+random signal with 5000 points repeated 9 times and a root mean square(rms)
+value of 3N is used. This signal is called a multisine. The frequencies are
+chosen to include the third harmonics.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

@@ -1,0 +1,415 @@
+
+In this chapter, test data for a simple beam is constructed. The test
+data is simulated time series.
+
+To do this, the equations of motion(EOM) for a simple beam is derived together
+with nonlinear boundary conditions.
+The EOM is converted to an eigenvalue problem(EVP). The EVP is used for a
+single mode expansion to get an ordinary differential equation, which gives a
+one degree of freedom(DOF) signal used as test data.
+
+\section{Equation of motion}
+\label{sec:eom}
+
+
+\subsection{Derivation of EOM}
+
+
+The beam model is sketched in figure \ref{fig:eom_model}. It is a fixed slender
+beam, simply supported in right side and a nonlinear reaction force $f(U,\dot
+U)$ in left side. It is externally excited by harmonic forcing $P(t)$ in
+$\tfrac{3}{4}l$ and accelerations are recorded at $\tfrac{1}{2}l$
+
+Gravity is neglected, since it would otherwise cause a non-straight static
+equilibrium.
+
+\begin{figure}[!ht]
+  \centering
+  \resizebox{0.80\textwidth}{!}{\input{fig/eom/problem_sketch.pdf_tex}}
+  \caption{Simple model used for validating}
+\label{fig:eom_model}
+\end{figure}
+
+The beam is assumed to have linear elastic material properties, with flexural
+stiffness $EI$, density $\rho$ and damping coefficient $C$, which results in
+modal damping, $\zeta$. The beam cross section is rectangular with height $h$
+and width $b$.
+
+
+Considering the infinitesimal deformed beam element in figure
+\ref{fig:beam_element}, the equation of motion is derived by applying Newton's
+second law. Shear deformations and longitudinal- and rotational inertia are
+neglected, as well as gravity as stated above.
+For slender beams it is common to assume $V = \O(U^2)$, ie. longitudinal
+deformations are second in order as compared to transverse deflections, or more
+loosely: axial vibrations are assumed very stiff compared to transverse
+vibrations. This justifies the neglection of inertial terms containing $V$
+compared to $U$.
+
+Use Newtons second law and taking moment around $(X+dX/2),(U+dU/2)$ to obtain
+\begin{align}
+  \label{eq:N2_N1}&\sum F_{x} = 0 \Rightarrow N+dN-N=0 \\
+  \label{eq:N2_M1}&\sum M = 0 \Rightarrow M+dM-M+TdX-NdU=0 \\
+  \label{eq:N2_T1}&\sum F_{y} = m \ddot U \Rightarrow
+                    T+dT-T + q dX = \rho A dX \ddot U
+\end{align}
+where $\tau$ denotes time¸ $q$ is an external force per unit length,
+$N=N(X,\tau)$ is the beam elements internal axial force(tension) and
+$T=T(X,\tau)$ is the internal transverse force. $U=U(X,\tau)$ is the transverse
+deflection and the only deflection considered here.
+
+
+\begin{figure}[!ht]
+  \centering
+  \resizebox{0.45\textwidth}{!}{\input{fig/eom/beam_element.pdf_t}}
+  \caption{Differential beam element.}
+\label{fig:beam_element}
+\end{figure}
+
+Dividing eqs. \eqref{eq:N2_N1}-\eqref{eq:N2_M1} by $dX$ gives
+
+\begin{align}
+  \label{eq:N2_N2}&N'=0.\\
+  \label{eq:N2_T2}&T'= \rho A \ddot U - q \\
+  \label{eq:N2_M2}&M'+T-NU'=0.
+\end{align}
+
+Eq. \eqref{eq:N2_M2} is differentiated with respect to $X$, which gives
+\begin{align}
+  \label{eq:N2_M3}M''+T'-N'U'-NU''&=0.
+\end{align}
+
+Finally eqs. \eqref{eq:N2_N2} and \eqref{eq:N2_T2} are substituted into
+eq. \eqref{eq:N2_M3}
+
+\begin{align}
+  \label{eq:N2_M3_2} M'' + \rho A \ddot U - NU'' -q = 0,
+\end{align}
+which is a partial differential equation for $U$ in space $X$ and time $\tau$.
+
+
+The normal force is eliminated, since $N' = 0$ and $N(0) = 0$ implies that
+$N=0$. Thus only constitutive relations for $M$ is needed
+
+\begin{equation}
+  \label{eq:constitute_M}
+  M = EI\kappa + CEI\dot\kappa
+\end{equation}
+where $\kappa = \kappa(X, \tau)$ is the beams curvature at the neutral fiber.
+
+The true nonlinear curvature is given by
+
+\begin{equation}
+  \label{eq:kappa_nonlin}
+  \kappa = U'' \(1+ \( U'\)^2 \)^{-\tfrac{3}{2}}
+\end{equation}
+which accounts for finite rotations. Here we only consider a linearized version
+of the problem and the rotations are assumed to be small, $(U')^2 \ll 1$, so
+that $\kappa \approx U''$. This assumption is valid for small vibrations.
+
+
+Thus with
+\begin{subequations}
+  \begin{align}
+    M &= EI\kappa + CEI\dot\kappa, \, \kappa \approx U'' \iff \\
+    M'' &\approx EIU'''' + CEI\dot U'''' \\
+    N &= 0
+  \end{align}
+\end{subequations}
+inserted in eq. \eqref{eq:N2_M3_2} gives
+
+\begin{equation}
+  \rho A \ddot U + CEI \dot U'''' + EI U'''' =  q
+  \label{eq:eom_dim}
+\end{equation}
+with boundary conditions
+
+\begin{equation}
+  T(0, \tau) = -Q_1, \quad
+  M(0, \tau) = 0, \quad
+  U(l,\tau) = 0, \quad
+  M(l,\tau) = 0
+  \label{eq:eom_boundary_cond}
+\end{equation}
+Where the boundary condition for $M$ is a result of the internal bending
+moment being zero at the two supported ends, and $T$ from the reaction force.
+
+Replacing $T$ with eq. \eqref{eq:N2_M2} and $M$ with the constitutive relation
+eq. \eqref{eq:constitute_M}, the boundary conditions are written as
+
+\begin{subequations}
+\begin{align}
+  -EIU'''(0, \tau) + CEI \dot U'''(0, \tau) &= -Q_1 \\
+  EIU''(0, \tau) + CEI \dot U''(0, \tau)  &= 0 \\
+  U(l, \tau) &= 0 \\
+  EIU''(0, \tau) + CEI \dot U''(0, \tau)  &= 0
+\end{align}
+\label{eq:eom_boundary_cond}
+\end{subequations}
+
+\subsection{Nondimensionalized EOM}
+\label{sec:nondim_eom}
+
+
+The variables $X$, $U$ and $\tau$ are non-dimensionalized as
+
+\begin{equation}
+  \label{eq:nondim_var}
+  X = xl, \qquad U(X,\tau) = u(x,t)l, \qquad \tau = \omega_0^{-1}t,
+\end{equation}
+where $x$, $u$ and $t$ are non-dimensional position, deflection and time.
+$\omega_0$ is a scaling factor with unit Hertz and is chosen as the undamped
+natural frequency
+
+\begin{equation}
+  \label{eq:omega_def}
+  \omega_0 = \sqrt{\frac{EI}{\rho A l^4}}
+\end{equation}
+
+Inserting the non-dimensionalized variables \eqref{eq:nondim_var} into the EOM
+eq. \eqref{eq:eom_dim} and dividing by $\tfrac{EI}{l^3}$ gives
+\begin{equation}
+  \ddot u + \dot u'''' + u'''' = \bar q
+  \label{eq:eom_nondim}
+\end{equation}
+where
+
+\begin{align}
+  \label{eq:ext_force_nondim}
+  \bar q &= \frac{ql^3}{EI} \\
+  q(x, t) &= \delta(x - x_0)q_0 \cos(\Omega t)
+\end{align}
+$q_0$ is the amplitude of the harmonic external excitation with frequency
+$\Omega$.
+
+
+The reaction force $Q_1$ is given by
+\begin{equation}
+  \label{eq:q1}
+  Q_1 = -K_1 U(0, t) - C_1 \dot U(0,t) + \frac{EI}{l^2} f(\bm u(0,t))
+\end{equation}
+where $f(\bm u(0,t)$ is a non-dimensional, nonlinear force depending on\\
+$\bm u(x,t) = \{u(x,t), u'(x,t), \dot u(x,t), \dots \}^T$
+
+The boundary conditions are then non-dimensionalized as
+\begin{subequations}
+\begin{align}
+  -u'''(0, t) &= -\frac{Q_1l^2}{EI} \nonumber \iff \\
+  -u'''(0, t) &= k_1u(0,t) + c_1\dot u(0,t) - f(\bm u(0,t))  \\
+  u''(0, t) &= 0 \\
+  u(1, t) &= 0 \\
+  u''(1, t)  &= 0
+\end{align}
+\label{eq:eom_nondim_boundary_cond}
+\end{subequations}
+
+\subsection{Conversion to ODE}
+\label{sec:ode}
+
+We want to convert the EOM given by the partial differential equation(PDE) eq.
+\eqref{eq:eom_nondim}, to an ordinary differential equation(OEM) which can be
+solved numerically. This is done by mode expansion and constructing an
+eigenvalue problem(EVP)
+
+\subsubsection{Eigenvalue problem}
+\label{sec:evp}
+
+We want to show that the mode shapes are orthogonal, in order to decouple the
+EOM. This is done by setting up the EVP.
+
+
+For the EVP, all nonlinearities must be neglected. Damping is neglected and
+boundary loads are assumed linear, $Q_1 = -k_1 u(0, t)$. Free vibrations are
+considered.
+
+An time-harmonic solution is assumed
+\begin{equation}
+u(x,t) = \phi(x) e^{i\omega t}
+\label{eq:evp_guess}
+\end{equation}
+Inserting this into the equation of motion eq. \eqref{eq:eom_nondim} and
+dividing by $e^{i\omega t}$ gives the EVP:
+
+The EVP is stated as
+\begin{equation}
+  \label{eq:evp}
+  K \phi = \lambda L \phi,
+\end{equation}
+where $\phi$ are eigenvectors(mode shapes) and the eigenvalue and operators are
+given as
+
+\begin{equation}
+  \label{eq:evp_operator}
+  \lambda = \omega^2,
+  \quad L = 1,
+  \quad K = \frac{\d^{4}}{\d x^{4}}\{\}
+\end{equation}
+
+The boundary condition for the EVP is found by inserting the solution
+\eqref{eq:evp_guess} into \eqref{eq:eom_nondim_boundary_cond} and using the
+linear relation for $Q_1$
+
+\begin{equation}
+  -\phi'''(0) = k_1\phi(0), \quad
+  \phi''(0) = 0, \quad
+  \phi(1) = 0, \quad
+  \phi''(1)  = 0
+\label{eq:evp_boundary_cond}
+\end{equation}
+
+Now, to show that the eigenvectors are orthogonal, the EVP must be self-adjoint:
+\begin{subequations}
+  \label{eq:self_adjont1}
+\begin{align}
+  &\int_0^1 uLv \d x = \int_0^1 uv \d x \\
+  &\int_0^1 uKv \d x = \int_0^1 u''v'' \d x +
+    \left[
+    uv''' - u''v''
+    \right]_0^1
+    =
+   \int_0^1 u''v'' \d x + k_1u(0)v(0)
+\end{align}
+\end{subequations}
+where $u=u(x)$ and $v=v(x)$ are test functions. The expression for $K$ is
+obtained through use of partial integration and the boundary conditions. Since
+all remaining terms are symmetric, the operators $L$ and $K$ are self-adjoint
+and any eigenvectors are $K$ and $L$ orthogonal \cite{juel2003a}:
+
+\begin{subequations}
+\label{eq:orth_relation}
+\begin{align}
+  &\int_{0}^{1} \phi_{j} L \phi_{k} \d x = \int_{0}^{1} \phi_{j} \phi_{k} \d x = 0  \label{eq:orth_relL} \\
+  &\int_{0}^{1} \phi_{j} K \phi_{k} \d x = \int_{0}^{1} \phi_{j} \phi_k'''' =
+  \int_{0}^{1} \phi''_{j} \phi''_{k} \d x + k_1\phi_j(0) \phi_k(0) = 0 \label{eq:orth_relK} \\
+  &\int_{0}^{1} \phi_{k} \delta(x-x_0) \d x = \phi_k(x_0)  \label{eq:orth_reldelta}
+\end{align}
+\end{subequations}
+for any $j \neq k$. The value when $j=k$ depends on the given mode shape. The
+last relation is a property of the Dirac delta function.
+
+
+\subsubsection{Mode expansion}
+\label{sec:mode_expansion}
+
+
+We assume that the displacement field $u$ is sufficiently smooth and can be
+approximated by the $n$-mode expansion
+\begin{equation}
+  \label{eq:n-mode-expansion}
+  u(x,t) = \sum_{j}^n q_j(t) \phi_j(x)
+\end{equation}
+where $q_j$ is the mode partitioning factor and $\phi_j$ is chosen to be the
+$j$-linear undamped mode shape as given by the EVP.
+
+
+The eom \eqref{eq:eom_nondim} is multiplied by $\phi_k$ and integrated over
+$x=0..1$:
+
+\begin{equation}
+  \label{eq:exp1}
+  \begin{split}
+  \int_0^1 \phi_k(x) \ddot u(x,t) \d x +
+  \int_0^1 \phi_k(x) \dot u''''(x,t) \d x +
+  \int_0^1 \phi_k(x) u''''(x,t) \d x \\
+  = q_0 \cos(\Omega t) \int_0^1 \phi_k(x) \delta\(x - x_0\) \d x
+\end{split}
+\end{equation}
+By use of partial integration, \eqref{eq:exp1} is rewritten as
+
+\begin{equation}
+  \label{eq:exp2}
+  \begin{split}
+    \int_0^1 \phi_k(x) \ddot u(x,t) \d x +
+    \int_0^1 \phi_k''(x) u''(x,t) \d x \\
+    = q_0 \cos(\Omega t) \int_0^1 \phi_k(x) \delta\(x - x_0\) \d x +
+    \left[
+      \phi_k(x)'u''(x,t) - \phi_k(x)u'''(x,t)
+    \right]_0^1
+\end{split}
+\end{equation}
+where the limits on the right hand side is replaced by the boundary conditions
+\eqref{eq:eom_nondim_boundary_cond}. Insert the modal expansion
+\eqref{eq:n-mode-expansion} to get
+
+\begin{equation}
+  \label{eq:exp3}
+  \begin{split}
+    \sum_{j=1}^n \left(
+      \ddot q_j(t) \int_0^1 \phi_j(x) \phi_k(x) \d x +
+      q_j(t) \int_0^1 \phi_j''(x)\phi_k''(x) \d x
+     \right)\\
+     = q_0 \cos(\Omega t) \int_0^1 \phi_k(x) \delta\(x - x_0\) \d x +
+     \phi_k(0)\left[ k_1u(0,t) + c_1 \dot u(0,t) - f(\bm u(0,t))  \right]
+\end{split}
+\end{equation}
+
+
+The boundary stiffness is rewritten using the mode expansion
+\eqref{eq:n-mode-expansion} and the $K$ orthogonality relation
+\eqref{eq:orth_relK}.
+
+\begin{equation}
+  \label{eq:bound_stiffness}
+  k_1u(0,t) \phi _k(0) = \sum_{j=1}^n q_j(t) k_1 \phi_j(0) \phi_k(0) =
+  q_k(t) k_1 \phi_k^2(0) - \sum_{j=1,j\neq k}^n q_j(t) \int_0^1 \phi_j'' \phi_k'' \d x
+\end{equation}
+
+Insert the $L$ orthogonality relation \eqref{eq:orth_relL} for $j\neq k$ and the
+new expression for the boundary stiffness \eqref{eq:bound_stiffness} into
+\eqref{eq:exp3}
+
+\begin{equation}
+  \label{eq:exp4}
+  \begin{split}
+    q_k(t) \( \int_0^1 \phi_k''(x)^2 \d x + k_1 \phi_k(0)^2 \)
+    + \ddot q_k(t) \int_0^1 \phi_k(x)^2 \d x \\
+     = q_0 \cos(\Omega t) \phi_k(x_0) +
+     \phi_k(0)\left[ c_1 \dot u(0,t) - f(\bm u(0,t))  \right]
+\end{split}
+\end{equation}
+
+Move boundary damping to the left hand side and use the Reyleigh qoutient
+definition of $\omega_j$:
+
+\begin{equation}
+  \label{eq:exp5}
+  \begin{split}
+    \(\ddot q_k(t) + \omega_k^2 q_k^2 \)
+    \int_0^1 \phi_k''(x)^2 \d x +
+    \sum_{j=1}^n \dot q_j c_1 \phi_j(0) \phi_k(0)
+     = q_0 \cos(\Omega t) \phi_k(x_0) - \phi_k(0) f(\bm u(0,t))
+\end{split}
+\end{equation}
+
+Divide by $\int_0^1 \phi_k(x)^2 \d x$ to get a classic mass-stiffness-damper
+system
+
+\begin{equation}
+  \label{eq:mass_stiff_damp_sys}
+  M_{jk} \ddot q_j(t) + C_{jk} \dot q_k(t) + K_{jk} q_k = F_k(\bm q)
+\end{equation}
+
+where the linear system matrices are given by
+
+\begin{subequations}
+  \label{eq:sys_matrix}
+\begin{align}
+  M_{jk} &= \delta_{jk} \\
+  C_{jk} &= \frac{c_1\phi_j(0) \phi_k(0)}{\int_0^1 \phi_k(x)^2\d x}\\
+  M_{jk} &= \delta_{jk} \omega_k
+\end{align}
+\end{subequations}
+
+and the nonlinear boundary force as
+
+\begin{equation}
+  \label{eq:bound_force}
+  F_j(\bm q(t)) = \phi_k(0) f(\bm u(0,t))
+\end{equation}
+
+\FloatBarrier
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:

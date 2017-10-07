@@ -1,0 +1,664 @@
+
+\section[Quantitative analysis]{Quantitative analysis of the system under
+  dynamic loading}
+\label{sec:5}
+
+\subsection{Primary parametric resonance}
+\label{sec:prim-param-reson}
+
+Assuming $0<(|\eta|,d,\beta,\nu) \ll 1$, corresponding to low initial
+compression/tension, the beam is long, damping is low and the propagation speed
+of elastic waves in the beam is much higher than the flow speed, we have that
+$\omega^2>0$.
+
+The single-mode approximation eq. \eqref{eq:single_mode_approx} is expanded for
+small but finite oscillations around static equilibrium $u(x,t)=0$ by the
+methods of multiple scales \cite{juel2003a} up to first order
+
+\begin{equation}
+  \begin{split}
+    \label{eq:multi_scales_approx}
+    &y = y_{0}(T_0,T_1)+\varepsilon y_{1} + \O(\varepsilon^{2}), \\
+    &\varepsilon << 1, \quad y_{0} = y_{0}(T_{0}), \quad y_{1} = y_{1}(T_{1})
+  \end{split}
+\end{equation}
+
+where $T_{0}=t$ (fast time) and $T_{1}=\varepsilon t$ (slow time) are two
+independent time scales. $y_0$ is the response to the fast time and $y_1$ the
+response to the slow time. Small terms in eq. \eqref{eq:single_mode_approx} are
+multiplied by $\varepsilon$ to indicate their relative size as compared to the
+other terms
+
+\begin{equation}
+  \label{eq:5_3}
+  \ddot y + \varepsilon 2\beta\dot y \\
+  + \left( \omega^2 + \varepsilon 2q \cos(\Omega t) \right)y \\
+  + \varepsilon \mu^2y^3 - \varepsilon qd \left( 1+\cos(\Omega t) \right) = 0
+\end{equation}
+
+
+The differential operators with respect to the new time scales are $D_{0}$ and
+$D_{1}$ respectively for first order and $D_{0}^{2}$ and $D_{1}^{2}$ for second
+order. The derivatives of $y$ wrt. $t$ can are written in terms of these as
+
+\begin{align}
+  D_0 &= \frac{\d}{\d T_0}, \quad  D_1 = \frac{\d}{\d T_1} \nonumber \\
+  \begin{split}
+    \dot y =& (D_{0}+\varepsilon D_{1}) y \\
+    \ddot y =& (D_{0}^{2} + 2 \varepsilon D_{0}D_{1} + \O(\varepsilon^{2})) y.
+  \end{split}\label{eq:diff_operator}
+\end{align}
+
+Substituting \eqref{eq:multi_scales_approx} and \eqref{eq:diff_operator} into
+\eqref{eq:5_3} gives
+
+\begin{equation}
+  \label{eq:5_6}
+  \begin{split}
+    &(D_{0}^{2} + 2 \varepsilon D_{0}D_{1} + \O(\varepsilon^{2}))(y_{0}+\varepsilon y_{1}+\O(\varepsilon^{2})) \\
+    + &\varepsilon 2\beta (D_{0}+\varepsilon D_{1})(y_{0}+\varepsilon y_{1}+\O(\varepsilon^{2}))\\
+    + &\left[ \omega^2 + \varepsilon 2q \cos(\Omega t)\right](y_{0}+\varepsilon y_{1}+\O(\varepsilon^{2}))\\
+    + &\varepsilon \mu^2 (y_{0}+\varepsilon y_{1}+\O(\varepsilon^{2})) \\
+    - &\varepsilon qd\(1 + \cos(\Omega t) \) =0
+  \end{split}
+\end{equation}
+
+which is expanded to
+
+\begin{equation}
+  \begin{split}
+    &D_0^2 y_0 +\varepsilon D_0^2 y_1 + \varepsilon 2 D_0D_1 y_0 + \varepsilon 2\beta D_0y_0\\
+    &+\omega^2y_0+\varepsilon\omega^2y_1+\varepsilon\mu^2 y_0^3\\
+    &-\varepsilon y_02q\cos(\Omega t) - \varepsilon qd\(1+\cos(\Omega t)\) + \O(\varepsilon^{2})=0
+  \end{split}
+  \label{eq:5_6_2}
+\end{equation}
+
+Since eq. \eqref{eq:5_6_2} holds for all $\varepsilon$, like powers of
+$\varepsilon$ can be equated to zero, giving two partial differential equations
+(different powers of $\varepsilon$ can be seen as linearly independent).
+
+\begin{align}
+    \label{eq:5_7} \varepsilon^{0}: \quad D_{0}^{2} y_{0} + \omega^{2} y_{0} &= 0\\
+    \varepsilon^{1}: \quad D_{0}^{2} y_{1} + \omega^{2} y_{1} &= -2D_{0}D_{1}y_{0} -2\beta D_{0}y_{0} - \mu^2y_{0}^3\nonumber\\
+    & - y_02q\cos(\Omega t)+ qd\(1+\cos(\Omega t)\)
+    \label{eq:5_8} 
+\end{align}
+
+Eq. \eqref{eq:5_7} has the solution
+\begin{equation}
+  \label{eq:5_9}
+  y_{0} = A e^{i\omega T_{0}} + \bar A e^{-i\omega T_{0}}, \, A=A(T_{1})\in\mathbb{C}.
+\end{equation}
+
+where $\bar{A}$ denotes complex conjugate of $A$ and $A$ is determined from
+initial conditions.
+
+The solution \eqref{eq:5_9} is inserted in eq. \eqref{eq:5_8} to eliminate
+$y_{0}$ 
+
+\begin{align}
+  \begin{split}
+    D_{0}^{2} y_{1} + \omega^{2} y_{1} = &-2D_{0}D_{1}\left( A e^{i\omega T_{0}} + \bar A e^{-i\omega T_{0}} \right) \\
+    &-2\beta D_{0}\left( A e^{i\omega T_{0}} + \bar A e^{-i\omega T_{0}} \right) \\
+    &-\mu^2\left( A e^{i\omega T_{0}} + \bar A e^{-i\omega T_{0}} \right)^3 \\
+    &-2q \cos(\Omega t)\left( A e^{i\omega T_{0}} + \bar A e^{-i\omega T_{0}} \right)\\
+    &+qd\(1+\cos(\Omega t) \)
+  \end{split}
+\end{align}
+and expanded
+
+\begin{align}
+  \begin{split}
+    % removing D's and expanding y_0^3
+    D_{0}^{2} y_{1} + \omega^{2} y_{1} = &-2 i \omega A' e^{i\omega T_{0}}  \\
+    &-2i\beta \omega A e^{i\omega T_{0}}  \\
+    &-\mu^2 \left( A^{3} e^{i 3\omega T_{0}} + 3 A^{2} \bar A e^{i\omega T_{0}} \right) \\
+    &- 2q \cos(\Omega t) A e^{i\omega T_{0}}\\
+    &+ qd\(1 + \cos(\Omega t)\) + cc
+  \end{split}
+\end{align}
+where $cc$ denotes complex conjugate of terms.
+
+Using the Euler relation for cosine
+\begin{equation}
+  \cos(\Omega t) = \frac{1}{2} \left( e^{i \Omega t} + e^{-i \Omega t} \right),
+  \quad t = T_0
+\end{equation}
+
+to get
+\begin{align}
+  \begin{split}
+    % removing D's and expanding y_0^3
+    D_{0}^{2} y_{1} + \omega^{2} y_{1} = &-2 i \omega A' e^{i\omega T_{0}}  \\
+    &-2i\beta \omega A e^{i\omega T_{0}}  \\
+    &-\mu^2 \left( A^{3} e^{i 3\omega T_{0}} + 3 A^{2} \bar A e^{i\omega T_{0}} \right) \\
+    &- q\( A e^{i(\Omega + \omega) T_{0}} + \bar A e^{i(\Omega - \omega) T_{0}} \)\\
+    &+ qd + qd e^{i\Omega T_0} + cc
+  \end{split}
+\end{align}
+
+finally coefficients are grouped
+
+\begin{align}
+  \begin{split}
+% collecting exponentials
+    D_{0}^{2} y_{1} + \omega^{2} y_{1} = &\left[ -2 i \omega A' -2 \omega \beta A -3\mu^2 A^2 \bar A \right] e^{i\omega T_{0}}
+     - \mu^2 A^3 e^{i 3\omega T_{0}}  \\
+    &- qA  e^{i (\Omega + \omega) T_{0}} - qA  e^{i (\Omega - \omega) T_{0}}  +
+    qd + \tfrac{1}{2} qd e^{i\Omega T_{0}} + cc
+\end{split}
+\label{eq:5_11}
+\end{align}
+
+The detuning parameter $\sigma$ is introduced, measuring the nearness to
+resonance
+
+\begin{equation}
+  \label{eq:5_12}
+  \Omega = \omega + \varepsilon \sigma.
+\end{equation}
+
+and inserted into eq.  \ref{eq:5_11}
+
+\begin{align}
+  \begin{split}
+% collecting exponentials
+    D_{0}^{2} y_{1} + \omega^{2} y_{1} = &\left[ -2 i \omega A' -2 \omega \beta
+      A -3\mu^2 A^2 \bar A + \frac{1}{2}qd e^{i\sigma T_1} \right] e^{i\omega T_{0}}
+     - \mu^2 A^3 e^{i 3\omega T_{0}}  \\
+    &- q Ae^{i\sigma T_1}e^{i 2\omega T_{0}} - \bar A e^{i\sigma T_1} +
+    qd +cc
+\end{split}
+\label{eq:5_13}
+\end{align}
+
+To eliminate secular terms $e^{i\omega T_0}$ that makes the solution to $y_1$
+unbounded, the solvability condition is set up by equating coefficients of
+secular terms to zero
+
+\begin{equation}
+  \label{eq:5_14}
+   -2 i \omega A' -2 i \beta \omega A -3\mu^2A^2\bar A + \frac{1}{2}qd e^{i\sigma T_{1}} = 0
+\end{equation}
+
+The particular solution to eq. \eqref{eq:5_13} is then
+
+\begin{align}
+  \label{eq:5_14_1} y_{1} = & \frac{1}{8\omega^{2}} \mu^2 A^3 e^{i 3\omega T_0}
+                              + \frac{1}{3\omega^{2}} qA e^{i \sigma T_1} e^{i 2\omega T_0}
+                              -\frac{1}{\omega^{2}} \( \bar A e^{i \sigma T_1} -qd\)
+                              + cc
+\end{align}
+
+Then by eq. \eqref{eq:multi_scales_approx} the complete solution for $y$ can be found.
+
+
+$A$ is found from the solvability criterion. Let
+\begin{equation}
+  A(T_{1}) = \frac{1}{2} ae^{i\phi}, \quad a(T_{1}), \, \phi(T_{1}) \in \mathbb{R}
+  \label{eq:A_modulation}
+\end{equation}
+
+
+
+
+and insert it into the solvability condition \eqref{eq:5_14}
+\begin{align}
+  \label{eq:5_15}
+  &-i \omega a' + \omega a \phi' - i \beta \omega a - \frac{3}{8}\mu^2a^3 +
+    \frac{1}{2}qd  e^{i (\sigma T_{1} - \phi)} = 0
+\end{align}
+
+
+Introducing the phase angle $\Psi = \sigma T_{1} - \phi$ and using the Euler
+formula $e^{i \phi} = \cos\phi + i \sin \phi$
+
+\begin{align}
+  \label{eq:5_16}
+  &-i \omega a' + \omega a \phi' - i \beta \omega a - \frac{3}{8}\mu^2a^3 +
+    \frac{1}{2}qd \left[ \cos\Psi + i \sin \Psi \right]= 0
+\end{align}
+
+the solvability condition is separated into imaginary and real part to yield the
+modulations equations governing the amplitude and phase of the solution in slow
+time
+
+\begin{equation}
+  \label{eq:5_17}
+  \begin{alignedat}{2}
+    Im:& \quad & &a' = - \beta a + \frac{1}{2\omega} qd \sin(\Psi)  \\
+    Re:& \quad & a&\Psi' = \left( \omega\sigma - \frac{3}{8} \mu^2a^2 \right)a +
+    \frac{1}{2}qd\cos (\Psi)
+  \end{alignedat}
+\end{equation}
+
+\subsubsection{Stationary solutions}
+\label{sec:stationary-solutions}
+
+The stationary solutions (stationary amplitude) from the modulation equations
+are sought.  Let $a'=\Psi'=0$, it is noted that $a=0$ is not a solution.  If
+$a \ne 0$ eqs.  \eqref{eq:5_17} reduces to
+
+
+\begin{equation}
+  \begin{alignedat}{2}
+    Im:& \quad &  2\beta a \omega &= qd \sin(\Psi)  \\
+    Re:& \quad & -\left( 2\omega\sigma - \frac{3}{4} \mu^2a^2 \right)a &= qd\cos(\Psi)
+  \end{alignedat}  \label{eq:5_19}
+\end{equation}
+
+The two equations are squared and added to get an equation for the amplitude
+without the phase angle
+
+\begin{equation}
+  \label{eq:5_21}
+  \left[ (2\beta \omega)^2 + \left( 2\omega\sigma - \frac{3}{4} \mu^2a^2 \right)^2 \right]a^2 = (qd)^2
+\end{equation}
+
+
+which is an third order polynomial in $a^2$ but only second order in $\sigma$, so
+the detuning parameter may be expressed as a function of the amplitude
+
+\begin{align}
+  \label{eq:5_22}
+  \sigma &= \frac{3a^2\mu^2}{8\omega} \pm \frac{1}{2\omega
+           a}\sqrt{-4a^2\beta^2\omega^2 + d^2q^2}
+\end{align}
+
+$\frac{3a^2\mu^2}{8\omega}$ is the backbone of the frequency response for a. The
+backbone is straight for no cubic nonlinearity $\mu = 0$ and a parabola for
+$\sigma$ when nonlinerarity is present.
+Thus the frequency response for $a$ bends towards higher values of $\sigma$ (and
+thus $\Omega$) when nonlinerarity is present. This is seen as a stiffening effect.
+
+
+The phase angle is found by dividing the imaginary part by the real part 
+\begin{equation}
+  \label{eq:5_23}
+  \tan(\Psi) = \frac{\beta \omega}{\omega \sigma - \tfrac{3}{8}\mu^2a^2 }
+\end{equation}
+
+
+\subsubsection{Stability of stationary solutions}
+\label{sec:stab-stat-solut}
+
+The stability of the near-resonant stationary solutions are determined from the Jacobian eigenvalues.
+The Jacobian of the modulation equations \eqref{eq:5_19} is
+
+\begin{equation}
+  \label{eq:5_24}
+  \bm J(\tilde a, \tilde \Psi) = 
+  \begin{bmatrix}
+    -2\beta \omega  &  
+    qd \cos(\Psi) \\
+    -\frac{9}{4}\mu^2a^2 + 2\omega \sigma &
+    -qd\sin(\Psi)
+ \end{bmatrix}
+\end{equation}
+
+To determine stability, the singular points $\tilde a$ and $\tilde \Psi$ are
+found from \ref{eq:5_19}. The simplest approach is simply to substitute the
+whole expression to get
+
+\begin{equation}
+  \label{eq:5_24}
+  \bm J = 
+  \begin{bmatrix}
+    -2\beta \omega  &  
+    -\left( 2\omega\sigma - \frac{3}{4} \mu^2a^2 \right)a \\
+    -\frac{9}{4}\mu^2a^2 + 2\omega \sigma &
+    -2\beta a \omega
+ \end{bmatrix}
+\end{equation}
+
+from where the eigenvalues are calculated as
+
+\begin{equation}
+  \lambda = -\beta \pm \sqrt{\(\sigma - \frac{3\mu^2a^2}{8\omega}\) \(\sigma - \frac{9\mu^2a^2}{8\omega}\)  }
+\end{equation}
+
+One eigenvalue has a positive real value if
+
+\begin{equation}
+  \(\sigma - \frac{3\mu^2a^2}{8\omega}\)  \(\sigma - \frac{9\mu^2a^2}{8\omega}\)>\beta^2
+\end{equation}
+
+The amplitude as a function of excitation frequency is seen in figure
+\ref{fig:opg5_contd}. The eigenvalues are computed numerically and the dashed
+line shows the unstable region.
+
+The parameters used are
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}[H]{|c|c|c|c|c|}
+    \hline
+              & $\omega$ & $\beta$ & $q$ & $d$ \\ \hline
+    $\mu = 0$ & 1        &  0.02   &  0.1 & 0.1 \\
+    $\mu = 5$ & 1        &  0.02   &  0.1 & 0.1  \\ \hline
+  \end{tabular}
+\end{table}
+
+
+For the linear case $\mu = 0$, slow passing of resonance gives a symmetric and
+continuous frequency response. For the nonlinear case, increasing $\Omega$
+($\dot \Omega > 0$), the amplitude will follow the upper branch until it
+suddenly disappears and jump down to the lower branch.
+Decreasing $\Omega$, the amplitude will follow the lower branch and jump to the
+upper when it becomes unstable. Thus increasing $\Omega$ results in higher
+amplitudes, whereas the jump for decreasing will seem more violent.
+
+
+\begin{figure}[!ht]
+  \makebox[\linewidth][c]{%
+    \centering
+    \begin{subfigure}[t]{0.6\textwidth}
+      \includegraphics[width=\textwidth]{fig/part5/contd_mu0_00}
+      \caption{$\mu = 0$. The backbone is straight.}
+      \label{fig:opg5_mu0}
+    \end{subfigure}
+    % ~ % add spacing between figures
+    \begin{subfigure}[t]{0.6\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{fig/part5/contd_mu5_00}
+      \caption{$\mu =5$. The backbone is bend. The dashed line is calculated unstable.}
+      \label{fig:opg5_mu5}
+    \end{subfigure}
+  }
+  \caption{Frequency response for eq. \eqref{eq:5_19}. Found by continuation
+    using python(PyDSTool) as interface to {\tt auto}. Starting guess for a
+    point on the line is given by eqs. \eqref{eq:5_22} and \eqref{eq:5_23} for
+    some chosen $a$. Axis legends are $(\sigma,a)$.}
+  \label{fig:opg5_contd}
+\end{figure}
+
+\subsubsection{Two term approximation}
+\label{sec:two-term-appr}
+
+The two term approximation of $y$ is now, by eq. \eqref{eq:multi_scales_approx}
+and the expressions for $y_0$ and $y_1$
+
+\begin{align}
+  \begin{split}
+    y &= \frac{1}{2}ae^{i(\sigma T_1-\Psi)}e^{i\omega T_0}
+    + \varepsilon \left[
+      \frac{1}{64\omega^{2}} \mu^2 a^3 e^{3i(\sigma T_1-\Psi)} e^{i 3\omega T_0}
+    \right.\\
+    & \left.
+      + \frac{1}{6\omega^{2}} qa e^{i(\sigma T_1-\Psi)} e^{i \sigma T_1} e^{i 2\omega T_0}
+      -\frac{1}{2\omega^{2}} \( ae^{-i(\sigma T_1-\Psi)} e^{i \sigma T_1} -qd\)
+    \right] + cc + \O(\varepsilon^2)
+  \end{split}\\
+  \begin{split}
+     &= a\cos\(\sigma T_1 + \omega T_0 - \Psi\)
+    +\frac{\mu^2a^3\varepsilon}{32\omega^2}\cos\(3\sigma T_1 + 3\omega T_0 - 3\Psi\)\\
+    &+\frac{qa\varepsilon}{3\omega^2}\cos\(2\sigma T_1 + 2\omega T_0 - \Psi\)
+    -\frac{a\varepsilon}{\omega^2}\cos(\Psi)
+    +\frac{qd\varepsilon}{2\omega^2} + \O(\varepsilon^2)
+  \end{split} \label{eq:7}
+\end{align}
+
+Eq. \eqref{eq:7} is transformed back to original time $t$, using the time scales
+$T_0=t$ and $T_1=\varepsilon t$ and the detuning parameter
+$\Omega = \omega + \sigma \varepsilon$
+
+\begin{equation}
+  \sigma\varepsilon t + \omega t- \Psi = \Omega t - \Psi, \quad
+  2\sigma\varepsilon t + 2\omega t- \Psi = 2\Omega t - \Psi, \quad
+  3\sigma\varepsilon t + 3\omega t- 3\Psi = 3\Omega t - 3\Psi
+\end{equation}
+
+Setting $\varepsilon = 1$, the two term approximation is written as
+
+\begin{equation}
+  y= a\cos\(\Omega t - \Psi\)
+  +\frac{\mu^2a^3}{32\omega^2}\cos\( 3\Omega t - 3\Psi \)
+  +\frac{qa}{3\omega^2}\cos\( 2\Omega t - \Psi \)
+  -\frac{a}{\omega^2}\cos(\Psi)
+  +\frac{qd}{2\omega^2}
+\end{equation}
+
+
+\subsection{Non-resonant hard excitation}
+\label{sec:non-resonant-hard}
+
+If the external excitation frequency is away from the linear natural frequency
+$\omega$, the excitation amplitude can be of the same magnitude as the terms
+describing the linear restoring force and inertia.
+
+Thus the single-mode approximation is written as
+
+\begin{equation}
+  \ddot y + \varepsilon 2\beta\dot y \\
+  + \left( \omega^2 + \varepsilon 2q \cos(\Omega t) \right)y \\
+  + \varepsilon \mu^2y^3 - qd \left( 1+\cos(\Omega t) \right) = 0
+\end{equation}
+
+Equating to like powers of $\varepsilon$
+
+\begin{align}
+    \varepsilon^{0}: \quad D_{0}^{2} y_{0} + \omega^{2} y_{0} =& qd\left(1+\cos(\Omega t) \right) \label{eq:var1}\\
+    \varepsilon^{1}: \quad D_{0}^{2} y_{1} + \omega^{2} y_{1} =& -2D_{0}D_{1}y_{0} -2\beta D_{0}y_{0} - \mu^2y_{0}^3\nonumber\\
+    & - y_02q\cos(\Omega t) \label{eq:var2}
+\end{align}
+
+The general solution to eq. \eqref{eq:var1} is
+
+\begin{equation}
+  \label{eq:y0_hard_resonans}
+  y_0 = A(T_1)e^{i\omega T_0} + \Lambda e^{i\Omega T_0} + \frac{qd}{\omega^2} + cc
+\end{equation}
+
+where $A$ still is given as eq. \eqref{eq:A_modulation}, $A=\tfrac{1}{2}ae^{i \phi}$, and
+$\Lambda = \tfrac{qd}{2(\omega^2 - \Omega^2)}$
+
+
+Substituting the solution for $y_0$ into eq. \eqref{eq:var2}, the first order
+problem becomes
+
+\begin{equation}
+\begin{split}
+  D_{0}^{2} y_{1} + \omega^{2} y_{1} =&\\
+  &-\mu^2\left(q\bar A + \mu^2\frac{6 \bar A \Lambda}{\omega^2}qd \right) e^{i(\Omega - \omega)T_0} %1
+  -\mu^2\left(qA + \mu^2\frac{6 A \Lambda}{\omega^2}qd \right)e^{i(\Omega + \omega)T_0} \\%2 
+  &-\left[2i\beta\Omega\Lambda + \frac{q^2d}{\omega^2} + \mu^2\left( \frac{3 \Lambda}{\omega^4}(qd)^2 + 6A\bar A \Lambda + 3 \Lambda^3 \right)\right]e^{i\Omega T_0} %9,16,8
++\left( q\Lambda +  \frac{ 3 \Lambda^2}{\omega^2}qd \right) e^{i2\Omega T_0}\\%13
+  % mu
+  &-\mu^2 \left[
+  3A^2 \Lambda e^{i(2\omega + \Omega)T_0} %3
+  + 3\bar A \Lambda^2e^{i(2\Omega - \omega)T_0} %4
+  + 3A \Lambda^2e^{i(\omega + 2\Omega)T_0} %5
+  + 3 \bar A^2 \Lambda e^{i(\Omega - 2\omega)T_0} %6
+  \right] \\
+  % i \omega T_0
+  &-\left[2A'i \omega + 2i\beta\omega A  + \mu^2\left(\frac{3A}{\omega^4}(qd)^2 + 6A \Lambda^2 + 3 A^2\bar A  \right)\right] e^{i \omega T_0}\\ %8,11, 14, 15
+  % i 2\omega T_0 + i 3\omega T_0
+  &-\mu^2\left[
+  \frac{3A^2}{\omega^2}qd e^{i2\omega T_0} %7
+  +A^3e^{i 3\omega T_0} %10
+  + \Lambda^3 e^{i 3\Omega T_0}  %12
+  \right]\\
+  &-\frac{\mu^2}{\omega^2} \left(
+  \frac{(qd)^3}{\omega^4} 
+  +6\Lambda^2 qd
+  +6 A \bar A qd
+  \right)
+  - 2q\lambda
+  + cc
+\end{split}
+\label{eq:eps1_hard}
+\end{equation}
+% \begin{align}
+%   \label{eq:2}
+%   \frac{6 \bar A \Lambda}{\omega^2}qd e^{i(\Omega - \omega)T_0}\\ %1
+%   \frac{6 A \Lambda}{\omega^2}qd e^{i(\Omega + \omega)T_0}\\ %2
+%   3A^2\Lambda e^{i(2\omega + \Omega)T_0}\\ %3
+%   3\bar A \Lambda^2e^{i(2\Omega - \omega)T_0}\\ %4
+%   3A \Lambda^2e^{i(\omega + 2\Omega)T_0}\\ %5
+%   3 \bar A^2 \Lambda e^{i(\Omega - 2\omega)T_0}\\ %6
+%   \frac{3A^2}{\omega^2}qd e^{i2\omega T_0}\\ %7
+%   \frac{3A^2}{\omega^4}(qd)^2 e^{i\omega T_0}\\ %8
+%   \frac{3 \Lambda}{\omega^4}(qd)^2 e^{i\Omega T_0}\\ %9
+%   A^3 e^{i3 \omega T_0}\\ %10
+%   3 \Lambda^3 e^{i \omega T_0}\\ %11
+%   \Lambda^3 e^{i 3\omega T_0}\\ %12
+%   \frac{ 3 \Lambda^2}{\omega^2}qd e^{i 2\omega T_0}\\ %13
+%   3 A^2\bar A e^{i \omega T_0}\\ %14
+%   6A \Lambda^2 e^{i\omega T_0}\\ %15
+%   6A\bar A \Lambda e^{i\Omega T_0}\\ %16
+%   \frac{(qd)^3}{\omega^6}\\
+%   \frac{6\Lambda^2 qd}{\omega^2}\\
+%   \frac{6 A \bar A qd}{\omega^2}\\
+%   + cc
+% \end{align}
+
+From the equation, it is seen that the following resonant cases should be
+considered
+
+\begin{table}[!ht]\centering
+  \begin{tabular}{@{$\bullet$ }ll}
+    Superharmonic resonance  & $\Omega \approx \tfrac{1}{3}\omega $ \\
+    Superharmonic resonance  & $\Omega \approx \tfrac{1}{2}\omega $ \\
+    Subharmonic resonance  & $\Omega \approx 2\omega $ \\
+    Subharmonic resonance  & $\Omega \approx 3\omega $ \\
+    Quasi static excitation  & $\Omega \approx 0 $ \\
+    Non-resonant excitation  & 
+  \end{tabular}
+\end{table}
+The case $\Omega \approx 2 \omega$ is the primary parametric resonance.
+
+For the resonant cases, the detuning parameter $\sigma$ is used to find the
+solvability criterion from eq. \eqref{eq:eps1_hard}. This gives insight in how
+parameters influences the given harmonic, peak amplitude and detuning at the
+peak, but is not within the scope of this rapport.
+
+The subharmonic $\Omega \approx 3\omega $ is not likely to be seen in a
+frequency sweep, as can be seen in section \ref{sec:dynam-load-syst}. The
+solvability criterion resembles that for the same subharmonic for a duffing
+equation. $a=0$ is a solution and to get the non-trivial solution $a \ne 0$,
+some criterion for the forcing and $\sigma$ must be fulfilled, giving a
+$\Lambda \sigma$ plane where the solution exist. To track the response by
+continuation, a starting point laying on the curve should be given.
+
+Last it will just be stated that ``for the case of subharmonic resonance, large
+responses can be exited at driving frequencies much higher than the natural
+frequency of the system'', \cite[p. 127]{juel2003a}.
+
+
+
+\subsection{High-frequency excitation}
+\label{sec:high-freq-exci}
+
+The effect of high-frequency excitation $\hat \Omega \gg \omega = \O(1) $ is
+studied away from excitation of linear natural frequencies such that the
+single-mode approximation may still be adequate.
+
+Use the substitution
+
+\begin{equation}
+  \label{eq:y_hf}
+  y \rightarrow y + a\hat \Omega^{-1} \cos{\hat \Omega t}
+\end{equation}
+where $a=\O(1)$ and inserting it in the single mode approximation
+eq. \eqref{eq:single_mode_approx} to get
+
+
+
+\begin{equation}
+  \ddot y + 2 \beta \dot y + \left( \omega^{2} + 2 q\cos(\Omega t) \right) y
+    +\mu^2y^3 = qd\(1 + \cos(\Omega t)\) + a \hat \Omega \cos(\hat \Omega t)
+\label{eq:single_mode_hf}
+\end{equation}
+
+
+Using the Direct Partition of Motions, the modal amplitude is split into slow
+and fast components
+
+\begin{equation}
+  y(t) = z(t) + \hat \Omega^{-1}\phi(t,\tau)
+\end{equation}
+where $t$ is slow time and $\tau = \hat \Omega t$ fast time.
+
+
+This arbitrary transformation indicates that $\phi$ is much smaller in magnitude
+than $z$
+
+$\phi$ is required to be $2\pi$ periodic in $\tau$
+\begin{equation}
+  \label{eq:5_28_1}
+  \left<\phi\right> = T^{-1}\int_{0}^{2\pi} \phi \, d\tau = 0, \, T = \frac{2\pi}{\hat \Omega},
+\end{equation}
+which makes the transformation unique \cite[section 7.2]{juel2003a}
+
+
+
+Let $\dot{()}=\frac{\p}{\p t}$ and $()'=\frac{\p}{\p \tau}$ then $\ddot y$ and
+$\dot y$ becomes respectively
+\begin{align}
+  \label{eq:5_29} \dot y =& \left(\dot z + \phi' + \hat \Omega^{-1} \dot \phi\right)\\
+  \label{eq:5_30} \ddot y =& \left( \ddot z + \hat \Omega \phi''+ 2\dot \phi' + \hat \Omega^{-1} \ddot \phi \right)
+\end{align}
+
+Inserting this into eq. \eqref{eq:single_mode_hf}
+
+\begin{equation}
+  \label{eq:5_32}
+  \begin{split}
+  \ddot z &+ \hat \Omega \phi'' + 2\dot \phi' + \tilde \Omega^{-1} \ddot \phi
+            + 2 \beta \left( \dot z + \phi' + \hat \Omega^{-1} \dot \phi \right)\\
+          &+\left( \omega^{2} + 2 q\cos(\Omega t) \right) \left(z + \Omega^{-1} \phi \right)
+            +\mu^2\left(z + \Omega^{-1} \phi \right)^{3} \\
+          &=  qd\(1 + \cos(\Omega t)\) + a \hat \Omega \cos(\hat \Omega t)
+        \end{split}
+\end{equation}
+
+
+Isolate $\phi''$ and a first order approximate expression for $\phi$ is found by
+neglecting terms of order $O(\tilde \Omega^{-1})$ and smaller while integrating
+twice
+
+% \begin{align}
+%   \phi'' = &- \frac{q}{\omega}\cos(\tau)z\\
+% \label{eq:5_32}
+%   &- \tilde \Omega^{-1} \left( \ddot z + 2 \dot \phi' + 2 \beta \dot z + 2\beta \phi' + z + \frac{q}{\omega}\cos(\tau)\phi - \frac{3}{2}\frac{q}{\omega}(1-\cos(\tau))z^{3}\right)
+%   + O(\tilde \Omega^{-2}),
+% \end{align}
+
+
+\begin{equation}
+  \label{eq:5_33}
+  \phi = -a \cos(\tau)z + O(\hat \Omega^{-1})
+\end{equation}
+
+The integration constants vanish due to \ref{eq:5_28_1}.\\
+
+The average of $\phi$ is
+
+\begin{equation}
+  <\ddot \phi>=<\dot \phi>=<\phi>=<\phi'>=<\phi^3> = 0,
+  \quad <\phi^2> = \frac{1}{2}a
+\end{equation}
+
+
+Taking the short term average of \eqref{eq:5_32} to eliminate dependence on
+$\tau$
+
+\begin{equation}
+  \ddot z + 2 \beta \dot z + 
+  \left( \omega^{2} + 2 q\cos(\Omega t) + \frac{3}{2}a^2\mu^2\hat \Omega^{-2} \right) z
+    +\mu^2y^3 = qd\(1 + \cos(\Omega t)\)
+\label{eq:z}
+\end{equation}
+
+
+The effect of high frequency excitation is that the effective stiffness under
+most cases is increased negligible ($ \frac{3}{2}a^2\mu^2\hat \Omega^{-2}$), since $a\hat \Omega^{-1} \ll 1$. If this is
+the case, the $z(t)$ equation is the same as the single mode approximation.
+For the effect to have influence, the support vibration amplitude should be
+large as well as slenderness.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End: 

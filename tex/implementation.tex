@@ -1,0 +1,115 @@
+
+\chapter{Implementation}
+\label{cha:implementation}
+
+
+The methods presented in the previous chapters are implemented as a library in
+python and available from \autocite{paw2017}. The code depends on the standard
+python libraries numpy, scipy and matplotlib and can run on all operating
+systems. Care have been taking in order to ensure correctness of the
+implementations; as much as it is possible examples from papers and data given
+from Liege have been recalculated to ensure that the same results were obtained.
+All code is written for this thesis and implement most notably:
+\begin{itemize}
+\item FEM code: generate FE matrices $\bm M, \bm C, \bm K$ from a
+  \textit{gmsh}-mesh file. Different types of elements are available. Boundary
+  conditions are enforced on system matrices.
+\item Nonlinear newmark integration
+\item Morlet wavelet
+\item Restoring force surface
+\item Integration, filtering and periodicity calculation of signals
+\item NNM continuation and stability
+\item HB continuation, stability and bifurcation
+\item FNSI, linear and nonlinear parameter estimation. Stabilisation diagram
+  for determining model order
+\item FRF calculation from periodic signals with multiple periods or from
+  nonperiodic signals using spectral densities. Standard deviation of FRF
+  between periods is calculated.
+\item Modal properties including MAC calculation.
+\item Sine sweep(linear and logarithmic) and random periodic excitation.
+\item Polynomial and piecewise cubic splines available for identification.
+\item Additional types of nonlinearities available for simulation with Newmark,
+  HB and NNM: Piecewise linear and hyperbolic tangent(tanh), the latter only for
+  damping.
+\end{itemize}
+
+As an example of the library approach, the following two examples shows how FNSI
+identification and HB continuation are done. Most methods returns a class
+storing all information, making multiple runs with different settings easy. To
+keep the examples short, they are run with default settings.
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,basicstyle=\tiny]
+from numpy import np
+from vib.signal import Signal
+from vib.fnsi import FNSI
+from vib.nlforce import NL_force, NL_polynomial
+from vib.common import modal_properties
+
+# load time signal
+# nsper is the number of signals per period, iu the dof(s) where the force(s) works
+mat = np.load(filename + '.npz')
+u, ydd, fs, nsper, iu = mat['u'], mat['ydd'], mat['fs'], mat['nsper'], mat['iu']
+
+# create class, integrate and select period(s) (fnsi works on displacements)
+signal = Signal(u, fs, ddy=ddy)
+signal.get_displ(lowcut, highcut)
+signal.cut(nsper, per=[7,8])
+
+# setup nonlinear type and where it works (-1: attached to ground)
+inl = np.array([[0,-1], [1,-1]])
+enl = np.array([3,3])
+nl_pol = NL_polynomial(inl, enl)
+nl = NL_force().add(nl_pol)
+fmin, fmax = 0, 10
+ims, nmodel = 22, 4
+fnsi = FNSI(signal, nl, fmin, fmax)
+fnsi.calc_EY()
+fnsi.svd_comp(ims)
+fnsi.id(nmodel)
+# Get identified nl parameters and linear frf.
+knl, H, He = fnsi.nl_coeff(iu)
+# get linear modal parameters
+modal = modal_properties(fnsi.A, fnsi.C)
+# Done.
+\end{lstlisting}
+and for HB:
+
+\begin{lstlisting}[language=Python,frame=single,breaklines=true,basicstyle=\tiny]
+import numpy as np
+from vib.hb.hb import HB
+from vib.hb.hbcommon import hb_signal
+from vib.nlforce import NL_force, NL_polynomial
+
+# setup system
+M = np.array([[m1,0],[0,m2]])
+C = np.array([[c1,0],[0,c2]])
+K = np.array([[k1+k2, -k2],[-k2, k2+k3]])
+inl = np.array([[0,-1], [1,-1]])
+enl = np.array([3,3])
+knl = np.array([mu1, mu2])
+nl_pol = NL_polynomial(inl, enl, knl)
+nl = NL_force()
+nl.add(nl_pol)
+# starting frequency, force amplitude and force dof
+f0, famp, fdof = 1, 3, 0
+
+# create HB class, periodic solution and continuation incl stability and
+# bifurcation.
+hb = HB(M,C,K,nl)
+omega, z, stab, lamb = hb.periodic(f0, famp, fdof)
+hb.continuation()
+
+# Run for another forcing level
+hb2 = HB(M,C,K,nl)
+hb2.periodic(f0, 2*famp, fdof)
+hb2.continuation(bifurcation=False)
+# Done
+\end{lstlisting}
+
+All the examples from the previous chapters are included in the examples
+directory, and should run on any python3 installation.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../report"
+%%% End:
