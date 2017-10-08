@@ -1,4 +1,6 @@
 build/
+report.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

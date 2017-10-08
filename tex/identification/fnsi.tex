@@ -8,26 +8,25 @@ to deal with multiple-input, multiple-output(MIMO) systems.
 
 The nonlinear subspace methods interpret nonlinearities as unmeasured internal
 forces, ie. nonlinearities are seen as cause of distortion on the linear FRF
-matrix. Two main nonlinear methods exist, one in time domain: time-domain
-subspace identification (TNSI)\autocite{marchesiello2008a} and one in frequency
-domain: frequency-domain subspace identification (FNSI)\autocite{noel2013a} .
+matrix. Two main nonlinear methods exist one in time domain, time-domain
+subspace identification (TNSI)\autocite{marchesiello2008a}, and one in frequency
+domain, frequency-domain subspace identification (FNSI)\autocite{noel2013a}.
 Both performs equally well in identification and robustness, but the main
 benefit of FNSI is that the input time series, when converted to frequency
 domain, can be truncated to a frequency interval of interest and thus reduce the
 computational time. FNSI is the method used here.
 
 
-
 Given the equation of motion for a dynamical system with nonlinearities:
 
 \begin{equation}
   \label{eq:EOM_fnsi}
-  \bm M \ddot{\bm q}(t) + \bm C \dot{\bm q}(t) + \bm K \bm q(t) +
-  \bm f_{nl} \left( \bm q(t), \dot{ \bm q}(t) \right) = \bm p (t)
+  \bm M \ddot{\bm y}(t) + \bm C \dot{\bm y}(t) + \bm K \bm y(t) +
+  \bm f_{nl} \left( \bm y(t), \dot{ \bm y}(t) \right) = \bm p (t)
 \end{equation}
 
 where $\bm M$, $\bm C$ and $\bm K \in \mathbb{R}^{n \times \, n}$ are the
-mass, linear viscous damping and linear stiffness matrices; $\bm q(t)$ and
+mass, linear viscous damping and linear stiffness matrices; $\bm y(t)$ and
 $\bm p(t) \in \mathbb{R}^{n}$ are the generalised displacement and external
 force vectors; $\bm f_{nl}(t) \in \mathbb{R}^{n}$ is the essentially nonlinear,
 i.e. nonlinearisable, restoring force vector comprising elastic and dissipative
@@ -41,20 +40,20 @@ lumped nonlinearities
 
 \begin{equation}
   \label{eq:nonlin_fnsi_lummped}
-  \bm f_{nl} \left( \bm q(t), \dot{\bm q}(t) \right) =
-  \sum_{i=1}^s \mu_i \bm b_i \bm g_i \left( \bm q(t), \dot{\bm q}(t) \right)
+  \bm f_{nl} \left( \bm y(t), \dot{\bm y}(t) \right) =
+  \sum_{i=1}^s \mu_i \bm b_i \bm g_i \left( \bm y(t), \dot{\bm y}(t) \right)
 \end{equation}
-where $\mu_i$ is the unknown nonlinear coefficient and $\bm g_i \left( \bm q(t),
-  \dot{\bm q}(t) \right)$ is the the corresponding known (identified by eg. RFS)
+where $\mu_i$ is the unknown nonlinear coefficient and $\bm g_i \left( \bm y(t),
+  \dot{\bm y}(t) \right)$ is the the corresponding known (identified by eg. RFS)
 functional form (or basis function). The location of the nonlinearity is
-specified by the boolean vector, $\bm b_i \in \mathbb{R}^{n}$.
+specified by the boolean vector, $\bm b_i$.
 
 
 Moving the nonlinear terms of \eqref{eq:EOM_fnsi} to the right-hand side
 
 \begin{equation}
   \label{eq:EOM_fnsi_final}
-  \bm M \ddot{\bm q}(t) + \bm C_v \dot{\bm q}(t) + \bm K \bm q(t) = -
+  \bm M \ddot{\bm y}(t) + \bm C \dot{\bm y}(t) + \bm K \bm y(t) = -
   \sum_{i=1}^s \mu_i \bm b_i \bm g_i(t) + \bm p(t)
 \end{equation}
 the system may be viewed as the underlying linear system subjected to the
@@ -76,7 +75,7 @@ as shown in figure \ref{fig:fnsi_feedback}.
       {Underlying linear\\ system: $\bm M, \bm C, \bm K$};
     \node [output, right=2cm of system] (output) {};
     \node [block, below of=system, align=left] (feedback)
-      {Nonlinear feedback:\\ $c_a, \bm g_a(\bm y_{nl}(t), \dot{\bm y}_{nl}(t))$};
+      {Nonlinear feedback:\\ $c_a, \bm g_a(\bm y(t), \dot{\bm y}(t))$};
     \draw [draw,->] (input) -- node {$\bm u(t)$} (sum);
     \draw [->] (sum) -- node {} (system);
     \draw [->] (system) -- node [name=y] {$\bm y, \dot{\bm y}$}(output);
@@ -88,8 +87,8 @@ as shown in figure \ref{fig:fnsi_feedback}.
 \end{figure}
 
 
-Using the state vector $\bm x = [\bm q, \dot{\bm q}]^T\in\mathbb{R}^r$, the
-system \eqref{eq:EOM_fnsi_final} is rewritten as the state space formulation
+Using the state vector $\bm x = [\bm y, \dot{\bm y}]^T$, the system
+\eqref{eq:EOM_fnsi_final} is rewritten as the state space formulation
 \begin{equation}
   \label{eq:fnsi_c_state_space}
   \begin{split}
@@ -97,42 +96,57 @@ system \eqref{eq:EOM_fnsi_final} is rewritten as the state space formulation
     &\bm y(t) = \bm C \bm x(t) + \bm D \bm e(t)
   \end{split}
 \end{equation}
-where subscript $c$ denotes {\textit continuous time} and $r=2n$. $\bm e(t) =
-\bm p(t)^T, g_1, \dots , g_s]^T \in \mathbb{R}^{n+s}$ is the extended input
+where subscript $c$ denotes {\textit continuous time}. $\bm e(t) =
+[\bm p(t)^T, g_1, \dots , g_s]^T \in \mathbb{R}^{n+s}$ is the extended input
 vector which concatenates external and nonlinear terms.
 
 State-space and physical matrices have the relations
 \begin{equation}
   \label{eq:state_to_physical_mat}
-  \begin{split}
+  \begin{gathered}
   \bm A_c =
   \begin{bmatrix}
-    \bm O^{r \times r} & \bm I^{r \times r} \\
+    \bm O  & \bm I \\
     -\bm M^{-1}K     & -\bm M^{-1} \bm C \\
   \end{bmatrix}
-  \in \mathbb{R}^{2r \times 2r} , \\
+  \\
   \bm B_c =
   \begin{bmatrix}
-    \bm 0^{r \times 1} & \bm 0^{r \times 1} & ... &
-    \bm 0^{r \times 1} & \bm 0^{r \times 1} \\
-    -\mu_1 \bm M^{-1} \bm b_1 & -\mu_2 \bm M^{-1} \bm b_2 & ... &
-    -\mu_s \bm M^{-1} \bm b_S & -\mu_1 \bm M^{-1} \bm b_1 & \\
+    \bm 0 & \bm 0 & \bm 0 & ... & \bm 0 \\
+    \bm M^{-1}  & -\mu_1 \bm M^{-1} \bm b_1 & -\mu_2 \bm M^{-1} \bm b_2 & ... &
+    -\mu_s \bm M^{-1} \bm b_S \\
   \end{bmatrix}
-  \in \mathbb{R}^{(n \times \sigma)} \\
+  \\
   \bm C =
   \begin{bmatrix}
-    \bm I^{n\times n} & \bm I^{n\times n}
+    \bm I & \bm 0
   \end{bmatrix}
-  \in \mathbb{R}^{(n \times n)} \,\quad
-  \bm D = \bm 0^{n\times\sigma}
-\end{split}
+  \,\quad
+  \bm D = \bm 0
+\end{gathered}
 \end{equation}
 The state matrices are: $\bm A$ and $\bm B$ the input and nonlinear coefficients
 matrix, the output matrix $\bm C$ and the direct feed through matrix $\bm D$.
 
-This way of characterizing the system above is the same as with TNSI. Using a
-Fourier transform, the system is
+This way of characterising the system above is the same as with TNSI. Before
+Fourier transforming the system, a continuous to discrete-time conversion of the
+state matrices are used with the sampling frequency $f_s$. This is done in order
+to improve the numerical condition and given by
+\begin{equation}
+  \begin{gathered}
+    \bm A_d = \text{expm}(\bm A_d/f_s) ,\quad
+    \bm B_d = (\bm A_d - \bm I)\bm A_c^{-1} \bm B_c \\
+    \bm C_d = \bm C_c ,\quad \bm D_d = \bm D_c
+  \end{gathered}
+\end{equation}
+It is stressed\autocite{noel2013a} that the conversion is only strictly valid if
+the input signals in $\bm e$ are piece-wise constant between sampling instants,
+a zero-order hold intersample assumption. This is generally not the case but if
+a sufficiently high sampling frequency is used, the continuous time model is not
+affected. It is not clear how high a \textit{sufficiently high sampling
+  frequency} is.
 
+Using a Fourier transform, the system is
 \begin{equation}
   \label{eq:fnsi_freq_state}
   \begin{aligned}
@@ -142,45 +156,48 @@ Fourier transform, the system is
 \end{equation}
 where $z_k = e^{(2i\pi k/N_s)}$ is the Z-transform variable for discrete time
 models and $N_s$ the number of recorded samples in the time series. $\bm X, \bm
-Y$ and $\bm E$ are the discrete Fourier transforms of $\bm x, \bm y$ and $\bm e$.
-
-\textbf{Noget om at fitte en discrete time model til continuous time for sikre
-  good conditioning}
+Y$ and $\bm E$ are the discrete Fourier transforms of $\bm x, \bm y$ and $\bm
+e$. The subscript $d$ are dropped in the following, as all operations are on
+discrete time models.
 
 \subsection{The output-state-input equation}
 
 The extended input $\bm E$ and output $\bm Y$ is known. The system matrices $\bm
-A_d, \bm B_d, \bm C$ and $\bm D$ needs to be determined along with the system
-order $r$. Frequency-domain subspace methods estimates these matrices based on a
-reformulation of the state-space eqs. \eqref{eq:fnsi_freq_state} in matrix form.
+A, \bm B, \bm C$ and $\bm D$ needs to be determined.
+
+Frequency-domain subspace methods estimates these matrices based on a
+reformulation of the state-space eqs. \eqref{eq:fnsi_freq_state} in matrix form,
+where the input and output is rearranged into Hankel-type block matrices.
+
 The matrix of the measured output spectra is
 
 \begin{equation}
   \bm Y_i =
   \begin{bmatrix}
-    \bm Y(1) & \bm Y(2) & \dots & \bm Y(N) \\
-    z_1\bm Y(1) & z_2\bm Y(2) & \dots & z_F\bm Y(N) \\
-    z^2_1\bm Y(1) & z^2_2\bm Y(2) & \dots & z^2_F\bm Y(N) \\
+    \bm Y(1) & \bm Y(2) & \dots & \bm Y(F) \\
+    z_1\bm Y(1) & z_2\bm Y(2) & \dots & z_F\bm Y(F) \\
+    z^2_1\bm Y(1) & z^2_2\bm Y(2) & \dots & z^2_F\bm Y(F) \\
     \vdots \\
-    z^{i-1}_1\bm Y(1) & z^{i-1}_2\bm Y(2) & \dots & z^{i-1}_F\bm Y(N)
+    z^{i-1}_1\bm Y(1) & z^{i-1}_2\bm Y(2) & \dots & z^{i-1}_F\bm Y(F)
   \end{bmatrix}
 \end{equation}
-which by defining $\xi = \text{diag}(z_1, z_2, \dots, z_N)$ is recast to
+which by defining $\xi = \text{diag}(z_1, z_2, \dots, z_F)$ is recast to
 
 \begin{equation}
-  \begin{aligned}
-    \bm Y_i =
-    \begin{bmatrix}
-      \bm Y^T & (\bm Y \xi)^T & \dots & (\bm Y \xi^{i-1})^T
-    \end{bmatrix}^T \\
-    \bm E_i =
+  \bm Y_i =
+  \begin{bmatrix}
+    \bm Y^T & (\bm Y \xi)^T & \dots & (\bm Y \xi^{i-1})^T
+  \end{bmatrix}^T
+\end{equation}
+and similar the matrix of extended input spectra is formed as
+\begin{equation}
+  \bm E_i =
     \begin{bmatrix}
       \bm E^T & (\bm E \xi)^T & \dots & (\bm E \xi^{i-1})^T
     \end{bmatrix}^T
-  \end{aligned}
 \end{equation}
-where $i$ is the user-defined number of block rows in $\bm Y_i$ and $N$ the
-number of frequency lines used for identification.
+where $i$ is a user-defined number of block rows in $\bm Y_i$ and $F$ the number
+of frequency lines used for identification; more on how these are chosen later.
 
 Introducing the extended observability matrix
 \begin{equation}
@@ -201,10 +218,9 @@ and the lower-block triangular Toeplitz matrix
     \bm C \bm A^{i-2} \bm B & \bm C \bm A^{i-3} \bm B & \bm C \bm A^{i-3} \bm B & \dots & \bm D
   \end{bmatrix}^T
 \end{equation}
-
-By recursive use of eq. \eqref{eq:fnsi_freq_state} \autocite{noel2013a}, the
-output-state-input matrix equation, which is used for estimation in the subspace
-method, is obtained
+then by recursive use of eq. \eqref{eq:fnsi_freq_state} and the above matrices
+\autocite{noel2013a}, the output-state-input matrix equation, which is used for
+estimation in the subspace method, is obtained
 \begin{equation}
   \label{eq:fnsi_state_matrix}
   \bm Y_i = \bm \Gamma_i \bm X + \bm H_i \bm E_i
@@ -214,17 +230,19 @@ method, is obtained
 \subsection{Estimation of state matrices}
 
 The subspace method is applied to eq. \eqref{eq:fnsi_state_matrix} in order to
-estimate $\bm \Gamma_i$ and the system order $n_s$. When $\bm \Gamma_i$ is
-estimated, the state matrices of eq. \eqref{eq:fnsi_freq_state} are extracted
-and calculated.
+estimate $\bm \Gamma_i$. When $\bm \Gamma_i$ is estimated, the state matrices of
+eq. \eqref{eq:fnsi_freq_state} are extracted and calculated.
 
 The method have two main steps:
 \begin{itemize}
 \item Eliminate the term depending on nonlinearities and forces in eq.
-  \eqref{eq:fnsi_state_matrix}. This is done by projecting the equation onto the
-  orthogonal complement of $\bm E_i$,
+  \eqref{eq:fnsi_state_matrix}, ie $\bm H_i$ by its inclusion of $\bm B$. This
+  is done by projecting the equation onto the orthogonal complement of $\bm
+  E_i$,
   \begin{equation}
-    \bm Y_i / \bm E_i^\perp = \bm \Gamma_i \bm X / \bm E_i^\perp = \mathcal{P}
+    \bm Y_i / \bm E_i^\perp = \bm \Gamma_i \bm X / \bm E_i^\perp +
+    \underbrace{\bm H_i \bm E_ / \bm E_i^\perp}_{=0}
+    = \mathcal{P}
   \end{equation}
   The geometrical interpretation of this is shown in figure
   \ref{fig:fnsi_geometric} for the 2d case.
@@ -232,13 +250,14 @@ The method have two main steps:
   $\Gamma_i$ is then estimated from a singular value decomposition(SVD) of the
   projection $\mathcal{P}$
 \item When $\Gamma_i$ is estimated, the four state space matrices ($\bm A, \bm
-  B, \bm C, \bm D$) are calculated. See figure \ref{fig:fnsi_methodolgoy} for a
-  overview and \autocite{noel2013a} for more details.
+  B, \bm C, \bm D$) are calculated.
 \end{itemize}
+
+See figure \ref{fig:fnsi_methodolgoy} for a overview.
 
 \begin{figure}[!ht]
   \centering
-    %\def\svgwidth{3cm}
+  \def\svgwidth{6cm}
   \import{fig/fnsi/}{fnsi_geometric2.pdf_tex}
   \caption{Geometric interpretation of eq. \eqref{eq:fnsi_state_matrix} in two
     dimensional space. The orthogonal complement of $\bm E_i$, $\bm E_i^\perp$,
@@ -246,9 +265,7 @@ The method have two main steps:
     (thus it is also the null space of $\bm E_i$).
     In the 2d case, $\bm E_i^\perp$ is simply the vector perpendicular to $\bm
     E_i$, and the projection of $\bm Y_i$ cancels the extended input term $\bm
-    H_i \bm E_i$. In 3d the orthogonal complement of the plane spanned of two
-    vectors $\bm u$ and $\bm v$, is the subspace formed by all normal vectors to
-    that plane.
+    H_i \bm E_i$.
   }
   \label{fig:fnsi_geometric}
 \end{figure}
@@ -258,9 +275,9 @@ The method have two main steps:
   \centering
   \begin{mdframed}
     \begin{enumerate}
-    \item Choose the index $i$ and the number of processed frequency lines N
+    \item Choose the index $i$ and the number of processed frequency lines $F$
     \item Concatenate external forces and nonlinearities to form the extended
-      input spectra $E_i$
+      input spectra $\bm E_i$
     \item Compute the orthogonal projection
       \begin{equation*}
         \mathcal{P} = \bm Y_i / \bm E_i^\perp
@@ -271,7 +288,7 @@ The method have two main steps:
         \label{eq:fnsi_svd}
         \mathcal{P} = \bm U \bm S \bm V
       \end{equation}
-    \item Determine model order $n_s$ from singular values in $\bm S$ or from a
+    \item Determine model order $n$ from singular values in $\bm S$ or from a
       stabilisation diagram. Truncate $\bm U$ and $\bm S$ accordingly to define
       $\bm U_1$ and $\bm S_1$.
     \item Estimate the extended observability matrix $\bm \Gamma_i$
@@ -301,19 +318,17 @@ The method have two main steps:
       matrices and form the extended FRF $\bm H^e(\omega)$.
       \begin{equation}
         \label{eq:extend_FRF_He}
-        \bm H^e(\omega) = \bm C_c \left(j \omega \bm I^{n \times n} - \bm A_c \right)^{-1} \bm B_c^e + \bm D_c^e
-        \in \mathbb{C}^{(l \times \sigma)}
+        \bm H^e(\omega) = \bm C_c \left(j \omega \bm I^{n \times n} - \bm A_c \right)^{-1} \bm B_c + \bm D_c
       \end{equation}
     \item Estimate the nonlinear coefficients $\mu_j$ and the linear FRF matrix
       $\bm H(\omega)$.
-      The FRF matrix of the underlying linear system $\bm H(\omega) \in \mathbb{C}^{(l
-        \times l)}$ and the nonlinear coefficients $\mu_s$ are found from
-      \eqref{eq:extend_FRF_He} as
+      The FRF matrix of the underlying linear system $\bm H(\omega)$ and the
+      nonlinear coefficients $\mu_s$ are found from \eqref{eq:extend_FRF_He} as
       \begin{equation}
         \label{eq:FRE_H}
-        \bm Q(\omega) = \bm H(\omega)
+        \bm H(\omega) = \bm H(\omega)
         \begin{Bmatrix}
-          \bm I^{l\times 1} & -\mu_1\bm b_1 & ... & -\mu_s \bm b_s
+          \bm I & -\mu_1\bm b_1 & ... & -\mu_s \bm b_s
         \end{Bmatrix}
         \bm E (\omega)
         =
@@ -324,8 +339,6 @@ The method have two main steps:
   \caption{Overview of the FNSI methodology}
   \label{fig:fnsi_methodolgoy}
 \end{figure}
-
-
 
 Three assumptions are assumed to be fulfilled for the subspace methods,
 \begin{enumerate}
@@ -338,7 +351,7 @@ Three assumptions are assumed to be fulfilled for the subspace methods,
   \end{equation*}
 \item The extended inputs $\bm E_i$ are of full rank, i.e.,
   \begin{equation*}
-    \text{rank}(\bm E_i) = \sigma i
+    \text{rank}(\bm E_i) = (s+n) i
   \end{equation*}
   Excitations and the nonlinearities have to be such that the inversion of the
   problem is well-posed
@@ -352,18 +365,7 @@ longer empty, which violate the assumption.
 This requires nonlinear basis functions to be nonlinearisable, i.e. they should
 be zero and have zero slope at the origin.
 
-
-
-{\textbf Dimension:}
-
-$\bm b_s \in \mathbb{R}^l$ is a boolean vector specifying the location of the
-nonlinearity $\mu_s$.
-$\sigma = m + s$, where $s$ is the number of lumped nonlinearities and $m \leq
-r$ is the number of {\textit measured applied forces}. $l \leq r$ is the number of
-{\textit measured applied displacement}.
-$n$ is the model order, not $n=2r$ as used in the beginning of the article, and
-$r$ is number of DOFs.
-
+\FloatBarrier
 
 
 \subsection{Types of nonlinear functional}
@@ -372,20 +374,20 @@ $r$ is number of DOFs.
 
 As stated, the nonlinear basis functions should be zero and have zero slope at
 the origin. For continuous nonlinear restoring force, polynomial functions with
-order chosen from RFS-plots can be used. For discontinuous systems, e.g. contact
-polynomials might not be well suited, for instance higher order polynomials
+order chosen from RFS-plots can be used. For discontinuous systems, e.g. contact,
+polynomials might not be well suited; higher order polynomials might
 exhibit oscillations around the origin. An alternative is to use piecewise cubic
 spines instead. Even if they cannot realise a perfect fitting (they are
 continuous by nature), they are appropriate for representing sudden events,
-like sharp changes in stiffness/damping curves.
+like sharp changes in stiffness(or damping) curves.
 
-In order to get the basis functions from cubic splines, the abscissas of knots
-is specified on beforehand and the ordinate as free parameters. FNSI then
-estimate the ordinate.
-Choosing the number of knots and their abscissas should rigorously be sought by
-minimising the difference in some metric between the predictions of the
-non-linear model and measured data. In reality it is still done by trial and
-error.
+In order to get the basis functions from cubic splines, the abscissas and number
+of  knots
+is specified on beforehand and the ordinate expressed as the free parameters to
+be estimated.
+The number of knots and their abscissas should ideally be chosen by minimising
+the difference in some metric between the predictions of the non-linear model
+and measured data. In reality it is still done by trial and error.
 
 Using cubic splines might be termed \textit{gray box} identification where using
 polynomials is \textit{white box}. The difference is that with gray box, the
@@ -396,16 +398,35 @@ physics.
 
 \subsection{Estimating model order}
 
-In the presence of non-linearities, the model order translates the number of
-underlying linear modes excited in the output data. This implies that, similarly
-to linear system identification, a stabilisation analysis can be utilised as
-decision-making tool instead of looking at the singular values of $\bm S$,
-\eqref{eq:fnsi_svd}. The stabilisation diagram shows the stabilisation of the
-estimated linear parameters: stabilisation in frequency, stabilisation in
-damping and stabilisation of the mode. If all three parameters are stabilised
-the mode is full stabilised. Stabilisation is compared to the same mode for one
-model order higher. Stabilisation for the mode is calculated by the modal
-assurance criterion(MAC) \autocite{Allemang2003},
+In order to perform estimation, number of block rows $i$, frequency lines $F$
+and the model order $n$ must be set by the user.
+There is no strict way to chose $i$, the only requirement is that it is chosen
+greater than the system order $n$. In theory the larger $i$, the more accurate
+estimation (which is true until a given limit, where the repeated inclusion of
+the system dynamics affects the conditioning). In practice the identification is
+not that sensitive to the value of $i$, but a too large value impact the
+computational time.
+
+The frequency lines $F$, ie. the frequency content to include in the estimation,
+are often chosen as the same as the excitation frequency band. If the structure
+is excited with a $0-150$Hz band, $F$ could be chosen as $5-150$Hz, neglecting
+low-level and \textit{out-of-input-band} frequencies. Or chosen as the
+frequencies around resonances of the system, neglecting the frequencies with low
+throughput. The reason for truncating the frequencies are to save computational
+time.
+
+The model order $n$ is strictly the number of total linear modes of the system
+eq. \eqref{eq:EOM_fnsi}, but in practice only a limited set modes are excited
+during measurement. Thus determine $n$ is equal to determine the number of modes
+excited in the chosen frequency interval $F$.
+This means that stabilisation diagram can be used to determine $n$ instead
+of inspecting the singular values of $\bm S$, \eqref{eq:fnsi_svd}.
+The stabilisation diagram shows the stabilisation of the estimated linear
+parameters: stabilisation in frequency, stabilisation in damping and
+stabilisation of the mode. If all three parameters are stabilised the mode is
+full stabilised. Stabilisation is compared to the same mode for one model order
+higher. Stabilisation for the mode is calculated by the modal assurance
+criterion(MAC)\autocite{Allemang2003},
 
 \begin{equation}
   MACX(r,q) = \frac{|\bm \psi^T_r \bm \psi^*_q|^2}
@@ -434,8 +455,9 @@ only used if a stabilisation diagram is not implemented.
 \begin{figure}
   \centering
   \includegraphics[width=0.8\linewidth]{fnsi/vrms3_stab.pdf}
-  \caption{Estimation of model order. Stabilisation diagram with linear FRF overlayed.
-    $\pmb\times$(red): new pole;
+  \caption{Estimation of model order. Stabilisation diagram with linear FRF
+    overlayed. Two modes are identified.
+    \textcolor{red}{$\pmb\times$}: new pole;
     $\pmb\star$: stabilisation in natural frequency;
     $\pmb\square$: extra stabilisation in damping ratio;
     $\pmb\circ$: extra stabilisation in MACX;
@@ -450,7 +472,7 @@ only used if a stabilisation diagram is not implemented.
 \begin{figure}
   \centering
   \includegraphics[width=0.6\linewidth, height=6cm]{fnsi/vrms3_svg.pdf}
-  \caption{First tventy singular values. A jump of six orders magnitude is seen
+  \caption{First twenty singular values. A jump of six orders magnitude is seen
     between model order four and five.}
   \label{fig:fnsi_svg}
 \end{figure}
@@ -462,6 +484,7 @@ might not be the case, as seen with the more involved examples in section
 \subsection{Example}
 \label{sec:fnsi_example}
 
+Some more on leakage.
 
 Figure \ref{fig:periodicity} shows the periodicity of the recorded signal. The
 signal of the last recorded period is compared to previous periods. For
@@ -522,6 +545,7 @@ coefficients are identified correct.
   \begin{tabular}{*{3}{c}}
     \hline
     Mode & Frequency (rad/s) & Damping ration (\%) \\
+    \hline
     1 & 1.00 & 5.00 \\
     2 & 3.32 & 1.51 \\
     \hline
@@ -544,10 +568,10 @@ function found by FNSI match the theoretical linear transfer function.
   \centering
   \includegraphics[width=0.8\linewidth]{fnsi/vrms3_H1.pdf}
   \caption{Transfer function $H_1$ for the coupled duffing system.
-    \sampleline{}(black): H1 from signal;
-    \sampleline{dash pattern=on .7em off .2em on .2em off .2em}\textcolor{red}{(red)}: Linear identified;
-    \sampleline{dashed}\textcolor{orange}{(orange)}: Linear identified from FNSI;
-    \sampleline{dotted}\textcolor{blue}{(blue)}: Theoretical linear
+    \sampleline{}: H1 from signal;
+    \textcolor{red}{\sampleline{dash pattern=on .7em off .2em on .2em off .2em}}: Linear identified;
+    \textcolor{orange}{\sampleline{dashed}}: Linear identified from FNSI;
+    \textcolor{blue}{\sampleline{dotted}}: Theoretical linear
     % \sampleline{dash pattern=on .7em off .2em on .05em off .2em}
   }
   \label{fig:fnsi_H1}
@@ -558,10 +582,13 @@ function found by FNSI match the theoretical linear transfer function.
 
 It seems that the FNSI method works quite well - both nonlinear and linear
 parameters are estimated with high accuracy - and indeed it does work well. But
-it is not exact, as will be shown here: the method introduce spurious undesired
-terms, and even if they are small in magnitude, they still alters the
-identified model.
+it is not exact, even for simple examples without noise, the method introduce
+spurious undesired terms, and while they are small in magnitude, they still
+alters the identified model.
 
+\textbf{Mangler at blive skrevet ind. Ideen er at regne baglæns fra de
+  identicerede state-space matricer til eom. Det viser sig at eom indeholder
+  ekstra led, svarende til 'spurious' dæmpning}.
 
 
 \subsection{Summary}
