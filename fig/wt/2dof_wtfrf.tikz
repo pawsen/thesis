@@ -4312,17 +4312,17 @@ table {%
 14.848 -93.189687362103
 14.976 -93.5967322728224
 };
-\path [draw=black, fill opacity=0] (axis cs:0,-112.639525766276)
---(axis cs:0,35.2123944073439);
+% \path [draw=black, fill opacity=0] (axis cs:0,-112.639525766276)
+% --(axis cs:0,35.2123944073439);
 
-\path [draw=black, fill opacity=0] (axis cs:1,-112.639525766276)
---(axis cs:1,35.2123944073439);
+% \path [draw=black, fill opacity=0] (axis cs:1,-112.639525766276)
+% --(axis cs:1,35.2123944073439);
 
-\path [draw=black, fill opacity=0] (axis cs:-0.742353364519611,0)
---(axis cs:15.7477509895646,0);
+% \path [draw=black, fill opacity=0] (axis cs:-0.742353364519611,0)
+% --(axis cs:15.7477509895646,0);
 
-\path [draw=black, fill opacity=0] (axis cs:-0.742353364519611,1)
---(axis cs:15.7477509895646,1);
+% \path [draw=black, fill opacity=0] (axis cs:-0.742353364519611,1)
+% --(axis cs:15.7477509895646,1);
 
 \end{axis}
 

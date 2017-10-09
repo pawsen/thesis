@@ -5,8 +5,8 @@
 
 Signal treatment and excitation type affects how the nonlinearity is seen in the
 measured signal.
-This chapter treats the types of excitation and treatments that
-is applicable for nonlinear dynamics.
+This chapter treats the types of excitation that are applicable for nonlinear
+dynamics.
 
 \section{Types of excitation}
 \label{sec:types-excitation}
@@ -14,11 +14,11 @@ is applicable for nonlinear dynamics.
 Different types of excitation gives different response for nonlinear structures,
 with certain types being superior for detecting and characterizing and others
 smooths out the nonlinearities. For a more in-depth treatment see
-\autocite{gatto2010flexible}.
+\textcite{gatto2010flexible}.
 
 
 \begin{itemize}
-\item {\textbf steady state sine excitation}:\\
+\item \textit{steady state sine excitation}:\\
   Generally {\textit steady state sine excitation} (or {\textit stepped sine}), gives
   the most distinctive nonlinear effects. All the input energy is contained in
   the frequency of excitation. Noise can be removed from the signal by numerical
@@ -30,7 +30,7 @@ smooths out the nonlinearities. For a more in-depth treatment see
   steady state condition. It is the preferred method in literature when treating
   nonlinear behavior.
 
-\item {\textbf Impact excitation}:\\
+\item \textit{Impact excitation}:\\
   {\textit Impact excitation}, with hammer testing is the standard for measuring
   linear FRFs in industry. Because of the easiness of applying the test {\textit in
     situ} and the broad frequency content in the impulse excites a high number
@@ -40,7 +40,7 @@ smooths out the nonlinearities. For a more in-depth treatment see
   individual frequency is small, making it hard to excite structural
   nonlinearities.
 
-\item {\textbf random excitation}:\\
+\item \textit{random excitation}:\\
   FRFs obtained by band limited {\textit random excitation} will often appears
   linearized due to the randomness of the amplitude and phase of the excitation
   signal.
@@ -49,7 +49,7 @@ smooths out the nonlinearities. For a more in-depth treatment see
   each frequency is low, making it hard to drive structures into their nonlinear
   regime.
 
-\item {\textbf pseudo-random}:\\
+\item \textit{pseudo-random}:\\
   pseudo-random signal is a sum of multiple sine waves, with constant amplitude
   and the phase randomly selected from a uniform distribution between $180
   \degreeC$ and $-180 \degreeC$
@@ -72,24 +72,20 @@ smooths out the nonlinearities. For a more in-depth treatment see
 \end{itemize}
 
 
-If FRF inspection is used for detection, only the stepped size excitation can be
-used of the mentioned types.\textbf{But how about pseudo random}
 
+% \section{Signal treatment}
+% \label{sec:signal-treatment}
 
+% \subsection{Differentiation}
+% \label{sec:differentiation}
 
-\section{Signal treatment}
-\label{sec:signal-treatment}
+% Differentiation is hard without obtaining noisy results. Standard use of
+% difference formulas, like the five-point central difference here, will result in noisy signals
 
-\subsection{Differentiation}
-\label{sec:differentiation}
-
-Differentiation is hard without obtaining noisy results. Standard use of
-difference formulas, like the five-point central difference here, will result in noisy signals
-
-\begin{equation}
-  \label{eq:central_difference}
-  y_i = \frac{1}{12 \Delta t} \left( -y_{i+2} + 8y_{i+1} - 8y_{i-1} + y_{i-2} \right)
-\end{equation}
+% \begin{equation}
+%   \label{eq:central_difference}
+%   y_i = \frac{1}{12 \Delta t} \left( -y_{i+2} + 8y_{i+1} - 8y_{i-1} + y_{i-2} \right)
+% \end{equation}
 
 
 

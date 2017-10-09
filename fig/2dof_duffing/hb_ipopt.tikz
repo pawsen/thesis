@@ -407,17 +407,7 @@ table {%
 3.03169774943768 0.360680028343257
 3.48873535020043 1.36935462129512
 };
-\path [draw=black, fill opacity=0] (axis cs:0,3.34)
---(axis cs:0,3.39);
 
-\path [draw=black, fill opacity=0] (axis cs:1,3.34)
---(axis cs:1,3.39);
-
-\path [draw=black, fill opacity=0] (axis cs:3,0)
---(axis cs:3.05,0);
-
-\path [draw=black, fill opacity=0] (axis cs:3,1)
---(axis cs:3.05,1);
 
 \end{axis}
 

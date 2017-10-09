@@ -824,17 +824,7 @@ table {%
 3.06186587080386 0.401721254150615
 3.10964383720934 0.477036030104279
 };
-\path [draw=black, fill opacity=0] (axis cs:0,-0.316033717005513)
---(axis cs:0,3.7159893442445);
 
-\path [draw=black, fill opacity=0] (axis cs:1,-0.316033717005513)
---(axis cs:1,3.7159893442445);
-
-\path [draw=black, fill opacity=0] (axis cs:0,0)
---(axis cs:3.1,0);
-
-\path [draw=black, fill opacity=0] (axis cs:0,1)
---(axis cs:3.1,1);
 
 \end{axis}
 

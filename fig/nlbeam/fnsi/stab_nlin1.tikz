@@ -75,17 +75,7 @@ table {%
 144.097565507328 14
 398.013628940277 14
 };
-\path [draw=black, fill opacity=0] (axis cs:0,0)
---(axis cs:0,22);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:1,22);
-
-\path [draw=black, fill opacity=0] (axis cs:5,0)
---(axis cs:500,0);
-
-\path [draw=black, fill opacity=0] (axis cs:5,1)
---(axis cs:500,1);
 
 \end{axis}
 

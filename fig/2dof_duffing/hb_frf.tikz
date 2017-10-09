@@ -1088,17 +1088,7 @@ nan nan
 nan nan
 nan nan
 };
-\path [draw=black, fill opacity=0] (axis cs:0,-0.168362215125489)
---(axis cs:0,4.04953981746182);
 
-\path [draw=black, fill opacity=0] (axis cs:1,-0.168362215125489)
---(axis cs:1,4.04953981746182);
-
-\path [draw=black, fill opacity=0] (axis cs:-0.185680934944108,0)
---(axis cs:5.28160040140577,0);
-
-\path [draw=black, fill opacity=0] (axis cs:-0.185680934944108,1)
---(axis cs:5.28160040140577,1);
 
 \end{axis}
 

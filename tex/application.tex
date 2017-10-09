@@ -68,17 +68,17 @@ nonlinearity are described by these functions.
 \begin{figure}
   \centering
     \begin{subfigure}[b]{0.45\textwidth}
-      \includegraphics[width=\linewidth]{nlbeam/fnsi/stab_lin.pdf}
+      \includegraphics[width=\linewidth, height=6cm]{nlbeam/fnsi/stab_lin}
       \caption{}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{0.45\textwidth}
-      \includegraphics[width=\linewidth]{nlbeam/fnsi/stab_nlin1.pdf}
+      \includegraphics[width=\linewidth, height=6cm]{nlbeam/fnsi/stab_nlin1}
       \caption{}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.45\textwidth}
-      \includegraphics[width=\linewidth]{nlbeam/fnsi/stab_nlin2.pdf}
+      \includegraphics[width=\linewidth, height=6cm]{nlbeam/fnsi/stab_nlin2}
       \caption{}
     \end{subfigure}
     \caption{Estimation of model order.
@@ -92,7 +92,7 @@ nonlinearity are described by these functions.
   \label{fig:nlbeam_stab}
 \end{figure}
 
-The identified linear parameters are shown in table \ref{nlbeam_par}. As
+The identified linear parameters are shown in table \ref{tab:nlbeam_par}. As
 expected, the first mode shows a hardening which is seen by the linear
 identification at high level. The linear parameters are estimated correctly at
 high level using the two basis functions.
@@ -157,7 +157,7 @@ identified by FNSI with basis functions(green) match.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.6\textwidth]{nlbeam/fnsi/frf.pdf}
+  \includegraphics[width=0.7\textwidth, height=8cm]{nlbeam/fnsi/frf.pdf}
   \caption{FRF. Nonparametric(NP) is FRF directly from signal, parametric is
     identified FRF.
     \sampleline{}: NP from high level excitation;
@@ -193,17 +193,18 @@ in a model with 35 dofs.
 The geometric properties are also given in \autocite{lenaerts2003a} and listed
 together with the mechanical properties in tables \ref{table:nlbeam_prop}.
 \begin{center}
-\begin{tabular}{l*{3}{c}}
+% \begin{tabular}{l*{3}{c}}
+% \end{tabular}
+  \begin{tabular}{p{3.1cm}p{2cm}*{3}{c}}
+    \hline
   & Length(m) & Width (m) & Thickness (m) \\
   \hline
   Main beam & 0.7 & 0.014 & 0.014 \\
   Thin beam & 0.04 & 0.014 & 0.0005 \\
   \hline
-\end{tabular}
-\begin{tabular}{p{3.1cm}p{2cm}*{3}{c}}
   Young's modulus\newline (N/$m^2$) & Density\newline (kg/$m^3$) & $\mu_1$ (N/$m^3$) & $\mu_2$ (N/$m^2$) & Damping  \\
   \hline
-  $2.05\times 10^{11}$ & 7800 & $8\cdot 10^{9}$ & $-1.05\cdot 10^{7}$ &  $\bm C = 3 \cdot 10^{-7} \bm K + 5\bm M$ \\
+  $2.05\times 10^{11}$ & 7800 & $8\times 10^{9}$ & $-1.05\times 10^{7}$ &  $\bm C = 3 \times 10^{-7} \bm K + 5\bm M$ \\
   \hline
 \end{tabular}
 \captionof{table}{Geometric and mechanical properties for the nonlinear beam}
@@ -211,13 +212,23 @@ together with the mechanical properties in tables \ref{table:nlbeam_prop}.
 \end{center}
 
 
-The damping is proportional damping and probably overestimated, giving a modal
-damping ration of $1.27\%$ for the first linear mode which is high for a steel
-beam. But large displacements tends to be higher damped, thus the damping is not
-expected to be same for the linear and nonlinear case.
+The damping is proportional damping, giving a modal damping ration of $1.27\%$
+for the first linear mode which is high for a steel beam. But large
+displacements tends to be higher damped, thus the damping is not expected to be
+same for the linear and nonlinear case.
+\textbf{Dette er desværre noget sludder, da identifikationsdelen netop
+  viser en dæmpning på 1.28 \%. Det viser sig imidlertid at data ikke er
+  experimentel data, men simuleret data. Jeg har spurgt om jeg kan få rigtig
+  data. Det er forventet at rigtig data vil, i hvert fald ved lineær opførsel,
+  være dæmpet under 1\%.}
+
+% and probably overestimated, giving a modal
+% damping ration of $1.27\%$ for the first linear mode which is high for a steel
+% beam. But large displacements tends to be higher damped, thus the damping is not
+% expected to be same for the linear and nonlinear case.
 
 Figure \ref{fig:nlbeam_sweep} shows a comparison between a linear forward and
-backward sine sweep with a sweep rate and the NFRC computed by HB. The response
+backward sine sweep and the NFRC computed by HB. The response
 is asymmetric due to the presence of the quadratic nonlinearity. The jump down
 occurs because of the hardening behavior.
 
@@ -249,7 +260,8 @@ the squared nonlinearity.
   \label{fig:nlbeam_hb_components}
 \end{figure}
 
-% \textbf{NNM mangler - Plot fra 1.nnm er beskrevet. 2.nnm mangler at blive beregnet.}
+\textbf{NNM mangler - Plot fra 2.nnm mangler at blive beregnet. Der ses intern
+  resonans ved tilstrækkelig høje energier.}
 % The NNMs of the underlying conservative system is shown in figure. The NNM
 % frequency increases strongly with increasing energy, which is due to the
 % hardening behavior of the cubic stiffness. The FEPs shows two branches emerging
