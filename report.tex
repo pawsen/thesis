@@ -11,11 +11,11 @@
 
 \begin{document}
 
-% \pagenumbering{gobble}
-% \include{tex/frontpage}
+\pagenumbering{gobble}
+\include{tex/frontpage}
 
 \pagenumbering{roman}
-% \include{tex/preface}
+\include{tex/preface}
 
 \tableofcontents
 \include{tex/notation}
@@ -37,8 +37,6 @@
 \include{tex/design/periodic_motion}
 \include{tex/design/continuation}
 \include{tex/design/bifurcation}
-\include{tex/design/nnm}
-\include{tex/signal-treatment}
 \include{tex/implementation}
 \include{tex/application}
 \include{tex/discussion}
@@ -49,11 +47,13 @@
 % \addcontentsline{toc}{chapter}{Appendix}
 \printbibliography[title=References]
 % \appendix
-% \include{tex/appendix/periodic_motion}
-% \include{tex/appendix/continuation}
-% \include{tex/appendix/signal}
-% \include{tex/appendix/newmark_int}
-% \include{tex/appendix/easter_egg}
+\include{tex/appendix/periodic_motion}
+\include{tex/appendix/continuation}
+%\include{tex/appendix/signal}
+\include{tex/appendix/newmark_int}
+\include{tex/design/nnm}
+\include{tex/signal-treatment}
+\include{tex/appendix/easter_egg}
 
 \end{document}
 

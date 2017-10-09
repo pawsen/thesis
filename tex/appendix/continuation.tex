@@ -11,14 +11,13 @@ iterations $I_{opt}$. Fig. \ref{fig:hb_frf_a_appendix} shows superharmonic
 resonances at low frequencies are not captured for $N_H=3$ and $N_H=1$. This is
 expected as they possesses multiple frequency content, but shows that care
 should be taken when the number of harmonics is selected. Especially for more
-complicated and rich vibrations that this simple example.
-For systems with few DOFs, it is not a problem to include a high number of
-harmonics - remember that system matrices $\bm A$ in the HB method, eq
-\eqref{eq:hb_A}, is of size $(2N_H + 1)n \times (2N_H + 1)n$ and the sparse
-Fourier operator $\bm \Gamma$ of size $nH \times(2N_H+1)n$ where $n$ is number
-of DOFs. But for large systems it will become a problem. To solve this,
-\citet{GROLET2012a} present a way to automatically adopt the number of harmonics
-for each DOF.
+complicated and rich vibrations that this simple example. For systems with few
+DOFs, it is not a problem to include a high number of harmonics - remember that
+system matrices $\bm A$ in the HB method, eq \eqref{eq:hb_A}, is of size $(2N_H
++ 1)n \times (2N_H + 1)n$ and the sparse Fourier operator $\bm \Gamma$ of size
+$nH \times(2N_H+1)n$ where $n$ is number of DOFs. But for large systems it will
+become a problem. To solve this, there excits ways to automatically adopt the
+number of harmonics for each DOF \autocite{GROLET2012a}.
 
 Fig. \ref{fig:hb_frf_b_appendix} shows that the solution is inaccurate around
 the peak for lower $N$. This is due to aliasing effects.{\textbf -- Det slap du

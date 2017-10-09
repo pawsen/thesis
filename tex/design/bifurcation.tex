@@ -2,20 +2,20 @@
 \section{Bifurcations}
 \label{sec:bifurcations}
 
-When stability of periodic solutions changes, it occurs at points called
-\textit{bifurcation points}.
-At bifurcation points, the solution changes qualitatively, but knowledge
-of the bifurcation type allows to predict the behaviour. The type of bifurcation
-is related to how the Floquet multipliers changes at said point, and the
-mechanism for loss of stability for the three most common types are shown in
-figure \ref{fig:bifurcation}
+When stability of a periodic solution changes, it occurs at \textit{bifurcation
+  points}. At bifurcation points, the solution changes qualitatively, but
+knowledge of the bifurcation type allows to predict the behaviour. The type of
+bifurcation is related to how the Floquet multipliers changes at said point, and
+the mechanism for loss of stability for the three most common types are shown in
+figure \ref{fig:bifurcation}.
 
 Bifurcations exist for multiple dimensions, but only codimension-1 bifurcations
 are treated as only one parameter varies along the branch (ie. the forcing
 frequency $\omega$). Bifurcations are a feature of nonlinear systems. Further
-description is found in \cite{juel2003a} or dedicated bifurcation textbooks like
-\cite{kuznetsov2013}. Floquet multipliers $\sigma_i$ and Floquet exponents
-$\lambda_i$ are related as (as restated from eq. \eqref{eq:floquet_relations})
+description is found in \textcite{juel2003a} or dedicated bifurcation textbooks
+like \textcite{kuznetsov2013a}. Floquet multipliers $\sigma_i$ and Floquet
+exponents $\lambda_i$ are related as (as restated from eq.
+\eqref{eq:floquet_relations})
 
 \begin{equation}
   \sigma_i = e^{\lambda_i T}
@@ -30,24 +30,24 @@ $\lambda_i$ are related as (as restated from eq. \eqref{eq:floquet_relations})
     \textbf{First row}: singular point;
     \textbf{Second row}: Neimark-Sacker bifurcation;
     \textbf{third row}: period doubling bifurcation.
-    Reproduced from \cite{detroux2016_phd}}
+    Reproduced from \parencite{detroux2016_phd}}
   \label{fig:bifurcation}
 \end{figure}
 
-\subsection{Singulare Bifurcation Point}
+\subsection{Singular Bifurcation Point}
 \label{sec:singular_bif}
 
-At Singulare bifurcation point the system undergoes amplitude jumps (fold
+At singular bifurcation point the system undergoes amplitude jumps (fold
 bifurcation) or branching (branch point bifurcation), see below.
 A singular point is detected when a Floquet multiplier leaves the unit circle
 along the real axis through +1 or, equivalently, when a Floquet exponent crosses
-the imaginary axis through 0, see Figs \ref{fig:bifurcation}(a,b)
+the imaginary axis through 0, see figs \ref{fig:bifurcation}(a,b)
 
 The term singular refers to that at this point, the Jacobian matrix $\bm h_{\bm
-  z}$ is singular: if $\bm h_{\bm z}$ is singular then the monodromy matrix of
-the Shooting method or $\bm B$ of \gls{hb}, eq \eqref{eq:hb_B}, is also singular
-and at least one Floquet exponent is 0 (or a Floquet multiplier crosses the unit
-circle through +1)
+  z}$ is singular: if $\bm h_{\bm z}$ is singular then the monodromy matrix $\bm
+\Phi$ of the Shooting method or $\bm B$ of \gls{hb}, eq \eqref{eq:hb_B}, is also
+singular and at least one Floquet exponent is 0 (or a Floquet multiplier crosses
+the unit circle through +1)
 
 Two types of singular bifurcations exist:
 
@@ -78,8 +78,7 @@ whereas for \glspl{bp}
 It follows that fold and \glspl{bp} can be found, and distinguished, by
 calculating the rank of the extended Jacobian $\bm J = [\bm h_{\bm z}|\bm
 h_\omega]$ and $\bm h_{\bm z}$. If the rank of $\bm J$ is equal to $\bm h_{\bm
-  z}$(and $\bm h_{\bm z}$ is singular), then it is a \gls{bp} otherwise fold(and
-$\bm J$ have full rank)
+  z}$(and $\bm h_{\bm z}$ is singular) then it is a \gls{bp}, otherwise fold.
 
 If a \gls{bp} is found, some branch switching mechanism should be used in the
 continuation in order to switch branch. If no switching mechanism is used, the
@@ -94,19 +93,19 @@ thus some adoption of the predictor method is needed.
 A \gls{ns} (also called Hopf- or torus bifurcation) is detected when a pair of
 Floquet multipliers leaves the unit circle as complex conjugates or,
 equivalently, when a pair of Floquet exponent crosses the imaginary axis as
-complex conjugates through any value but $\pm \frac{i\pi}{T}$ where T is the
-period of oscillation, see Figs \ref{fig:bifurcation}(c,d)
+complex conjugates through any value but $\pm \frac{i\pi}{T}$, where T is the
+period of oscillation, see figs \ref{fig:bifurcation}(c,d).
 
 At \gls{ns} a new type of oscillations emerges. These are called \gls{qp} and
 despite the name they are not periodic. \glspl{qp} contain the forcing frequency
 $\omega$ (forcing), and at least another frequency $\omega_2$(envelope). The two
-frequencies are incommensurate, ie. $\frac{\omega}{\omega_2}$ is irrational. It
-should not confused with linear beating, where the forcing frequency is close to
+frequencies are incommensurate, ie. $\frac{\omega}{\omega_2}$ is irrational. They
+should not be confused with linear beating, where the forcing frequency is close to
 the eigenfrequency $\omega_0$, ie. $|\omega_0 - \omega|$ is small.
 
-The imaginary part of the Floquet exponents that cross the imaginary axis,
+The imaginary part of the Floquet exponents that crosses the imaginary axis,
 $\beta$, approximates the envelope pulsation $\omega_2$ of the \gls{bp} in the
-vicinity of the bifurcation, see Fig. \ref{fig:bifurcation}(d)
+vicinity of the bifurcation, see fig. \ref{fig:bifurcation}(d)
 
 
 \subsection{Period doubling bifurcation}
@@ -115,7 +114,7 @@ vicinity of the bifurcation, see Fig. \ref{fig:bifurcation}(d)
 A \gls{pd} (also called flip bifurcation) is detected when a pair of Floquet
 multipliers leaves the unit circle along the real axis through -1 or,
 equivalently, when a pair of Floquet exponent crosses the imaginary axis as
-complex conjugates through $\pm\frac{i\pi}{T}$, see Figs.
+complex conjugates through $\pm\frac{i\pi}{T}$, see figs.
 \ref{fig:bifurcation}(e,f).
 
 At \glspl{pd} a new branch of solution appears. The new branch have stable
@@ -131,7 +130,7 @@ To detect bifurcations during the continuation procedure, \textit{test
 detected. Each type of bifurcation have their own test function
 
 
-\subsection{Singulare Bifurcation Point}
+\subsection{Singular Bifurcation Point}
 
 As stated, fold and \gls{bp} are characterised by rank deficiency of the
 Jacobian matrix $\bm h_{\bm z}$. Thus a test function could be
@@ -144,7 +143,7 @@ matrix, since this is already available
   \phi_{F,BP} = \det{\tilde{\bm B}}
 \end{equation}
 
-To distinguish between fold and \gls{bp} a dedicated test function is
+To distinguish between fold and \gls{bp}, a dedicated test function is
 \begin{equation}
   \phi_{BP} = \det
     \begin{pmatrix}
@@ -162,10 +161,9 @@ the tangent prediction $\bm t$ changes sign,
 
 \subsection{Neimark-Sacker and period doubling bifurcation}
 
-
-Bifurcations for which a pair of Floquet exponents crosses the imaginary axis as
-complex conjugates, i.e. NS and PD bifurcations, can be detected using the
-theory of the bialternate product of a matrix. The bialternate product $\bm
+NS and PD bifurcations, where a pair of Floquet exponents crosses the imaginary
+axis as complex conjugates, can be detected using the \textit{bialternate
+  product of a matrix} \autocite{kuznetsov2013a}. The bialternate product $\bm
 P_\odot $ of a $m \times m$ matrix $\bm P$ is
 \begin{equation}
   \bm P_\odot = 2\bm P \odot I_m
@@ -176,7 +174,7 @@ $\mu 2$, verify:
 \begin{equation}
   \mu_1 + \mu_2 = 0
 \end{equation}
-which is true for two purely imaginary- or real conjugate. Thus the test
+which is true for two purely imaginary- or real conjugate numbers. Thus the test
 function is
 
 \begin{equation}
@@ -185,8 +183,8 @@ function is
 When the test function is zero, the Floquet exponents are checked. Two real
 conjugates are associated with a neutral saddle point, which is not considered a
 bifurcation and is ignored.
-
-Since $\tilde{\bm B}$ is diagonal, the bialternate product is also diagonal.
+As a note: since $\tilde{\bm B}$ is diagonal, the bialternate product is also
+diagonal.
 
 \subsection{Bordering technique}
 \label{sec:bordering_tech}
@@ -195,7 +193,7 @@ Calculating the determinants needed for BP, NS and PD detection for large
 scale structures might not be numerical stable. Instead the \textit{bordering
   technique} might be used, where the calculation of the determinant of $\bm G$
 is replaced with calculation of a scalar function $g$ which vanishes at the same
-time as the determinant \cite{kuznetsov2013}
+time as the determinant \autocite{kuznetsov2013a}
 \begin{equation}
   \begin{bmatrix}
     \bm G & \bm p \\
@@ -211,8 +209,9 @@ time as the determinant \cite{kuznetsov2013}
   \label{eq:bordered_system}
 \end{equation}
 where vectors $\bm p$ and $\bm q$ can be arbitrarily chosen as long as they
-ensure nonsingularity of the system. This means they must be adapted along the
-branch to ensure good conditioning of the bordered matrix.
+ensure nonsingularity of the system. This means they must be adapted or
+recalculated along the branch to ensure good conditioning of the bordered
+matrix.
 
 $g$ is related to $\bm G$ by Cramer's rule
 \begin{equation}
@@ -248,17 +247,14 @@ bifurcation.
 
 \begin{figure}[ht!]
   \centering
-  \begin{mdframed}
-     along
-  \end{mdframed}
+    \includegraphics[width=0.85\textwidth]{bifurcation/bif_duffing.pdf}
   \caption{Bifurcation analysis of the coupled Duffing system at $x_1$ for
     $f=2$N.
     \textbf{(a)} Stable and unstable solutions are represented with solid and
-    dashed lines. Fold, BP and NS bifurcations are represented with orange
-    circle, red square and blue triangle markers, respectively.
-    Insets display the evolution of Floquet exponents.
+    dashed lines. Fold, BP and NS bifurcations are represented with $\bm \circ$,
+    $\bm \square$ and $\bm \triangle$ markers, respectively.
     \textbf{(b)} Close-up of the NRFC in the vicinity of the BPs and the
-    emanating branch.
+    emerging branch.
     \textbf{(c)} QP oscillations for a forcing frequency of $\omega=4$ rad/s.}
   \label{fig:bif_example}
 \end{figure}
@@ -270,14 +266,12 @@ singular points whereas the bordering technique produce numerical stable values.
 
 \begin{figure}[ht!]
   \centering
-  \begin{mdframed}
-    along
-  \end{mdframed}
+  \includegraphics[width=0.85\textwidth]{bifurcation/test_funcBP.pdf}
   \caption{Test functions for BP detection.
     \textbf{(a)} NRFC and BP bifurcations;
     \textbf{(b)} test function based on the bordering technique;
     \textbf{(c)} test function based on the determinant. It is noted that the
-    determinant gets higher than $10^{28}$ and the machine precision for a
+    determinant gets higher than $10^{28}$. The machine precision for a
     double precision 64 bit number is $\epsilon = 2^{-52} \sim 10^-{16}$,
     which means that the maximum spacing between two (normalised) numbers can be
     at max $2\epsilon |x|$ in order to be represented correct.}
@@ -289,7 +283,7 @@ singular points whereas the bordering technique produce numerical stable values.
 
 Bifurcation analysis can help understand nonlinear phenomena such as amplitude
 jumps, quasiperiodic oscillations and period doubling. They are found during
-continuation by using test functions, where a resume is shown in fig
+continuation by using test functions; a summary is shown in fig
 \ref{fig:bif_scheme} for Hills method.
 
 \begin{figure}[ht!]

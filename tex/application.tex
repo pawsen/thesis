@@ -25,6 +25,7 @@ clamped beam with a thin beam part at the end of the main beam.
   \label{fig:beam_setup}
 \end{figure}
 
+
 Accelerations are measured evenly along the beam at seven locations and excited
 at node two.
 From \textcite{lenaerts2003a} is it known that the system exhibit a (geometric)
@@ -68,24 +69,22 @@ nonlinearity are described by these functions.
   \centering
     \begin{subfigure}[b]{0.45\textwidth}
       \includegraphics[width=\linewidth]{nlbeam/fnsi/stab_lin.pdf}
+      \caption{}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{0.45\textwidth}
       \includegraphics[width=\linewidth]{nlbeam/fnsi/stab_nlin1.pdf}
+      \caption{}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.45\textwidth}
       \includegraphics[width=\linewidth]{nlbeam/fnsi/stab_nlin2.pdf}
+      \caption{}
     \end{subfigure}
     \caption{Estimation of model order.
-    $\pmb\times$(red): new pole;
-    $\pmb\star$: stabilisation in natural frequency;
-    $\pmb\square$: extra stabilisation in damping ratio;
+    \textcolor{red}{$\pmb\times$}: new pole;
     $\pmb\circ$: extra stabilisation in MACX;
     $\pmb\triangle$: full stabilisation.
-    Stabilisation thresholds in natural frequency, damping ratio and MACX value
-    are $0.5\%, 2\%, 0.98$, respectively. Not all types of stabilisation are
-    present here.
     \textbf{(a)}: Low level, linear identification;
     \textbf{(b)}: High level, linear identification - no stabilisation of first mode;
     \textbf{(c)}: High level, nonlinear identification - stabilisation of first mode;
@@ -185,10 +184,9 @@ in a model with 35 dofs.
 
 \begin{figure}[!ht]
   \centering
-  \def\svgwidth{6cm}
+  \def\svgwidth{10cm}
   \import{fig/nlbeam/}{beam_fem.pdf_tex}
-  \caption{FE model of the COST beam. Notice that it is depicted as a 2d FE
-    model, but }
+  \caption{FE model of the COST beam.}
   \label{fig:nlbeam_fem}
 \end{figure}
 
@@ -202,10 +200,10 @@ together with the mechanical properties in tables \ref{table:nlbeam_prop}.
   Thin beam & 0.04 & 0.014 & 0.0005 \\
   \hline
 \end{tabular}
-\begin{tabular}{*{5}{c}}
-  Young's modulus (N/$m^2$) & Density (kg/$m^3$) & $\mu_1$ (N/$m^3$) & $\mu_2$ (N/$m^2$) & Damping  \\
+\begin{tabular}{p{3.1cm}p{2cm}*{3}{c}}
+  Young's modulus\newline (N/$m^2$) & Density\newline (kg/$m^3$) & $\mu_1$ (N/$m^3$) & $\mu_2$ (N/$m^2$) & Damping  \\
   \hline
-  $2.05\times 10^{11}$ & 7800 & $8\times 10^{9}$ & $-1.05\times 10^{7}$ &  $\bm C = 3 \times 10^{-7} \bm K + 5\bm M$ \\
+  $2.05\times 10^{11}$ & 7800 & $8\cdot 10^{9}$ & $-1.05\cdot 10^{7}$ &  $\bm C = 3 \cdot 10^{-7} \bm K + 5\bm M$ \\
   \hline
 \end{tabular}
 \captionof{table}{Geometric and mechanical properties for the nonlinear beam}
@@ -239,7 +237,7 @@ the squared nonlinearity.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.7\textwidth]{nlbeam/hb/har}
+  \includegraphics[height=6cm,width=0.7\textwidth]{nlbeam/hb/har}
   \caption{Evolution of HB components.
     \textcolor{blue}{\sampleline{}}: Constant;
     \sampleline{}: 1st;
@@ -251,15 +249,15 @@ the squared nonlinearity.
   \label{fig:nlbeam_hb_components}
 \end{figure}
 
-\textbf{NNM mangler - Plot fra 1.nnm er beskrevet. 2.nnm mangler at blive beregnet.}
-The NNMs of the underlying conservative system is shown in figure. The NNM
-frequency increases strongly with increasing energy, which is due to the
-hardening behavior of the cubic stiffness. The FEPs shows two branches emerging
-from the NNM backbone. These are called tongues and are said to reveal internal
-resonance. The tongue shows a 9:1 internal resonance between the first and third
-NNMs.
+% \textbf{NNM mangler - Plot fra 1.nnm er beskrevet. 2.nnm mangler at blive beregnet.}
+% The NNMs of the underlying conservative system is shown in figure. The NNM
+% frequency increases strongly with increasing energy, which is due to the
+% hardening behavior of the cubic stiffness. The FEPs shows two branches emerging
+% from the NNM backbone. These are called tongues and are said to reveal internal
+% resonance. The tongue shows a 9:1 internal resonance between the first and third
+% NNMs.
 
-
+\FloatBarrier
 \section{System with clearences}
 \label{sec:syst-with-clear}
 

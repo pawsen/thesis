@@ -1,14 +1,15 @@
 % This file was created by matplotlib2tikz v0.6.13.
 \begin{tikzpicture}
 
+
 \begin{axis}[
 xlabel={Harmonic index (-)},
-ylabel={Harmonic coefficient $C_{0-h}$},
+ylabel={Harmonic coefficient},
 xmin=-0.5, xmax=5.5,
-ymin=0, ymax=1.05,
-xtick={-1,0,1,2,3,4,5,6},
-ytick={0,0.2,0.4,0.6,0.8,1,1.2},
-yticklabels={0.0,0.2,0.4,0.6,0.8,1.0,},
+ymin=0, ymax=0.912686693508196,
+xtick={0,1,2,3,4,5},
+ytick={0,0.2,0.4,0.6,0.8,1},
+yticklabels={0.0,0.2,0.4,0.6,0.8,1},
 minor xtick={},
 minor ytick={},
 tick align=outside,
@@ -16,23 +17,24 @@ tick pos=left,
 x grid style={lightgray!92.026143790849673!black},
 y grid style={lightgray!92.026143790849673!black}
 ]
-\draw[fill=black,draw opacity=0] (axis cs:-0.4,0) rectangle (axis cs:0.4,8.09527207218057e-18);
-\draw[fill=black,draw opacity=0] (axis cs:0.6,0) rectangle (axis cs:1.4,1);
-\draw[fill=black,draw opacity=0] (axis cs:1.6,0) rectangle (axis cs:2.4,1.8571820499829e-18);
-\draw[fill=black,draw opacity=0] (axis cs:2.6,0) rectangle (axis cs:3.4,0.142573931325098);
-\draw[fill=black,draw opacity=0] (axis cs:3.6,0) rectangle (axis cs:4.4,3.27941512072386e-18);
-\draw[fill=black,draw opacity=0] (axis cs:4.6,0) rectangle (axis cs:5.4,0.0078756232356216);
-\path [draw=black, fill opacity=0] (axis cs:0,0)
---(axis cs:0,1.05);
+\draw[fill=black,draw opacity=0] (axis cs:-0.4,0) rectangle (axis cs:0.4,5.66604342841987e-18);
+\draw[fill=black,draw opacity=0] (axis cs:0.6,0) rectangle (axis cs:1.4,0.869225422388758);
+\draw[fill=black,draw opacity=0] (axis cs:1.6,0) rectangle (axis cs:2.4,3.2972549045456e-18);
+\draw[fill=black,draw opacity=0] (axis cs:2.6,0) rectangle (axis cs:3.4,0.123928885677684);
+\draw[fill=black,draw opacity=0] (axis cs:3.6,0) rectangle (axis cs:4.4,3.30284262077766e-18);
+\draw[fill=black,draw opacity=0] (axis cs:4.6,0) rectangle (axis cs:5.4,0.00684569193355792);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:1,1.05);
+% \path [draw=black, fill opacity=0] (axis cs:0,0)
+% --(axis cs:0,0.912686693508196);
 
-\path [draw=black, fill opacity=0] (axis cs:-0.5,0)
---(axis cs:5.5,0);
+% \path [draw=black, fill opacity=0] (axis cs:1,0)
+% --(axis cs:1,0.912686693508196);
 
-\path [draw=black, fill opacity=0] (axis cs:-0.5,1)
---(axis cs:5.5,1);
+% \path [draw=black, fill opacity=0] (axis cs:-0.5,0)
+% --(axis cs:5.5,0);
+
+% \path [draw=black, fill opacity=0] (axis cs:-0.5,1)
+% --(axis cs:5.5,1);
 
 \end{axis}
 

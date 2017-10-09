@@ -81,8 +81,8 @@ machinery, etc., nonlinear tools are needed to fully understand the dynamics.
 Also to determine if nonlinear analysis is indeed needed, since this kind of
 analysis requires substantial more effort than linear analysis would do.
 
-For a general introduction to nonlinear dynamics, the textbook \textcite{juel2003a}
-can be recommended.
+For a general introduction to nonlinear dynamics, the textbook by
+\textcite{juel2003a} can be used.
 
 
 
@@ -94,13 +94,13 @@ structural models as a progression through three steps: {\textit detection}, {\t
   characterization} and {\textit estimation}, as outlined in figure
 \ref{fig:ident_process}
 
-The first book on the topic was \textcite{worden2000nonlinearity}, and even though
-many new methods has been introduced since then, it still gives a good and well
-written introduction to the subject as well as a overview of the common types of
+The first book on the topic was \textcite{worden2000nonlinearity}, and even
+though many new methods has been introduced since then, it still gives a good
+introduction to the subject as well as a overview of the common types of
 nonlinearity.
 
 A comprehensive review of the development in nonlinear system identification was
-given by \autocite{kerschen2006a} and just recently in \textcite{noel2016a}. For
+given by \parencite{kerschen2006a} and just recently by \textcite{noel2016a}. For
 comparison of the many techniques in use, the reader is refereed to these
 reviews. In this thesis, the choice of technique will be motivated but
 alternative techniques will not necessarily be mentioned.
@@ -272,15 +272,12 @@ assist with the design is referred to as {\textit virtual prototyping}.
 
 Nonlinear resonances are investigated using an extension of linear normal modes
 (LNMs) to nonlinear theory, the nonlinear normal modes (NNMs) described in
-section \ref{sec:nonl-norm-modes}.
+appendix \ref{sec:nonl-norm-modes}.
 Where a LNM is interpreted as the deformation along the axis of the vibrating
 structure or the rotation, a NNM does not have such a clear interpretation.
 An NNM is said to be a periodic oscillation of the underlaying undamped and
 unforced nonlinear system and depends on the frequency and energy of the
-system. Additionally, the backbone of NNMs plotted in a frequency-energy plot
-(FEP), track the lotus of the nonlinear frequency response curve (NFRC) for
-the system. Thus knowing the FEP, the resonant response at an arbitrary forcing
-level can be found.
+system.
 
 
 \subsubsection{Bifurcation}
@@ -290,36 +287,38 @@ level can be found.
 Using the HB method, nonlinear forced response curves(NFRCs) for a periodic
 excitation are calculated. The transition from a stable periodic solution to an
 unstable solution occurs through bifurcations. The type of bifurcation is used
-to qualify the type of unstable solution emerging, following the outline in
-\cite{detroux2015a}.
+to qualify the type of unstable solution emerging.
+% , following the outline in
+% \textcite{detroux2015a}.
 
 
-\subsection{Thesis outline}
-\label{sec:thesis-outline}
+% \subsection{Thesis outline}
+% \label{sec:thesis-outline}
 
-Section 2 introduces the theoretical methods used: NNMs, RFS and FNSI,
+% Section 2 introduces the theoretical methods used: NNMs, RFS and FNSI,
 
-Section 3 introduces the numerical methods: FEM discretization and model
-reduction, Newmark time integration, harmonic balance and continuation for
-calculating NNMs and NFRF.
+% Section 3 introduces the numerical methods: FEM discretization and model
+% reduction, Newmark time integration, harmonic balance and continuation for
+% calculating NNMs and NFRF.
 
-It also briefly discusses methods for integrating and differentiating time
-signals and filtering techniques.
+% It also briefly discusses methods for integrating and differentiating time
+% signals and filtering techniques.
 
-Section 4 introduce identification and simulation of benchmark data from a
-nonlinear system, the COST beam, \cite{GOLINVAL2003}, which have a cubic
-stiffening nonlinear due to geometry and a squared nonlinearity due to clamping.
+% Section 4 introduce identification and simulation of benchmark data from a
+% nonlinear system, the COST beam, \cite{GOLINVAL2003}, which have a cubic
+% stiffening nonlinear due to geometry and a squared nonlinearity due to clamping.
 
-Section 5 introduces numerical experiments to investigate how the methods
-performs and their sensitivity to noise.
+% Section 5 introduces numerical experiments to investigate how the methods
+% performs and their sensitivity to noise.
 
-Finally section 6 contains an discussion and conclusion and suggest further
-studies and implementations.
+% Finally section 6 contains an discussion and conclusion and suggest further
+% studies and implementations.
 
 % There will not be given much attention to the detection of nonlinearity.
 
 % \subsection{Summary}
 % \label{sec:intro-summary}
+
 
 % With a toolbox for detection, characterization and estimation of nonlinear
 % parameters, numerical modeling will provide additional insight into the dynamics

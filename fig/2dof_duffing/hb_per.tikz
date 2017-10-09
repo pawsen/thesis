@@ -545,17 +545,17 @@ table {%
 0 0
 1 0
 };
-\path [draw=black, fill opacity=0] (axis cs:0,-1.51953906720743)
---(axis cs:0,1.51953906720743);
+% \path [draw=black, fill opacity=0] (axis cs:0,-1.51953906720743)
+% --(axis cs:0,1.51953906720743);
 
-\path [draw=black, fill opacity=0] (axis cs:1,-1.51953906720743)
---(axis cs:1,1.51953906720743);
+% \path [draw=black, fill opacity=0] (axis cs:1,-1.51953906720743)
+% --(axis cs:1,1.51953906720743);
 
-\path [draw=black, fill opacity=0] (axis cs:-0.261799387799149,0)
+\path [line width=0.5pt, black, dashed] (axis cs:-0.261799387799149,0)
 --(axis cs:5.49778714378214,0);
 
-\path [draw=black, fill opacity=0] (axis cs:-0.261799387799149,1)
---(axis cs:5.49778714378214,1);
+% \path [draw=black, fill opacity=0] (axis cs:-0.261799387799149,1)
+% --(axis cs:5.49778714378214,1);
 
 \end{axis}
 

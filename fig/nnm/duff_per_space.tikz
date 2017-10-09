@@ -223,7 +223,7 @@ table {%
 3.41100353342351 8.28275029775672
 3.57347578880784 7.78110906447569
 };
-\addplot [black, dash pattern=on 1pt off 3pt on 3pt off 3pt, forget plot]
+\addplot [black, dotted, forget plot]
 table {%
 5.39099 0
 5.37390807804038 -1.68746635725548
@@ -339,17 +339,17 @@ table {%
 table {%
 -2.08254810146583 -12.6176604226688
 };
-\path [draw=black, fill opacity=0] (axis cs:0,-17.049060378432)
---(axis cs:0,17.0489748368003);
+% \path [draw=black, fill opacity=0] (axis cs:0,-17.049060378432)
+% --(axis cs:0,17.0489748368003);
 
-\path [draw=black, fill opacity=0] (axis cs:1,-17.049060378432)
---(axis cs:1,17.0489748368003);
+% \path [draw=black, fill opacity=0] (axis cs:1,-17.049060378432)
+% --(axis cs:1,17.0489748368003);
 
-\path [draw=black, fill opacity=0] (axis cs:-5.92984713757496,0)
---(axis cs:5.93007748274167,0);
+% \path [draw=black, fill opacity=0] (axis cs:-5.92984713757496,0)
+% --(axis cs:5.93007748274167,0);
 
-\path [draw=black, fill opacity=0] (axis cs:-5.92984713757496,1)
---(axis cs:5.93007748274167,1);
+% \path [draw=black, fill opacity=0] (axis cs:-5.92984713757496,1)
+% --(axis cs:5.93007748274167,1);
 
 \end{axis}
 

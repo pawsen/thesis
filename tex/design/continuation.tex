@@ -6,21 +6,36 @@
 When the periodic solution is found, finding the successively periodic solutions
 is done by continuation.
 
-As with finding periodic solutions, there exist multiple schemes to do
+As for finding periodic solutions, there exist multiple schemes to do
 continuation. A general continuation is formulated as $F(x)=0, \quad
-F:\mathbb{R}^{m+1} \to \mathbb{R}^{m} $, ie. here the structure is $\bm z \in
-\mathbb{R}^m$, $\omega \in \mathbb{R}^1$ and $F$ the algebraic problem for which
-a solution is sought.
+F:\mathbb{R}^{m+1} \to \mathbb{R}^{m} $ where is $F$ the algebraic problem for
+which a solution is sought.
+For HB this correspond to $\bm h \in \mathbb{R}^{(2N_H+1)n}$ which depends on
+$\bm z \in \mathbb{R}^{(2N_H+1)n}$ and $\omega \in \mathbb{R}^1$, following the
+continuation structure. However, as already mentioned, for the shooting method:
+$\bm h_{NMM} \in \mathbb{R}^{2n+1}$ which depends on $\bm z \in \mathbb{R}^{2n}$
+and $T \in \mathbb{R}^1$, thus not following the structure.
+The difference is that with HB, continuation can be done by solving a linear
+system using a direct solver, whereas the system is over determined for the
+shooting method and a least square solver is needed. It is possible to recast
+$\bm h_{NNM}$ into a square problem by adding a artificial parameter
+into the Hamiltonian, which during the continuation anyways turns out to be
+zero\autocite{detroux2016_phd}. The reason for doing this is that direct
+solution is computional faster than iterative solvers.
+Note that $\omega$ and $T$ are used interchangeable in this section, ie. by $\bm
+h_\omega$ is understood $\bm h_T$ for the shooting methods etc..
+
 
 The most simple continuation method, where $\omega$ is used as independent
 parameter and uniformly increased at each step fails at turning points. Instead
 most continuation methods uses a length-wise curve parameter and a
 predictor-corrector model. Starting from a known solution $\bm y_j = [\bm
-z_{p0,(j)},\omega_{(j)}]^T$ the next periodic solution $\bm y_{j+1}$ is found as
+z_{p,(j)},\omega_{(j)}]^T$ the next periodic solution $\bm y_{j+1}$ is found by
+the three steps
 
 \begin{itemize}
-\item Tangent prediction, $\bm y_{(j+1)}^{1} = y_{(j)}+s\bm t_{(i)}$, where $s$
-  is the step size and $\bm t$ the tangent.
+\item Tangent prediction, $\bm y_{(j+1)}^{1} = \bm y_{(j)}+s\bm t_{(i)}$, where
+  $s$ is the step size and $\bm t$ the tangent.
 \item Newton-like corrections - The type determines the continuation method.
 \item Adaptive step control. Here a simple model using the convergence of the
   Newton iterations is used: $s = \frac{it_{opt}}{it_{NR}} s$, ie. the step is
@@ -58,23 +73,23 @@ where
   \label{eq:cont_J}
   \bm J(\bm y_{(i)}) =
   \begin{bmatrix}
-    \bm H_{\bm z}(\bm y_{(i)}) & \bm H_{\omega}(\bm y_{(i)})
+    \bm h_{\bm z}(\bm y_{(i)}) & \bm h_{\omega}(\bm y_{(i)})
   \end{bmatrix}
 \end{equation}
 
 The last row in eq. \eqref{eq:cont_tangent} prevents the continuation from
-turning back, $\bm t_{(i)}\bm t_{(i+1)}=1$. For the first tangent calculation it
-is replaced by a row of ones, which impose the length of the tangent to 1; later
-predictions $\bm t_{(i+1)}$ must be normalized.
-The prediction is then
+turning back, ie. $\bm t^T_{(i-1)} \bm t_{(i)}=1$ and the ``angle of the dot
+product'' cannot change sign. For the first tangent calculation the condition is
+replaced by a row of ones, which impose the length of the tangent to 1; in later
+predictions $\bm t_{(i+1)}$ must be normalized. The prediction is then
 
 \begin{equation}
   \label{eq:cont_pred}
   \bm y^{(1)}_{(i+1)} = \bm y_{(i+1)} + s \bm t_i
 \end{equation}
 
-The corrections Pseudo-archlength and Moore-penrose are used with the shooting
-method and harmonic balance, respectively. Convergence is achieved when
+The correction types Pseudo-archlength and Moore-penrose are used with the
+shooting method and harmonic balance, respectively. Convergence is achieved when
 \begin{equation}
   \label{eq:cont_convergence}
   \frac{\norm{\bm h}}{\norm{\bm z}} < tol
@@ -96,29 +111,36 @@ direction of the prediction. The corrections are given by
 where the prediction subscripts have been omitted. We have
 \begin{equation}
   \label{eq:nnm_cont_mat}
-  \bm G(\bm y) =
-      \begin{bmatrix}
-      \bm H(\bm y) \\ \bm 0
-    \end{bmatrix}, \quad
     \bm G_{\bm y}(\bm y) =
     \begin{bmatrix}
       \bm J(\bm y) \\ \bm t^T
+    \end{bmatrix}, \quad
+    \bm G(\bm y) =
+      \begin{bmatrix}
+      \bm h_{NNM}(\bm y) \\ \bm 0
     \end{bmatrix}
   \end{equation}
 where correction superscripts have been omitted. After convergence to a
 solution, the tangent is calculated and the algorithm continues.
 
+The phase condition $g(\bm z)$, as seen in eq. \eqref{eq:sm_nr_sol}, should
+formally be included in eqs. \eqref{eq:cont_tangent}-\eqref{eq:nnm_cont_mat},
+ie. in the predictions one adds the equation $ \begin{bmatrix}g_{\bm z} &
+  0 \end{bmatrix} \bm t_i = 0 $ and in the corrections $ \begin{bmatrix}g_{\bm
+    z} & 0 \end{bmatrix} \bm t_i = - g(\bm z) $. But instead of adding
+conditions, it is used that NNMs for all practical circumstances are symmetric,
+the loss of symmetry requires a symmetry breaking bifurcation
+\autocite{kerschen2009b}, ie. the initial velocity is zero for all dofs. Thus
+the velocities can be removed from the unknowns and the system to solve then
+have $2n+1$ equations with $n+1$ unknowns.
+
+
 \subsubsection{Harmonic balance}
 \label{sec:hb_cont}
 
-
-For the Harmonic balance method the nearest solution to the prediction is
+For the Moore-penrose corrections, the nearest solution to the prediction is
 sought. This is done by updating the tangent direction at each corrector
-iteration. But first $\bm h_\omega$ in eq. \eqref{eq:cont_J} is given by
-\begin{equation}
-  \label{eq:hb_cont_Hw}
-  \bm h_\omega = \frac{\p \bm A}{\p \omega} \bm z
-\end{equation}
+iteration.
 
 Using a optimisation variable $\bm v$, initialised as the prediction tangent
 $\bm v^{(1)} = \bm t_{(i)}$, the Moore-penrose corrections are given by
@@ -135,10 +157,10 @@ $\bm v^{(1)} = \bm t_{(i)}$, the Moore-penrose corrections are given by
 where the prediction subscripts have been omitted. We have
 \begin{equation}
   \label{eq:hb_cont_mat}
-  \begin{aligned}
+  \begin{gathered}
     \bm G(\bm y, \bm v) =
     \begin{bmatrix}
-      \bm H(\bm y) \\ \bm 0
+      \bm h(\bm y) \\ \bm 0
     \end{bmatrix}, \quad
     \bm G_{\bm y}(\bm y, \bm v) =
     \begin{bmatrix}
@@ -148,22 +170,60 @@ where the prediction subscripts have been omitted. We have
   \begin{bmatrix}
     \bm J(\bm y) \bm v \\ \bm 0
   \end{bmatrix}
-  \end{aligned}
+  \end{gathered}
 \end{equation}
 where correction superscripts have been omitted.
 
 When convergence is reached the tangent is calculated as the normalized
 correction of $\bm v$, $\bm t_{(j+1)} = \frac{\bm v}{\norm{\bm v}}$.
 
-During the corrections eq. (\ref{eq:hb_cont_corr}-\ref{eq:hb_cont_mat}) $\bm H_{\bm
+During the corrections eq. (\ref{eq:hb_cont_corr}-\ref{eq:hb_cont_mat}) $\bm h_{\bm
   z}$ is calculated, making stability analysis with Hills method cheap after
 each solution is obtained.
+
+As a final note, $\bm h_\omega$ in the jacobian eq. \eqref{eq:cont_J} is given by
+\begin{equation}
+  \label{eq:hb_cont_Hw}
+  \bm h_\omega = \frac{\p \bm A}{\p \omega} \bm z
+\end{equation}
 
 \subsection{Example}
 \label{sec:cont_example}
 
+\subsubsection{NNM}
+
+Figure \ref{fig:nnm_2dof} shows the two NNMs, the in-phase and out-of-phase, for
+the coupled duffing system in a frequency-energy plot.
+The evolution of natural frequencies are seen wrt. to the total energy of the
+system, ie. the sum of the potential and kinetic energy. At low energy the NNM
+frequencies are close to the linear frequencies, but as energy increases a
+hardening is seen.
+
+The insert shows the configuration space, and it seen that both branches of NNMs
+keeps their ``vibration in unison'' which is only lost at internal resonance. It
+is seen that for the given interval, $\omega=[0-15]$rad/s, there is no internal
+resonance.
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{continuation/nnm_2dof.pdf}
+  \caption{NNMs for the coupled duffing system.
+    \textbf{(a)}: Frequency-energy plot(FEP). NNM motion(configuration space) at
+    given frequencies are shown in inserts;
+    \textbf{(b)}: in-phase NNM at $\omega=10$rad/s;
+    \textbf{(c)}: out-of-phase NNM at $\omega=10$rad/s;
+    \sampleline{}: $x_1$;
+    \textcolor{orange}{\sampleline{dashed}}: $x_2$.
+  }
+  \label{fig:nnm_2dof}
+ \end{figure}
+
+
+\subsubsection{HB}
+
 Figure \ref{fig:hb_frf_2dof} shows the NRFC for the coupled duffing using five
-harmonic terms. That is enough to capture the harmonic components, as seen in
+harmonic terms, which is enough to capture the harmonic components as seen in
 figure \ref{fig:hb_duffing_periodic}. If a lower number of harmonic were
 included - only one and three terms would be relevant since even harmonics are
 zero; it would required an even nonlinearity to generate even harmonics - the
@@ -183,10 +243,10 @@ parameters.
 \label{sec:cont_summary}
 
 Figure \ref{fig:cont_algo} show the continuation procedure, regardless of the
-the correction method. There is not much difference if implementation
-complexity, but the Moore-penrose corrections saves on computional complexity.
-The Pseudo-arclength method can be seen as a Moore-Penrose method for which the
-correction direction is not updated.
+the correction method. There is not much difference if implementation complexity
+of the two corrections, but the Moore-penrose corrections saves on computional
+complexity. The Pseudo-arclength method can be seen as a Moore-Penrose method
+for which the correction direction is not updated.
 
 \begin{figure}[!ht]
   \centering

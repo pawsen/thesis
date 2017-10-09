@@ -4,17 +4,17 @@
 
 
 The methods presented in the previous chapters are implemented as a library in
-python and available from \autocite{paw2017}. The code depends on the standard
+python and available online \autocite{paw2017}. The code depends on the standard
 python libraries numpy, scipy and matplotlib and can run on all operating
 systems. Care have been taking in order to ensure correctness of the
-implementations; as much as it is possible examples from papers and data given
+implementations; as much as it have been possible examples from papers and data given
 from Liege have been recalculated to ensure that the same results were obtained.
 All code is written for this thesis and implement most notably:
 \begin{itemize}
-\item FEM code: generate FE matrices $\bm M, \bm C, \bm K$ from a
-  \textit{gmsh}-mesh file. Different types of elements are available. Boundary
-  conditions are enforced on system matrices.
-\item Nonlinear newmark integration
+\item FEM code: generate FE matrices $\bm M, \bm K$ from a \textit{gmsh}-mesh
+  file. Different types of elements are available. Boundary conditions are
+  enforced on system matrices.
+\item Nonlinear newmark integration with sensitivity analysis
 \item Morlet wavelet
 \item Restoring force surface
 \item Integration, filtering and periodicity calculation of signals
@@ -107,7 +107,18 @@ hb2.continuation(bifurcation=False)
 \end{lstlisting}
 
 All the examples from the previous chapters are included in the examples
-directory, and should run on any python3 installation.
+directory in the source code, and should run on any python3 installation.
+
+It is noted that the functionality of this library correspond to the Ni2D
+software by Nolinsys, a company founded by researches at Liege University, and
+should run at the same speed. The python library includes \textit{all} methods
+included by Ni2D. The notable difference is that Ni2D have a graphical interface
+and requires, besides a license to Ni2D, a license to matlab. The python library
+does however have a interactive graphical interface for selecting RFS and
+inspecting the evolution of \{stability changes, ie. Floquet exponents, harmonic
+components and periodic solution\}(not shown in this report); both are inspired
+by Ni2D.
+
 
 %%% Local Variables:
 %%% mode: latex

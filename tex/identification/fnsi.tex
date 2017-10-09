@@ -484,8 +484,9 @@ might not be the case, as seen with the more involved examples in section
 \subsection{Example}
 \label{sec:fnsi_example}
 
-Some more on leakage.
-
+The coupled duffing system is excited with a periodic multisine a integer
+number times. Using a periodic signal a integer number of times should avoid
+leakage\autocite{ewins2000a}.
 Figure \ref{fig:periodicity} shows the periodicity of the recorded signal. The
 signal of the last recorded period is compared to previous periods. For
 identification, multiple periods can be used but transient effects should not be
@@ -493,26 +494,26 @@ present; which is indicated by a low periodicity.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.7\linewidth]{signal/frf_per}
+  \includegraphics[width=0.7\linewidth]{fnsi/frf_per}
   \caption{Periodicity of recorded signal at DOF 0. Vertical lines indicate
     periods. A low periodicity shows that transient effects have died out}
   \label{fig:periodicity}
 \end{figure}
 
 
-The estimation of the nonlinear parameters of the coupled duffing system is
-shown in figure \ref{fig:fnsi_knl} for model order four. The variation of the
-real part of$\mu$ is shown in a 1\% interval, with very little frequency
-dependency in the frequency range of interest. The imaginary part is about three
-orders of magnitude smaller. Both indicates a good quality of the estimation.
-The spectral averages are
+The estimation of the nonlinear parameters of the system is shown in figure
+\ref{fig:fnsi_knl} for model order four. The variation of the real part of$\mu$
+is shown in a 1\% interval, with very little frequency dependency in the
+frequency range of interest. The imaginary part is about three orders of
+magnitude smaller. Both indicates a good quality of the estimation. The spectral
+averages are
 \begin{equation}
   \begin{aligned}
     \Re (\mu_1) = 1.000, \quad \Im (\mu_1) = 1.09 \times 10^{-4} \\
     \Re (\mu_2) = 1.000, \quad \Im (\mu_1) = 7.73 \times 10^{-4}
   \end{aligned}
 \end{equation}
-matching the simulated values well.
+and matching the simulated values well.
 
 \begin{figure}[!ht]
   \centering
@@ -587,7 +588,7 @@ spurious undesired terms, and while they are small in magnitude, they still
 alters the identified model.
 
 \textbf{Mangler at blive skrevet ind. Ideen er at regne baglæns fra de
-  identicerede state-space matricer til eom. Det viser sig at eom indeholder
+  identificerede state-space matricer til eom. Det viser sig at eom indeholder
   ekstra led, svarende til 'spurious' dæmpning}.
 
 

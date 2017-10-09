@@ -6,27 +6,58 @@ This chapter deals with the prediction of behaviour of nonlinear system, after
 nonlinear components have been determined. Paraphrased it could be called
 \textit{virtual prototyping}. Here methods to detect bifurcations, stability and
 internal resonance are presented. The long-term ambition is to use this
-knowledge to improve design, taking nonlinear behaviour into account.
+knowledge to understand and improve design, taking nonlinear behaviour into
+account.
 
 
 This chapter represent a change of methodology. Where the methods for
 identification in the previous chapter relied exclusively on time signals, the
 methods of this chapter relies exclusively on FE models.
-An natural extension, where the information from identification is used to build
+The information from identification is used to build
 an accurate computer model.
-By accurate model, is meant a model where the $n$ lowest eigenfrequencies match
+By accurate model is meant a model where the $n$ lowest modes match
 the experimental ones.
 
 
-Two methods are treated: Harmonic balance(HB) continuation, used for detecting
-and identifying bifurcations, and nonlinear normal modes(NNM) continuation, used
-to detect internal resonance.
+Two methods are treated: Harmonic balance(HB) continuation, used for computation
+of NFRC and detecting and identifying bifurcations, and nonlinear normal
+modes(NNM) continuation, used to detect internal resonance.
+
+The concept of NNMs is reviewed in appendix \ref{sec:nonl-norm-modes}. In the
+following it is enough to know that nonlinear normal modes is considered an
+extension to linear normal modes(LNM), but without the mathematical properties
+of LNMs. Where LNMs decouple eoms, ie. a solution can be written as a linear
+combinations of LNMs and they are invariant, this is not the case for NNMs.
+
+Instead NNMs are defined as \textit{(non-necessarily synchronous) periodic
+  motion of the system}\autocite{kerschen2009a} and computed for the undamped
+and unforced system, the hamiltonian system.
+Synchronous means that all parts of a system reaches their extreme values and
+passes through zero at the same time, ie. vibration in unison.
+In the case of internal resonance, where one part vibrates at a integer number
+of another parts frequency, the vibration can still be periodic but it is no
+longer in unison. Thus NNMs are simply periodic oscillations of a conservative
+system.
+
+NNM have the following properties/features
+\begin{itemize}
+\item \textit{Frequency-energy dependence}:\\
+  Nonlinear systems shows a frequency-energy dependence of their oscillations,
+  eg. through hardening or softening behaviour. NNMs plotted in a
+  frequency-energy plot show this dependency.
+\item \textit{Internal resonances}:\\
+  NNMs may interacts and exchange energy at incommensurate frequencies
+\item \textit{Traces the lotus of NFRCs}:\\
+  For structures with low damping, NNMs traces the lotus of resonance peaks.
+\end{itemize}
 
 
-Måske til opsummering:
-(This is a step forward from the traditional methods used today where designs are
-based on shaping resonance(by solving eigenvalue problems) and validated with
-modal responses from experimental data.)
+
+
+% Måske til opsummering:
+% (This is a step forward from the traditional methods used today where designs are
+% based on shaping resonance(by solving eigenvalue problems) and validated with
+% modal responses from experimental data.)
 
 
 %%% Local Variables:

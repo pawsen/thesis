@@ -3,7 +3,7 @@
 \section{Periodic solution}
 \label{sec:periodic-solution}
 
-Before turning to the methods themselves, a few concepts must be revisited.
+Before turning to the methods themselves, a few concepts will be revisited.
 Computing the periodic solution of a nonlinear system means searching for a
 solution $\bm x$ to
 
@@ -25,44 +25,44 @@ solution will also be addressed.
 There are at least three ways to describe such a periodic solution.
 
 \begin{itemize}
-\item Provide initial condition $\left[\bm x_0 \dot{\bm x}_0 \right]$ and the
+\item Provide initial condition $\left[\bm x_0, \dot{\bm x}_0 \right]$ and the
   period $T$. Then do time integration over $T$.
-\item Use piecewise polynomial functions and the period $T$
 \item Use Fourier series and the period $T$
+\item Use piecewise polynomial functions and the period $T$
 \end{itemize}
 
-In this section, the methods for finding the first and last representations of a
+In this section methods for finding the first and second representations of a
 periodic solution is described. They are denoted the shooting method and
-harmonic balance method respectively. The one not covered here is called
+harmonic balance method respectively. The one not covered is called
 Orthogonal collocation. The shooting method is used as part of calculating NNMs
 and harmonic balance is used for bifurcation analysis. Both methods could be
-used for both tasks, but there are significant numerical benefits for using them
-as here.
-
+used for either tasks, but as both are popular it is instructive to present
+both.
 
 \subsection{Shooting method}
 \label{sec:shooting_method}
 
-The shooting method works by finding, in an iterative way, the initial state
-$\bm z = [\bm x, \dot{\bm x}]^T$ and period $T$ that describes a periodic
-motion, see \textcite{nayfeh2008applied} for more details.
+With the shooting method one finds, in an iterative way, the initial state $\bm
+z = [\bm x, \dot{\bm x}]^T$ and period $T$ that describes a periodic
+motion \autocite{nayfeh2008applied}.
 
-One start by guessing on periodic steady state(ie. initial state
+One start by guessing on a periodic steady state(ie. initial state
 and period) and then \textit{shoots} forward one period with the hope of
 arriving close to the guessed initial state. The difference between the initial
 and final states is used to correct the initial state, and the method
 \textit{shoots} forward another period and continue until final and initial
 state match.
-The final state is found by integration, see appendix
+The final state is found by time integration, see appendix
 \ref{chap:newmark-integration} for details on the nonlinear Newmark integration.
 The corrections are done by Newton-Rahpson iterations.
 
-The EOM \eqref{eq:per_eom} is recast into state space form. Since this method is
-used for NNMs, it is recast in the undamped and unforced form.
+The eom \eqref{eq:per_eom} is recast into state space form. Since this method is
+used for NNMs, they are recast in undamped and unforced form, ie. the underlaying
+hamiltonian structure.
 
 \begin{equation}
   \label{eq:sm_state}
-  \dot{\bm z} = \bm g (\bm z) =
+  \dot{\bm z} = \bm h_{ham} (\bm z) =
   \begin{bmatrix}
     \dot{\bm x} \\
     -\bm M^{-1}(\bm K \bm x  + \bm f_{nl})
@@ -70,28 +70,29 @@ used for NNMs, it is recast in the undamped and unforced form.
 \end{equation}
 
 
-A solution $\bm z_p(t, \bm z_{p0})$ is a solution of the autonomous system eq.
-\eqref{eq:sm_state} if $\bm z_p(t, \bm z_{p0}) = \bm z_p(t+T, \bm z_{p0})$ where
-$T$ is the minimal period. Thus the periodic condition is
+A solution $\bm z_p(t, \bm z_0)$ is a periodic solution of the autonomous system
+eq. \eqref{eq:sm_state} if $\bm z_p(t, \bm z_{0}) = \bm z_p(t+T, \bm z_{0})$
+where $T$ is the minimal period. Unlike forced motion, the period is not known a
+priori. The notation is written as $\bm z(t)=\bm z(t, \bm z_0)$ to indicate the
+dependence on initial conditions $\bm z(0, \bm z_0) = \bm z_0$.
+From above, the periodic condition is
 
 \begin{equation}
   \label{eq:sm_per_cond}
-  \bm H(\bm z_{p0},T) \equiv \bm z(T, \bm z_{p0}) - \bm z_{p0} = \bm 0
+  \bm h(\bm z_{p0},T) \equiv \bm z(T, \bm z_{p0}) - \bm z_{p0} = \bm 0
 \end{equation}
-$\bm H$ is called the shooting function.
+where $\bm h$ is called the shooting function.
 
 
 To make the solution $\bm z(t)$ uniquely defined, the phase must be fixed. If
 $\bm z(t)$ is a solution to \eqref{eq:sm_state} then $z(t + \Delta t)$ is
 geometrically the same solution in state space for any $\Delta t$. Ie. the
-initial condition $\bm z_{p0}$ can be arbitrarily chosen anywhere on the
-periodic solution. To prevent this, a phase condition $h(\bm z_{p0})=0$ is set
+initial condition $\bm z_{0}$ can be arbitrarily chosen anywhere on the
+periodic solution. To prevent this, a phase condition $g(\bm z_{0})=0$ is set
 as a additional condition. Most phase conditions imposes one of the unknowns to
 be set to 0, e.g. the initial displacement or velocity of a DOF(often velocity).
-For NNM computations specific, other phase conditions will reduce the
-computation complexity as will be mentioned in section \textbf{NNM}. See figure
-\ref{fig:sm_phase} for a illustration of different phases for the periodic
-solution. \textbf{ER DET ET RELEVANT PLOT? JEG SYNES TEKSTEN ER NOK.}
+See figure \ref{fig:sm_phase} for a illustration of different phases for the
+periodic solution.
 
 \begin{figure}[!ht]
   \centering
@@ -103,12 +104,13 @@ solution. \textbf{ER DET ET RELEVANT PLOT? JEG SYNES TEKSTEN ER NOK.}
     \includegraphics[width=\textwidth, height=5cm]{nnm/duff_per_space}
   \end{subfigure}
   \caption{Solution of the duffing eq. $\ddot x + x + 0.5x^3=0$ for different
-    initial conditions and $T=2.0215$s. a): time series; b):
-    phase space.
+    initial conditions and $T=2.0215$s.
+    \textbf{(a)}: time series;
+    \textbf{(b)}: phase space.
     Initial conditions for different line styles:
-    \textemdash: [4.9009, 0];
-    $---$: 0.9*[4.9009, 0];
-    $-\cdot -\cdot-\cdot$: 1.1*[4.9009, 0];
+    \sampleline{}: [4.9009, 0];
+    \sampleline{dashed}: 0.9$\cdot$[4.9009, 0];
+    \sampleline{dotted}: 1.1$\cdot$[4.9009, 0];
     Markers represent different initial conditions for the periodic solution.
     $\diamond$: [4.9009, 0];
     $\square$: [1.308, 12.8764];
@@ -121,94 +123,96 @@ solution. \textbf{ER DET ET RELEVANT PLOT? JEG SYNES TEKSTEN ER NOK.}
 In summary, the periodic solution is found by solving
 \begin{equation}
   \label{eq:sm_bvp_problem}
-  \begin{cases}
-    H(\bm z_{p0}, T) = 0 \\
-    h(\bm z_{p0} ) = 0
-  \end{cases}
+  \bm h_{NNM} =
+  \begin{bmatrix}
+    \bm h(\bm z_{p}, T) = 0 \\
+    g(\bm z_{p} ) = 0
+  \end{bmatrix}
 \end{equation}
 
-The corrections to the initial guess is found by Newton-Raphson iterations. The
-shooting function is expanded in a Taylor series
+The solution is found by corrections to the initial guess, done by
+Newton-Raphson iterations. The shooting function is expanded in a Taylor series
 % around increments $\Delta \bm z_{p0}$ and $\Delta T_{p0}$
 
 \begin{equation}
   \label{eq:sm_nr}
-  \bm H(\bm z_{p0},T) +
-  \frac{\p \bm H}{\p \bm z_{p0}}\bigg|_{(\bm z_{p0},T)} \Delta \bm z_{p0} +
-  \frac{\p \bm H}{\p T_{p0}}\bigg|_{(\bm z_{p0},T)} \Delta T +
-  + hot. = 0
+  \bm h +
+  \bm h_{\bm z} \Delta \bm z_{p} +
+  \bm h_{T} \Delta T
+  + H.O.T. = 0
   % Jeg har glemt mixede product herunder:
   %\mathcal{O}(\Delta \bm z_{p0}^2, \Delta T_{p0}^2) = 0
 \end{equation}
-where $hot.$ is higher order terms.
+where all terms are evaluated at $(z_0,T)$ and $H.O.T.$ the neglected higher
+order terms. Thus the corrections are found by solving the linear equation
 
-
-Thus the corrections are found by solving the linear equation
 \begin{equation}
   \label{eq:sm_nr_sol}
   \begin{bmatrix}
-    \frac{\p \bm H}{\p \bm z_{p0}}\big|_{(\bm z_{p0},T)} &
-    \frac{\p \bm H}{\p T_{p0}}\big|_{(\bm z_{p0},T)} \\
-    \frac{\p h}{\p \bm z_{p0}}\big|_{(\bm z_{p0},T)} &
-    0
+    \bm h_{\bm z} & \bm h_{T} \\
+    g_{\bm z} & 0
   \end{bmatrix}
   \begin{bmatrix}
-    \Delta \bm z_{p0} \\
+    \Delta \bm z_{p} \\
     \Delta T
   \end{bmatrix}
-  =
+  = -
   \begin{bmatrix}
-    -\bm H(\bm z_{p0},T) \\
-    -h(\bm z_{p0},T)
+    \bm h \\
+    g
   \end{bmatrix}
 \end{equation}
-since $\bm h_{NNM}$ have the transformation $\mathbb{R^{nz+1}} \rightarrow
-\mathbb{R^{nz+1}}$ the system above is over determined, ie. the matrix to
-invert is not square, and is solved in a least square sense.
+
+Since $\bm h_{NNM}$ have the transformation $\mathbb{R}^{2n+1} \rightarrow
+\mathbb{R}^{2n+1}$ the Newton system is over determined, ie. the matrix to
+invert is not square, and have to be solved in a least square sense.
 
 The state is updated as
 
 \begin{equation}
   \label{eq:sm_nr_update}
-  \bm z^{k+1}_{p0} = \bm z^k_{p0} + \Delta \bm z^k_{p0}, \quad
+  \bm z^{k+1}_{p} = \bm z^k_{p} + \Delta \bm z^k_{p}, \quad
   T^{k+1} = T^k + \Delta T^k
 \end{equation}
-where $k$ is iteration number. The iteration is stopped when $\bm H = 0$ to
-some tolerance. Newmark-Raphson is a local algorithm. Convergence is guarantied
-when the initial guess is close to solution. Otherwise not. The initial guess
-could for instance be the first linear mode and corresponding period. If the
-Jacobian matrix is exact, the convergence is second order.
+where $k$ is iteration number. The iteration is stopped when $\bm h_{nnm} = 0$
+to some tolerance. Newmark-Raphson is a local algorithm. Convergence is
+guarantied when the initial guess is close to solution, otherwise not. The
+initial guess could for instance be the first linear mode and corresponding
+period. If the Jacobian matrix $\bm J = [\bm h_{\bm z}, \bm h_T] $ is exact, the
+convergence is second order.
 
-It should be mentioned that for some forcing parameters, where a nonlinear
-system might have multiple solutions, the NR will, depending on the initial
-conditions, converge towards only one of them. Methods relying on the homotopy
-method or Groebner bases can be employed to find multiple solution - not that I
-know anything about these methods.
+
+The partial derivatives of the shooting function are found as:
+\begin{align}
+  \label{eq:sm_jac1}
+  \bm h_{\bm{z}}&=
+  \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0}\bigg|_{t=T} - \bm I \\
+  \bm h_T &=
+  \frac{\p \bm z(t, \bm z_0)}{\p t}\bigg|_{t=T} =
+  \bm h_{ham}(\bm z(T, \bm z_0))
+  \label{eq:sm_jac2}
+\end{align}
+$\bm h_{T}$ is a $2n$ vector,$\bm h_{\bm z_{0}}$ is $2n\times 2n$ matrix, same
+as the identity matrix $\bm I$.
+
+
+% The NR converges to a single solution depending on initial conditions. If
+% It should be mentioned that for some forcing parameters, where a nonlinear
+% system might have multiple solutions, the NR will, depending on the initial
+% conditions, converge towards only one of them. Methods relying on the homotopy
+% method or Groebner bases can be employed to find multiple solution - not that I
+% know anything about these methods.
 
 \subsubsection{Sensitivity analysis}
 \label{sec:sm_sens_ana}
 
-The partial derivatives of the shooting function, used in the NR iterations, are
-found as:
-
-\begin{align}
-  \label{eq:sm_jac1}
-  \frac{\p \bm H}{\p T} &=
-  \frac{\p \bm z(t, \bm z_0)}{\p t}\bigg|_{t=T} =
-  \bm g(\bm z(T, \bm z_0)) \\
-  \frac{\p \bm H}{\p \bm z_{0}} &=
-  \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0}\bigg|_{t=T} - \bm I
-  \label{eq:sm_jac2}
-\end{align}
-$\p \bm H / \p T$ is a $2n$ vector. The Jacobian matrix $\p \bm H / \p \bm
-z_{0}$ is $2n\times 2n$, same as the identity matrix $\bm I$.
-
-The Jacobian matrix $\p \bm z(t,\bm z_0) / \p \bm z_{0}$, which represent the
-variation of the solution $\bm z(t,\bm z_0)$ at time $t$ when the initial
-conditions $\bm z_0$ are pertubated, is normally calculated in two ways. Either
-by finite difference: successively pertubation of each of the $2n$ initial
-condtion and integrating over the period. This is computationally expensive and
-gives slower NR convergence since the Jacobi matrix is only approximate.
+The Jacobian matrix $\p \bm z(t,\bm z_0) / \p \bm z_{0}$ from eq.
+\eqref{eq:sm_jac2}, which represent the variation of the solution $\bm z(t,\bm
+z_0)$ at time $t$ to pertubated initial conditions $\bm z_0$, is normally
+calculated in two ways. Either by finite difference: successively pertubation of
+each of the $2n$ initial condtion and integrating over the period. This is
+computationally expensive and gives slower NR convergence since the Jacobi
+matrix is only approximate.
 
 Instead sensitivity analysis is used. The state space formulation
 \eqref{eq:sm_state} is differentiated with respect to initial conditions $\bm
@@ -216,23 +220,23 @@ z_0$
 
 \begin{align}
   &\frac{\p}{\p \bm z_0} \left[ \dot{\bm z}(t, \bm z_0) \right] =
-    \frac{\p}{\p \bm z_0} \left[ \bm g(\bm z(t, \bm z_0)) \right] \implies
-    \\
+    \frac{\p}{\p \bm z_0} \left[ \bm h_{ham}(\bm z) \right] \implies
+  \nonumber \\
   &\frac{\d}{\d t} \left[  \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0} \right] =
-    \frac{\p \bm g(\bm z)}{\p \bm z}\bigg|_{\bm z(t,\bm z_0)}
+    \frac{\p \bm h_{ham}(\bm z)}{\p \bm z}\bigg|_{\bm z(t,\bm z_0)}
     \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0}
     \label{eq:sm_sens}
 \end{align}
 with initial condition
 \begin{equation}
   \label{eq:sm_sens_init}
-  \frac{\bm z(0,\bm z_0)}{\bm z_0} = \bm I
+  \frac{\p \bm z(0,\bm z_0)}{\p \bm z_0} = \bm I
 \end{equation}
-since $\bm z(0,\bm z_0) = \bm z_0$
+since $\bm z(0,\bm z_0) = \bm z_0$.
 
 Then eq. \eqref{eq:sm_sens} is integrated over $T$ to obtain the Jacobian matrix
 at time $t=T$. This integration is linear and carried out at the same time as
-the Newmark integration of the periodic solution. In practise the EOM
+the Newmark integration of the periodic solution. In practise the eom
 formulation eq. \eqref{eq:per_eom} is used for the sensitivity analysis. See
 appendix \ref{sec:newmark_sens} for a derivation. The sensitivity analysis
 requires the nonlinear forces to be smooth. If they are nonsmooth, finite
@@ -248,10 +252,11 @@ at $t=T$, called the \textit{monodromy matrix}
   \label{eq:sm_stab}
   \Phi = \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0}\bigg|_{t=T}
 \end{equation}
-It determines whether a small initial perturbation decays or grows. The
-stability is found from the eigenvalues $\sigma_i$, the Floquet multipliers. If an
-Floquet multiplier is larger than one (i.e., $|\sigma_i|> 1$), the orbit is
-unstable. Conversely, the periodic orbit is stable if $|\sigma_i \leq 1, \forall i$
+From it, it is determined whether a small initial perturbation decays or grows.
+The stability is found from the eigenvalues $\sigma_i$ of $\Phi$, the Floquet
+multipliers. If an Floquet multiplier is larger than one (i.e., $|\sigma_i|>
+1$), the orbit is unstable. Conversely, the periodic orbit is stable if
+$|\sigma_i| \leq 1, \forall i$
 
 Equivalently the Floquet exponents $\lambda$ could be used. If there is at least
 one Floquet exponents with a real part larger than 0 the solution is unstable.
@@ -263,29 +268,30 @@ They are related through the relation
 \end{equation}
 
 Both variants are depicted on the complex plane and either compared to the unit
-circle or the imaginary axis, respectively.
+circle or the imaginary axis, respectively. See section \ref{sec:bifurcations},
+fig \ref{fig:bifurcation} for a graphical representation.
 
 \subsection{Harmonic balance}
 \label{sec:harmonic_bal}
 
 Where the shooting method finds a periodic solution by solving the system in
 time domain, HB finds the periodic solution in frequency domain. The method is
-described in \textcite{detroux2016a}. A periodic solution to the damped and forced
-EOM eq. \eqref{eq:per_eom} is sought.
+described in \textcite{detroux2016a}.
 
+A periodic solution to the damped and forced eom eq. \eqref{eq:per_eom} is
+sought.
 As the signal $\bm x$ and forces $\bm f(\bm x, \dot{\bm x}, \omega ,t) = \bm
-p(\omega, t)- \bm f_{nl}(\bm x \dot{\bm x})$ are assumed periodic, they are
+p(\omega, t)- \bm f_{nl}(\bm x, \dot{\bm x})$ are assumed periodic, they are
 approximated by Fourier series truncated to the $N_H$-th harmonic
 
 \begin{align}
   \label{eq:hb_x_expansion}
-  \bm x(t) &= \frac{\bm c^x_0}{\sqrt{2}} \sum_{k=1}^{N_h} (s^x_k \sin(k\omega t) +
+  \bm x(t) &= \frac{\bm c^x_0}{\sqrt{2}} \sum_{k=1}^{N_H} (s^x_k \sin(k\omega t) +
           c^x_k \cos(k\omega t)) \\
   \label{eq:hb_f_expansion}
-  \bm f(t) &= \frac{\bm c^f_0}{\sqrt{2}} \sum_{k=1}^{N_h} (s^f_k \sin(k\omega t) +
+  \bm f(t) &= \frac{\bm c^f_0}{\sqrt{2}} \sum_{k=1}^{N_H} (s^f_k \sin(k\omega t) +
           c^f_k \cos(k\omega t))
 \end{align}
-
 where $\bm s_k$ and $\bm c_k$ represent the vectors of the Fourier coefficients
 related to sine and cosine terms. The Fourier coefficients of the force $\bm f(t)$,
 $\bm s^f_k$ and $\bm c^f_k$ depends on the Fourier coefficients of the
@@ -306,16 +312,15 @@ Gathering the coefficients into vectors
       (\bm s^f_{N_H})^T & (\bm c^f_{N_H})^T
     \end{bmatrix}^T
 \end{align}
+then using a compact notion, the displacement and force is written as
 
-Using a compact notion the displacement and force is written
 \begin{align}
   \label{eq:hm_x_compact}
-  &\bm x(t) = (\bm Q(t) \otimes \mathbb{I}_n) \bm z \\
+  &\bm x(t) = (\bm Q(t) \otimes \bm I_n) \bm z \\
   \label{eq:hb_y_compact}
-  &\bm f(t) = (\bm Q(t) \otimes \mathbb{I}_n) \bm b
+  &\bm f(t) = (\bm Q(t) \otimes \bm I_n) \bm b
 \end{align}
-where $\otimes$ is the Kronecker product, $\mathbb{I}_n$ the identity matrix of
-size $n$ and $\bm Q$ a vector with harmonic terms
+where $\otimes$ is the Kronecker product and $\bm Q$ a vector with harmonic terms
 
 \begin{equation}
   \label{eq:hb_Q}
@@ -329,51 +334,51 @@ size $n$ and $\bm Q$ a vector with harmonic terms
 Velocities and accelerations are found using the Fourier series as
 \begin{align}
   \label{eq:hb_vel}
-  &\dot{\bm x} = \left( \dot{\bm Q}(t) \otimes \mathbb{I}_n \right) \bm z =
-    \left( (\bm Q(t) \bm \nabla) \otimes \mathbb{I}_n \right) \bm z \\
+  &\dot{\bm x} = \left( \dot{\bm Q}(t) \otimes \bm I_n \right) \bm z =
+    \left( (\bm Q(t) \bm \nabla) \otimes \bm I_n \right) \bm z \\
   \label{eq:hb_acc}
-  &\ddot{\bm x} = \left( \ddot{\bm Q}(t) \otimes \mathbb{I}_n \right) \bm z =
-    \left( (\bm Q(t) \bm \nabla^2) \otimes \mathbb{I}_n \right) \bm z \\
+  &\ddot{\bm x} = \left( \ddot{\bm Q}(t) \otimes \bm{I}_n \right) \bm z =
+    \left( (\bm Q(t) \bm \nabla^2) \otimes \bm{I}_n \right) \bm z \\
 \end{align}
 
 By substituting eqs. \eqref{eq:hb_x_expansion}-\eqref{eq:hb_f_expansion} and
-\eqref{eq:hb_vel}-\eqref{eq:hb_acc} into the EOM \eqref{eq:per_eom} and using a
+\eqref{eq:hb_vel}-\eqref{eq:hb_acc} into the eom \eqref{eq:per_eom} and using a
 galerkin procedure, one ends up with the equations of motion in frequency
 domain (see appendix \ref{sec:hb_appendix} for more details on the derivation
-and definition of $\bm \nabla$)
+and definition of $\bm \nabla$(the gradient as diagonal matrix))
 
 \begin{equation}
   \label{eq:hb_feom}
   (\bm \nabla^2 \otimes \bm M)\bm z + (\bm \nabla \otimes \bm C)\bm z +
-  (\mathbb{I}_{2N_H} \otimes \bm K)\bm z =
-  (\mathbb{I}_{2N_H} \otimes \mathbb{I}_n )\bm b
+  (\bm{I}_{2N_H} \otimes \bm K)\bm z =
+  (\bm{I}_{2N_H} \otimes \bm{I}_n )\bm b
 \end{equation}
 or in more compact form
 
 \begin{equation}
   \label{eq:hb_feom_compact}
-  \bm H(\bm z, \omega) = \bm A(\omega) \bm z - \bm b(\bm z) = \bm 0
+  \bm h(\bm z, \omega) = \bm A(\omega) \bm z - \bm b(\bm z) = \bm 0
 \end{equation}
 where $\bm A$ describes the linear dynamics
 
 \begin{equation}
   \label{eq:hb_A}
   \bm A = \bm \nabla^2 \otimes \bm M + \bm \nabla \otimes \bm C +
-  \mathbb{I}_{2N_H} \otimes \bm K
+  \bm{I}_{2N_H} \otimes \bm K
 \end{equation}
 
-If $z^*$ is a solution of \eqref{eq:hb_feom_compact}, then the time signal $x^*$
+If $\bm z$ is a solution of \eqref{eq:hb_feom_compact}, then the time signal $x^*$
 constructed from $z^*$ is periodic and satisfies the eom \eqref{eq:per_eom}. As
 with the shooting function, eq. \eqref{eq:hb_feom_compact} is nonlinear (due to
 $\bm b$ dependence on $\bm z$) and have to be solved iteratively by
-Newton-Rahpson iterations. It should however be noted that $\bm H(\bm z,
-\omega)$ is an (nonlinear) algebraic equation, ie there is no need for
-integration.
+Newton-Rahpson iterations. It should however be noted that $\bm h(\bm z,
+\omega)$ is an (nonlinear) algebraic equation, ie. there is no need for
+time integration.
 
 \begin{equation}
   \label{eq:hb_nr}
   \bm z^{(k+1)} = \bm z^{(j)} -
-  \frac{\bm H(\bm z, \omega)}{\bm H_{\bm z}(\bm z, \omega)}
+  \frac{\bm h(\bm z, \omega)}{\bm h_{\bm z}(\bm z, \omega)}
 \end{equation}
 
 
@@ -388,7 +393,8 @@ It is not known how the Fourier coefficients in $\bm b$ relates to the
 coefficients in $\bm z$, ie. it is not possible to directly calculate $\bm b(\bm
 z)$ due to $\bm f_{nl}$ depends on $x$. Instead a technique called the
 \textit{alternating frequency-time domain}(AFT) method is used. Here $\bm b$ is
-calculated through successive Fourier transformations as shown in the graph below.
+calculated through successive Fourier transformations as shown in figure
+\ref{fig:hb_aft}
 
 \begin{center}
 \begin{tikzpicture}[node distance=1.5cm]
@@ -406,6 +412,7 @@ calculated through successive Fourier transformations as shown in the graph belo
 \end{tikzpicture}
 \captionof{figure}{Graphical representation of the alternating frequency-time
   domain (AFT) method}
+\label{fig:hb_aft}
 \end{center}
 
 $\bm x$ is calculated from the Fourier coefficients in $\bm z$, then the
@@ -415,11 +422,11 @@ is found as the Fourier coefficients of $\bm f$.
 The Jacobian matrix is given by
 \begin{equation}
   \label{eq:hb_jac1}
-    \bm H_{\bm z} = \frac{\p \bm H}{\p \bm z} = \bm A - \frac{\p \bm b}{\p \bm z}
+    \bm h_{\bm z} = \frac{\p \bm h}{\p \bm z} = \bm A - \frac{\p \bm b}{\p \bm z}
 \end{equation}
 where the hard part is to compute $\bm b_{\bm z}$. The method for calculating
 the Jacobian matrix follows the AFT method as well. To do that, the inverse
-Fourier transform is rewritten as the linear operator $\Gamma(\omega)$
+Fourier transform is written as the linear operator $\bm \Gamma(\omega)$
 
 \begin{equation}
   \label{eq:hb_gamma}
@@ -427,15 +434,15 @@ Fourier transform is rewritten as the linear operator $\Gamma(\omega)$
     \bm \Gamma(\omega) =
     \left[
   \begin{matrix}
-    \mathbb{I}_n \otimes
+    \bm{I}_n \otimes
     \begin{bmatrix}
       1/\sqrt{2} \\ 1/\sqrt{2} \\ \vdots \\ 1/\sqrt{2}
     \end{bmatrix} &
-    \mathbb{I}_n \otimes
+    \bm{I}_n \otimes
     \begin{bmatrix}
       \sin(\omega t_1) \\ \sin(\omega t_2) \\ \vdots \\ \sin(\omega t_{t_N})
     \end{bmatrix} &
-    \mathbb{I}_n \otimes
+    \bm{I}_n \otimes
     \begin{bmatrix}
       \cos(\omega t_1) \\ \cos(\omega t_2) \\ \vdots \\ \cos(\omega t_{t_N})
     \end{bmatrix}&
@@ -444,11 +451,11 @@ Fourier transform is rewritten as the linear operator $\Gamma(\omega)$
 \right. \\
 \left.
   \begin{matrix}
-    \mathbb{I}_n \otimes
+    \bm{I}_n \otimes
     \begin{bmatrix}
       \sin(N_H\omega t_{}) \\ \sin(N_H\omega t_2) \\ \vdots \\ \sin(N_H\omega t_{t_N})
     \end{bmatrix} &
-    \mathbb{I}_n \otimes
+    \bm{I}_n \otimes
     \begin{bmatrix}
       \cos(N_H\omega t_{}) \\ \cos(N_H\omega t_2) \\ \vdots \\ \cos(N_H\omega t_{t_N})
     \end{bmatrix}
@@ -478,10 +485,8 @@ Thus the inverse and direct Fourier transform are written
     \tilde{\bm x} = \bm \Gamma(\omega) \bm z, \quad
     \bm z =( \bm \Gamma(\omega))^+ \tilde{\bm x}
 \end{equation}
-where $()^+$ is the Moore-Penrose pseduinverse which is needed since $\Gamma$ is
-not square. (In implementing, one would use a least-square iterative solver
-instead of calculating the pseduinverse, since the former is faster. Both
-methods gives a solution which have a minimum norm in some sense.)
+where $()^+$ is the Moore-Penrose pseduinverse since $\Gamma$ is not square. In
+implementation the solution is found by a least square solver.
 
 The Fourier coefficients of the external and nonlinear forces are then
 \begin{equation}
@@ -524,7 +529,7 @@ and inserting this into the eom eq. \eqref{eq:per_eom} it is shown in appendix
 
 \begin{equation}
   \label{eq:hb_quad_eigen}
-  \bm \Delta_2 \bm \lambda^2 + \bm \Delta_1 \bm \lambda + \bm H_{\bm z} = \bm 0
+  \bm \Delta_2 \bm \lambda^2 + \bm \Delta_1 \bm \lambda + \bm h_{\bm z} = \bm 0
 \end{equation}
 where $\bm \Delta$ are matrices describing the linear dynamics similar to $\bm
 A$ in eq. \eqref{eq:hb_A} and $\lambda$ are Hills coefficients.
@@ -542,32 +547,32 @@ where
   \label{eq:hb_stab_B12}
   \bm B_1 =
   \begin{bmatrix}
-    \bm \Delta B_1 & \bm H_{\bm z} \\
-    -\mathbb{I}    & \bm 0
+    \bm \Delta B_1 & \bm h_{\bm z} \\
+    -\bm{I}    & \bm 0
   \end{bmatrix}, \quad
   \bm B_2 = -
   \begin{bmatrix}
     \bm \Delta_2   & \bm 0 \\
-    \bm 0          & \mathbb{I}
+    \bm 0          & \bm{I}
   \end{bmatrix}
 \end{equation}
 
-The coefficients $\bm \lambda$ are found as the eigenvalues of the $(2N_H+1)2n
-\times (2N_H+1)2n$ matrix
+The coefficients $\bm \lambda$ are found as the eigenvalues of the $(2N_H+1)2n$
+square matrix
 
 \begin{equation}
   \label{eq:hb_B}
   \bm B = \bm B^{-1}_2 \bm B_1 =
   \begin{bmatrix}
-    -\bm \Delta^{-1}_2 \bm\Delta_1 & -\bm \Delta^{-1}_2 \bm H_{\bm z} \\
-    \mathbb{I}                    & \bm 0
+    -\bm \Delta^{-1}_2 \bm\Delta_1 & -\bm \Delta^{-1}_2 \bm h_{\bm z} \\
+    \bm{I}                    & \bm 0
   \end{bmatrix}
 \end{equation}
 or from the generalised eigenvalueproblem eq. \eqref{eq:hb_stab_B12}.
 
 Only $2n$ eigenvalues approximate the Floquet exponents $\tilde{\bm \lambda}$,
-the rest are spurious. The real ones are the $2n$ values with smallest imaginary
-magnitude.
+the rest are spurious. The ones needed are the $2n$ values with smallest
+imaginary magnitude.
 
 The diagonal matrix
 \begin{equation}
@@ -599,27 +604,6 @@ found as
   \end{aligned}
 \end{equation}
 
-% \begin{figure}[!ht]
-%   \centering
-%   \begin{subfigure}[b]{0.6\textwidth}
-%       \setlength\figureheight{6cm}
-%       \setlength\figurewidth{\textwidth}
-%       \InputIfFileExists{fig/2dof_duffing/hb_per.tex}{}
-%       {\textbf{!! Missing graphics !!}}
-%   \end{subfigure}
-%   ~~~
-%   \begin{subfigure}[b]{0.36\textwidth}
-%       \setlength\figureheight{6cm}
-%       \setlength\figurewidth{\textwidth}
-%       \InputIfFileExists{fig/2dof_duffing/hb_har.tex}{}
-%       {\textbf{!! Missing graphics !!}}
-%   \end{subfigure}
-%   \caption{Periodic solution of the coupled Duffing system for $f=2$,
-%     $\omega=1.2$ and $N_H=5$.
-%     (a): Time series; (b): Normalized harmonic components of $x_1$.}
-%   \label{fig:hb_duffing_periodic}
-% \end{figure}
-
 \begin{figure}[!ht]
   \centering
   \begin{subfigure}[b]{0.6\textwidth}
@@ -628,12 +612,13 @@ found as
   \end{subfigure}
   ~
   \begin{subfigure}[b]{0.36\textwidth}
-    \includegraphics[width=\linewidth, height=6cm]{2dof_duffing/hb_har.pdf}
+    \includegraphics[width=\linewidth, height=6cm]{2dof_duffing/hb_har}
     \caption{}
   \end{subfigure}
     \caption{Periodic solution of the coupled Duffing system for $f=2$,
     $\omega=1.2$ and $N_H=5$.
-    (a): Time series; (b): Normalized harmonic components of $x_1$.}
+    \textbf{(a)}: Time series;
+    \textbf{(b)}: Normalized harmonic components of $x_1$.}
   \label{fig:hb_duffing_periodic}
 \end{figure}
 \FloatBarrier
@@ -644,15 +629,15 @@ found as
 Periodic solutions of nonlinear structures can be computed with
 time-domain(shooting method) and frequency-domain(harmonic balance) methods. The
 main difference is in the implementation complexity, computional complexity and
-accuracy. Both methods can be used together with continuation and are natural
-integrated with stability analysis.
+accuracy. Both methods can be used together with continuation and have ways to compute
+stability analysis without much extra cost.
 
 Summarising the shooting method
 \begin{multicols}{2}
   Pro
   \begin{itemize}
   \item Accurate
-  \item Higher harmonics represented
+  \item (all) Higher harmonics represented
   \end{itemize}
   \columnbreak
   Cons
@@ -671,7 +656,8 @@ Summarising the harmonic balance method
   \begin{itemize}
   \item Fast
   \item Harmonic coefficients available
-  \item Can be used for filtering
+  \item Can be used for filtering, ie. by defining the number of harmonics in
+    the solution.
   \end{itemize}
   \columnbreak
   Cons
