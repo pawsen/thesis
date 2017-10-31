@@ -2,45 +2,6 @@
 \chapter{Periodic solution}
 \label{chap:per_sol}
 
-\section{Shooting method}
-\label{sec:shooting_appendix}
-
-The state space formulated for the full eom \eqref{eq:per_eom} is
-
-\begin{equation}
-  \label{eq:app_state_space}
-  \dot{\bm z}(t) = \bm L\bm z(t) - \bm g_{nl}(\bm z) + \bm g_{ext}(\omega,t)
-\end{equation}
-where
-
-\begin{equation}
-  \begin{aligned}
-    \bm z =
-    \begin{bmatrix}
-      \bm x \\ \dot{\bm y}
-    \end{bmatrix}, \quad
-    \bm L =
-    \begin{bmatrix}
-      \bm 0 & \bm I_n \\
-      -\bm M^{-1}\bm K & -\bm M^{-1} \bm C
-    \end{bmatrix} \\
-    \bm g_{nl} =
-    \begin{bmatrix}
-      \bm 0 \\ \bm M^{-1} \bm f_{nl}(\bm x, \dot{\bm x})
-    \end{bmatrix}, \quad
-    \bm g_{ext}
-    \begin{bmatrix}
-      \bm 0 \\ \bm M^{-1} \bm p_{ext}(\omega, t)
-    \end{bmatrix}
-  \end{aligned}
-\end{equation}
-
-Calculating the periodic motion for the full EOM, instead of the unforced and
-undamped case as in section \ref{sec:shooting_method}, only requires changing
-the evaluation of the state space to the formula above. The sensitivity analysis
-in section \ref{sec:newmark_sens} is derived for the full EOM. Thus at max five
-lines of code needs changing.
-
 \section{HB}
 \label{sec:hb_appendix}
 
@@ -155,7 +116,7 @@ the equations of motion expressed in frequency domain are
 or in more compact form
 
 \begin{equation}
-  \label{eq:hb_feom_compact}
+  %\label{eq:hb_feom_compact} % defined previously
   \bm H(\bm z, \omega) = \bm A(\omega) \bm z - \bm b(\bm z) = \bm 0
 \end{equation}
 where $\bm A$ describes the linear dynamics

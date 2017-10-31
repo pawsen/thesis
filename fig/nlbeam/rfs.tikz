@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+
+\begin{axis}[
+axis on top,
+xmin=-0.001, xmax=0.00165,
+ymin=-55, ymax=100,
+xlabel={Rel. displ. ($m$)},
+ylabel={-Acceleration ($m/s^2$)},
+xtick={-0.0005,0,0.0005,0.001},
+ytick={-40,-0,40,80}
+]
+
+\addplot graphics[xmin=-0.001,xmax=0.00165,ymin=-55,ymax=100] {fig/nlbeam/rfs.png};
+\end{axis}
+\end{tikzpicture}

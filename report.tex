@@ -3,10 +3,12 @@
 \input{preamble}
 
 \setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
 
 % only compile this/these(separated by comma) chapters
 % \includeonly{tex/intro,biblio/bib,tex/theory, tex/newmark_int}
-% \includeonly{tex/eom}
+% \includeonly{tex/design/nnm}
+\includeonly{tex/application,tex/design/continuation}
 
 
 \begin{document}
@@ -31,11 +33,13 @@
 \include{tex/intro}
 \include{tex/numerical_example}
 \include{tex/identification}
+\include{tex/identification/detection}
 \include{tex/identification/wt}
 \include{tex/identification/rfs}
  \include{tex/identification/fnsi}
 
 \include{tex/design}
+\include{tex/design/nnm}
 \include{tex/design/periodic_motion}
 \include{tex/design/continuation}
 \include{tex/design/bifurcation}
@@ -48,12 +52,12 @@
 % \setcounter{secnumdepth}{3}
 % \addcontentsline{toc}{chapter}{Appendix}
 \printbibliography[title=References]
-% \appendix
+\appendix
+% \renewcommand{\thechapter}{\Roman{chapter}}
 \include{tex/appendix/periodic_motion}
 \include{tex/appendix/continuation}
 %\include{tex/appendix/signal}
 \include{tex/appendix/newmark_int}
-\include{tex/design/nnm}
 \include{tex/signal-treatment}
 % \include{tex/appendix/easter_egg}
 

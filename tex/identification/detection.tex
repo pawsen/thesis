@@ -1,0 +1,62 @@
+
+\section{Detection}
+\label{sec:detection}
+
+This section is only included for completeness, as the signs are well
+established. More information can be found in \autocite{worden2000nonlinearity}.
+
+During test, the structure should be excited by a sine-sweep and a mere visual
+inspection of the time series will show if nonlinearity is present. Signs
+includes skewness of the envelope, discontinuity, jumps and lack of invariance
+with increasing force level. The excitation level needs to be at an amplitude
+where the nonlinearity is activated.
+
+Random excitation is in general not useful, as the randomness of the amplitude
+and phase of the excitation creates ``linearised'' FRFs. At least multiple test
+with different forcing levels are required, and still then it might be difficult
+to excite the nonlinearities, since the total power of the input spectrum is
+spread over the band-limited frequency range used.
+
+The use of impact excitation, as often used in linear analysis, suffers from the
+same problems as random excitation. That is, the input is a broad spectrum and
+the energy associated with each frequency is low.
+
+Formal methods for detection includes
+\begin{itemize}
+\item \textit{Homogeneity check} \\
+  Comparing the response of two sweeps with different forcing and calculating
+  the cross correlation. It is a test of superposition, by testing if the two FRFs
+  normalized with forcing overlay as they will for linear systems.
+\item \textit{(ordinary) Coherence function} \\
+  The coherence function compares power spectral densities (PSDs) and are
+  required to be unity for all accessible frequencies for the system to be
+  linear {\textit and} free of noise. The advantage is that only one test is needed,
+  but the method does not distinguish between cases of noise and
+  nonlinearity. Instead it is recommend do use:
+\item \textit{Hilbert transforms} \\
+  This method detects nonlinearity by doing a Hilbert transform of the FRF,
+  which is invariant for a linear FRF.
+  A Hilbert transform also only requires one data set and is more sensitive to
+  nonlinearity than the coherence function, but still reasonable easy to
+  implement. \textcite{kragh2010a} shows that the homogeneity check is superior to
+  the Hilbert transforms, having higher sensitivity to nonlinearity.
+\item \textit{Wavelet transforms} \\
+  Maps a time-history to a time-frequency representation. Fourier transform
+  cannot be used, since it is a one-to-one transformation from time to frequency
+  domain. This method, as it is also used for characterisation, is included in
+  the report and described in section \ref{sec:wavelet_transform}.
+\end{itemize}
+
+For all of these methods it is a requirement that the nonlinearities are
+activated, eg. the forcing level end frequency interval should be chosen
+adequately. Also, the methods are better at detecting nonlinear stiffness than
+nonlinear damping. This is due to the fact that the resonance peak is not
+shifted as with the stiffness nonlinearity case. Since the FRF is not shifted
+but only lowered, the cross correlation coefficient will not decrease as much as
+in the stiffness nonlinearity case. In general damping nonlinearity is difficult
+to identify.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../report"
+%%% End:

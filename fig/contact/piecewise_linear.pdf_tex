@@ -1,0 +1,62 @@
+%% Creator: Inkscape inkscape 0.91, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'piecewise_linear.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{288.22265625bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.73088693)%
+    \put(-0.33567361,0.5404052){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.09409477\unitlength}\raggedright \end{minipage}}}%
+    \put(-0.3225441,0.65200597){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{piecewise_linear.pdf}}%
+    \put(0.37331943,0.52289918){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{a}}}%
+    \put(0.2923542,0.00866028){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Relative displacement (-)}}}%
+    \put(0.29454246,0.42661622){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2$\Delta$}}}%
+    \put(0.07955821,0.20990371){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[lb]{\smash{Restoring force (N)}}}}%
+    \put(0.10635295,0.58198195){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.01969426\unitlength}\raggedright \end{minipage}}}%
+    \put(-0.3531796,0.28000344){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.26040176\unitlength}\raggedright \end{minipage}}}%
+  \end{picture}%
+\endgroup%

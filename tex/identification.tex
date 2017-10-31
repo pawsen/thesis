@@ -3,11 +3,39 @@
 \label{chap:methods_dec_char_est}
 
 This chapter deals with the identification process as depicted in figure
-\ref{fig:ident_process}, treating localised nonlinearities.
+\ref{fig:ident_process}, and repeated below, treating localised nonlinearities.
 
-\textbf{Skal uddybes lidt mere med hensigt, ala kapitel 2}
+\begin{figure}[ht!]
+  \centering
+  \begin{mdframed}
+    \begin{enumerate}
+    \item Detection: {\textit Is there?}\\
+      Ascertain if nonlinearity exist in the structural behavior, e.g. yes or
+      no.
+    \item Characterisation: {\textit Where, what and how?}
+      \begin{itemize}
+      \item Localize the nonlinearity, e.g. at the joint
+      \item Determine the type of nonlinearity e.g.  Coulomb friction\\
+        More general: is it stiffness or damping nonlinearity or both. In the
+        case of stiffness: is it hardening or softening
+      \item Select the functional form of the nonlinearity, e.g.
+        $f(x,\dot x) = c \sign (\dot y)$
+      \end{itemize}
+    \item Parameter estimation: {\textit How much?}\\
+      Calculate the coefficients of the nonlinearity model, e.g. $c = 5.47$.\\
+      (Ideally the uncertainty should be quantified, e.g. in a probabilistic
+      sense, $c \sim N(5.47,1)$. But that is a very difficult task and not
+      within the scope of this thesis)
+    \end{enumerate}
+  \end{mdframed}
+  \caption{Identification process for nonlinear structural models}
+\end{figure}
 
 
+Methods for detection are only referred, as detection is usual deemed easy
+within the framework of localised nonlinearities \autocite{noel2016a}.
+Characterisation is done by wavelet transform and restoring force surface, while
+estimation is done by FNSI.
 
 
 %%% Local Variables:

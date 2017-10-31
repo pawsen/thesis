@@ -11,6 +11,7 @@ forces, ie. nonlinearities are seen as cause of distortion on the linear FRF
 matrix. Two main nonlinear methods exist one in time domain, time-domain
 subspace identification (TNSI)\autocite{marchesiello2008a}, and one in frequency
 domain, frequency-domain subspace identification (FNSI)\autocite{noel2013a}.
+\textit{N} denotes nonlinear.
 Both performs equally well in identification and robustness, but the main
 benefit of FNSI is that the input time series, when converted to frequency
 domain, can be truncated to a frequency interval of interest and thus reduce the
@@ -25,12 +26,13 @@ Given the equation of motion for a dynamical system with nonlinearities:
   \bm f_{nl} \left( \bm y(t), \dot{ \bm y}(t) \right) = \bm p (t)
 \end{equation}
 
-where $\bm M$, $\bm C$ and $\bm K \in \mathbb{R}^{n \times \, n}$ are the
-mass, linear viscous damping and linear stiffness matrices; $\bm y(t)$ and
-$\bm p(t) \in \mathbb{R}^{n}$ are the generalised displacement and external
-force vectors; $\bm f_{nl}(t) \in \mathbb{R}^{n}$ is the essentially nonlinear,
-i.e. nonlinearisable, restoring force vector comprising elastic and dissipative
-contributions; $n$ is the number of DOFs.
+where $\bm M$, $\bm C$ and $\bm K \in \mathbb{R}^{n \times \, n}$ are the mass,
+linear viscous damping and linear stiffness matrices; $\bm y(t)$ and $\bm p(t)
+\in \mathbb{R}^{n}$ are the generalised displacement and external force vectors;
+$\bm f_{nl}(t) \in \mathbb{R}^{n}$ is the essentially nonlinear restoring force
+vector comprising elastic and dissipative contributions; $n$ is the number of
+DOFs. Essentially nonlinear, or nonlinearisable, means that the function is zero
+and have zero slope at the origin, i.e. it cannot be linearised.
 
 
 The notation of \eqref{eq:EOM_fnsi} assumes that all linear components of the
@@ -44,9 +46,9 @@ lumped nonlinearities
   \sum_{i=1}^s \mu_i \bm b_i \bm g_i \left( \bm y(t), \dot{\bm y}(t) \right)
 \end{equation}
 where $\mu_i$ is the unknown nonlinear coefficient and $\bm g_i \left( \bm y(t),
-  \dot{\bm y}(t) \right)$ is the the corresponding known (identified by eg. RFS)
-functional form (or basis function). The location of the nonlinearity is
-specified by the boolean vector, $\bm b_i$.
+  \dot{\bm y}(t) \right)$ is the the corresponding known (characterised by eg.
+WT or RFS) functional form (or basis function). The location of the nonlinearity
+is specified by the boolean vector, $\bm b_i$.
 
 
 Moving the nonlinear terms of \eqref{eq:EOM_fnsi} to the right-hand side
@@ -76,7 +78,7 @@ as shown in figure \ref{fig:fnsi_feedback}.
     \node [output, right=2cm of system] (output) {};
     \node [block, below of=system, align=left] (feedback)
       {Nonlinear feedback:\\ $c_a, \bm g_a(\bm y(t), \dot{\bm y}(t))$};
-    \draw [draw,->] (input) -- node {$\bm u(t)$} (sum);
+    \draw [draw,->] (input) -- node {$\bm p(t)$} (sum);
     \draw [->] (sum) -- node {} (system);
     \draw [->] (system) -- node [name=y] {$\bm y, \dot{\bm y}$}(output);
     \draw [-] (y) |- (feedback);
@@ -128,10 +130,9 @@ State-space and physical matrices have the relations
 The state matrices are: $\bm A$ and $\bm B$ the input and nonlinear coefficients
 matrix, the output matrix $\bm C$ and the direct feed through matrix $\bm D$.
 
-This way of characterising the system above is the same as with TNSI. Before
-Fourier transforming the system, a continuous to discrete-time conversion of the
-state matrices are used with the sampling frequency $f_s$. This is done in order
-to improve the numerical condition and given by
+Before Fourier transforming the system, a continuous to discrete-time conversion
+of the state matrices are used with the sampling frequency $f_s$. This is done
+in order to improve the numerical condition and given by
 \begin{equation}
   \begin{gathered}
     \bm A_d = \text{expm}(\bm A_d/f_s) ,\quad
@@ -141,12 +142,12 @@ to improve the numerical condition and given by
 \end{equation}
 It is stressed\autocite{noel2013a} that the conversion is only strictly valid if
 the input signals in $\bm e$ are piece-wise constant between sampling instants,
-a zero-order hold intersample assumption. This is generally not the case but if
-a sufficiently high sampling frequency is used, the continuous time model is not
-affected. It is not clear how high a \textit{sufficiently high sampling
+called a zero-order hold intersample assumption. This is generally not the case
+but if a sufficiently high sampling frequency is used, the continuous time model
+is not affected. It is not clear how high a \textit{sufficiently high sampling
   frequency} is.
 
-Using a Fourier transform, the system is
+Using a discrete Fourier transform, the system is
 \begin{equation}
   \label{eq:fnsi_freq_state}
   \begin{aligned}
@@ -154,7 +155,7 @@ Using a Fourier transform, the system is
     \bm Y(k) &= \bm C \bm X(k) + \bm D \bm E(k)
 \end{aligned}
 \end{equation}
-where $z_k = e^{(2i\pi k/N_s)}$ is the Z-transform variable for discrete time
+where $z_k = e^{(2i\pi k/N_s)}$ is the z-transform variable for discrete time
 models and $N_s$ the number of recorded samples in the time series. $\bm X, \bm
 Y$ and $\bm E$ are the discrete Fourier transforms of $\bm x, \bm y$ and $\bm
 e$. The subscript $d$ are dropped in the following, as all operations are on
@@ -162,8 +163,11 @@ discrete time models.
 
 \subsection{The output-state-input equation}
 
-The extended input $\bm E$ and output $\bm Y$ is known. The system matrices $\bm
-A, \bm B, \bm C$ and $\bm D$ needs to be determined.
+The extended input $\bm E$ and output $\bm Y$ are known. The system matrices $\bm
+A$ and $\bm B$ needs to be determined. As seen from eq.
+\eqref{eq:state_to_physical_mat} $\bm C$ and $\bm D$ are known, but are still
+estimated as part of the subspace method. These estimates of course match the
+known values.
 
 Frequency-domain subspace methods estimates these matrices based on a
 reformulation of the state-space eqs. \eqref{eq:fnsi_freq_state} in matrix form,
@@ -264,9 +268,8 @@ See figure \ref{fig:fnsi_methodolgoy} for a overview.
     is the set of all vectors that are orthogonal to every vector of $\bm E_i$
     (thus it is also the null space of $\bm E_i$).
     In the 2d case, $\bm E_i^\perp$ is simply the vector perpendicular to $\bm
-    E_i$, and the projection of $\bm Y_i$ cancels the extended input term $\bm
-    H_i \bm E_i$.
-  }
+    E_i$, and the projection of $\bm Y_i$ onto $\bm E_i^\perp$ cancels the
+    extended input term $\bm H_i \bm E_i$. }
   \label{fig:fnsi_geometric}
 \end{figure}
 
@@ -353,8 +356,8 @@ Three assumptions are assumed to be fulfilled for the subspace methods,
   \begin{equation*}
     \text{rank}(\bm E_i) = (s+n) i
   \end{equation*}
-  Excitations and the nonlinearities have to be such that the inversion of the
-  problem is well-posed
+  eg. excitations and the nonlinearities have to be such that the inversion of the
+  problem is well-posed.
 \end{enumerate}
 
 To expand on the second assumption:
@@ -362,44 +365,46 @@ The state term $\bm A \bm X$ contains linear stiffness and damping information.
 If constant and/or linear terms are introduced in the nonlinear basis functions,
 the intersection between the states and the extended inputs $\bm E_i$ is no
 longer empty, which violate the assumption.
-This requires nonlinear basis functions to be nonlinearisable, i.e. they should
-be zero and have zero slope at the origin.
+This requires nonlinear basis functions to be nonlinearisable.
 
 \FloatBarrier
 
 
-\subsection{Types of nonlinear functional}
+\subsection{Types of nonlinear basis functions}
 \label{sec:fnsi_functional}
 
 
 As stated, the nonlinear basis functions should be zero and have zero slope at
 the origin. For continuous nonlinear restoring force, polynomial functions with
-order chosen from RFS-plots can be used. For discontinuous systems, e.g. contact,
-polynomials might not be well suited; higher order polynomials might
+order chosen from WT- and RFS plots can be used. For discontinuous systems, e.g.
+contact, polynomials might not be well suited; higher order polynomials might
 exhibit oscillations around the origin. An alternative is to use piecewise cubic
 spines instead. Even if they cannot realise a perfect fitting (they are
-continuous by nature), they are appropriate for representing sudden events,
-like sharp changes in stiffness(or damping) curves.
+continuous by nature), they are appropriate for representing sudden events, like
+sharp changes in stiffness(or damping) curves. Cubic splines and polynomials can
+be mixed.
 
 In order to get the basis functions from cubic splines, the abscissas and number
-of  knots
-is specified on beforehand and the ordinate expressed as the free parameters to
-be estimated.
-The number of knots and their abscissas should ideally be chosen by minimising
-the difference in some metric between the predictions of the non-linear model
-and measured data. In reality it is still done by trial and error.
+of knots is specified on beforehand and the ordinate expressed as the free
+parameters to be estimated. The number of knots and their abscissas should
+ideally be chosen by minimising the difference in some metric between the
+predictions of the non-linear model and measured data. In reality it is still
+done by trial and error.
 
 Using cubic splines might be termed \textit{gray box} identification where using
 polynomials is \textit{white box}. The difference is that with gray box, the
-nonlinearities are described by functionals that may represent a vast variaty of
+nonlinearities are described by functions that may represent a vast variety of
 nonlinear behaviour and thus requiring less specific knowledge of the underlying
 physics.
 
+See section \ref{sec:syst-with-clear} for the formulation of cubic splines used
+as basis functions.
 
 \subsection{Estimating model order}
 
-In order to perform estimation, number of block rows $i$, frequency lines $F$
-and the model order $n$ must be set by the user.
+In order to do parameter estimation, the number of block rows $i$ in the Hankel
+matrices, used frequency lines $F$ and the model order $n$ must be chosen by the
+user.
 There is no strict way to chose $i$, the only requirement is that it is chosen
 greater than the system order $n$. In theory the larger $i$, the more accurate
 estimation (which is true until a given limit, where the repeated inclusion of
@@ -417,15 +422,21 @@ time.
 
 The model order $n$ is strictly the number of total linear modes of the system
 eq. \eqref{eq:EOM_fnsi}, but in practice only a limited set modes are excited
-during measurement. Thus determine $n$ is equal to determine the number of modes
-excited in the chosen frequency interval $F$.
+during measurement. Thus to determine $n$, is equal to determine the number of
+modes excited in the chosen frequency interval $F$.
 This means that stabilisation diagram can be used to determine $n$ instead
-of inspecting the singular values of $\bm S$, \eqref{eq:fnsi_svd}.
-The stabilisation diagram shows the stabilisation of the estimated linear
-parameters: stabilisation in frequency, stabilisation in damping and
-stabilisation of the mode. If all three parameters are stabilised the mode is
-full stabilised. Stabilisation is compared to the same mode for one model order
-higher. Stabilisation for the mode is calculated by the modal assurance
+of inspecting the singular values of $\bm S$, eq. \eqref{eq:fnsi_svd}.
+
+To calculate a stabilisation diagram, the linear modal parameters are estimated
+for a given model order, ie. natural frequency, damping and mode shape. These
+modal parameters are then compared to the modal parameters calculated using a
+\textit{one higher} model order.
+Comparing modal parameters for each identified mode of the two model orders then
+gives the stability: \textit{stabilisation in frequency}, \textit{stabilisation
+  in damping} and \textit{stabilisation of the mode shape}. If all three
+parameters are stabilised the mode is full stabilised. The natural frequencies
+and damping are compared to some tolerance chosen by the user and stabilisation
+of the mode shape is calculated by the modal assurance
 criterion(MAC)\autocite{Allemang2003},
 
 \begin{equation}
@@ -438,7 +449,7 @@ criterion(MAC)\autocite{Allemang2003},
 
 
 If the model order is chosen too low, it will result in unmodelled dynamics,
-whereas too large orders lead to overmodelling issues such as an increase of the
+whereas too large order lead to overmodelling issues such as an increase of the
 noise sensitivity of the model. It should be noted that model selection requires
 that adequate basic functions are used.
 
@@ -449,22 +460,22 @@ From the stabilisation diagram a model order of four is chosen. This gives
 stabilisation in the linear parameters. The plot of the singular values shows a
 jump of six orders magnitude between model order four and five, verifying the
 chosen model order.
-In general only the stabilisation diagram is used; the singular value plot is
-only used if a stabilisation diagram is not implemented.
+In general only the stabilisation diagram is used as it gives more detailed
+information; the singular value plot is only used if a stabilisation diagram is
+not implemented.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.8\linewidth, height=8cm]{fnsi/vrms3_stab}
   \caption{Estimation of model order. Stabilisation diagram with linear FRF
     overlayed. Two modes are identified.
-    \textcolor{red}{$\pmb\times$}: new pole;
+    \textcolor{red}{$\pmb\times$}: new natural frequency(termed pole);
     $\pmb\star$: stabilisation in natural frequency;
-    $\pmb\square$: extra stabilisation in damping ratio;
-    $\pmb\circ$: extra stabilisation in MACX;
+    % $\pmb\square$: extra stabilisation in damping ratio;
+    % $\pmb\circ$: extra stabilisation in MACX;
     $\pmb\triangle$: full stabilisation.
     Stabilisation thresholds in natural frequency, damping ratio and MACX value
-    are $0.5\%, 2\%, 0.98$, respectively. Not all types of stabilisation are
-    present here.
+    are $0.5\%, 2\%, 0.98$, respectively.
   }
   \label{fig:fnsi_stab}
 \end{figure}
@@ -478,8 +489,8 @@ only used if a stabilisation diagram is not implemented.
 \end{figure}
 
 The determination of the model order is very simple and clear here. For larger system this
-might not be the case, as seen with the more involved examples in section
-\ref{cha:application}.
+might not be the case, see \autocite{noel2014a} for an example.
+
 
 \subsection{Example}
 \label{sec:fnsi_example}
@@ -488,21 +499,29 @@ The coupled duffing system is excited with a periodic multisine a integer
 number times. Using a periodic signal a integer number of times should avoid
 leakage\autocite{ewins2000a}.
 Figure \ref{fig:periodicity} shows the periodicity of the recorded signal. The
-signal of the last recorded period is compared to previous periods. For
-identification, multiple periods can be used but transient effects should not be
-present; which is indicated by a low periodicity.
+periodicity is calculated by using the signal of the last period as a reference
+and then subtracting this reference from each of the previous periods. If the
+difference between the reference and a previous period is close to zero, often
+shown in a logarithmic scale, the periodicity between the reference and the
+compared period is low. Ie. the periodicity is a way to verify that transient
+effects are died out.
+
+To summarise; for estimation multiple periods can be used, but transient effects
+should not be present; which is indicated by a low periodicity. In this case
+periods 4-9 could be used.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.7\linewidth]{fnsi/frf_per}
-  \caption{Periodicity of recorded signal at DOF 0. Vertical lines indicate
-    periods. A low periodicity shows that transient effects have died out}
+  \includegraphics[width=0.7\linewidth]{fnsi/frf_per.png}
+  \caption{Periodicity (or difference between periods) of recorded signal at DOF
+    0. Vertical lines indicate periods. A low periodicity shows that transient
+    effects have died out}
   \label{fig:periodicity}
 \end{figure}
 
 
 The estimation of the nonlinear parameters of the system is shown in figure
-\ref{fig:fnsi_knl} for model order four. The variation of the real part of$\mu$
+\ref{fig:fnsi_knl} for model order four. The variation of the real part of $\mu$
 is shown in a 1\% interval, with very little frequency dependency in the
 frequency range of interest. The imaginary part is about three orders of
 magnitude smaller. Both indicates a good quality of the estimation. The spectral
@@ -562,13 +581,13 @@ coefficients are identified correct.
   \label{tab:fnsi_eigen}
 \end{center}
 
-Figure \ref{fig:fnsi_H1} shows the transfer function. The linear transfer
-function found by FNSI match the theoretical linear transfer function.
+Figure \ref{fig:fnsi_H1} shows the FRF. The linear FRF found by FNSI match the
+theoretical linear FRF.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.8\linewidth, height=10cm]{fnsi/vrms3_H1}
-  \caption{Transfer function $H_1$ for the coupled duffing system.
+  \caption{FRF calculated as $H_1$ for the coupled duffing system.
     \sampleline{}: H1 from signal;
     \textcolor{red}{\sampleline{dash pattern=on .7em off .2em on .2em off .2em}}: Linear identified;
     \textcolor{orange}{\sampleline{dashed}}: Nonlinear identified from FNSI;
@@ -582,14 +601,16 @@ function found by FNSI match the theoretical linear transfer function.
 \label{sec:fnsi-estimation-error}
 
 It seems that the FNSI method works quite well - both nonlinear and linear
-parameters are estimated with high accuracy - and indeed it does work well. But
-it is not exact, even for simple examples without noise, the method introduce
-spurious undesired terms, and while they are small in magnitude, they still
-alters the identified model.
+parameters are estimated with high accuracy - as seen from the simple example
+and in a broader sense:~\autocites{noel2013a, noel2014a, noel2014b,
+  noel2012time, gourc2016a}. And indeed it does work well. But it is not exact,
+even for simple examples without noise, the method introduce spurious undesired
+terms, and while they are small in magnitude, they still alters the identified
+model.
 
 \textbf{Mangler at blive skrevet ind. Ideen er at regne baglæns fra de
   identificerede state-space matricer til eom. Det viser sig at eom indeholder
-  ekstra led, svarende til 'spurious' dæmpning}.
+  ekstra led, svarende til 'spurious''' dæmpning}.
 
 
 \subsection{Summary}
@@ -600,7 +621,7 @@ with many DOFs. It differs from time domain methods, with the ability to
 truncate measured signals to the frequency intervals of interest making
 computations faster for large systems.
 
-Characterisation of the nonlinearity is important to get a good identification.
+Characterisation of the nonlinearity is important to get a good estimation.
 If there is limited knowledge about the nonlinearity, cubic splines can be used
 instead of polynomials.
 In general the following steps can be used to check the validity of the

@@ -33,10 +33,10 @@ There are at least three ways to describe such a periodic solution.
 
 In this section methods for finding the first and second representations of a
 periodic solution is described. They are denoted the shooting method and
-harmonic balance method respectively. The one not covered is called
+harmonic balance method respectively. The third and not covered is called
 Orthogonal collocation. The shooting method is used as part of calculating NNMs
 and harmonic balance is used for bifurcation analysis. Both methods could be
-used for either tasks, but as both are popular it is instructive to present
+used for either tasks, but as they are popular it is instructive to present
 both.
 
 \subsection{Shooting method}
@@ -70,16 +70,16 @@ hamiltonian structure.
 \end{equation}
 
 
-A solution $\bm z_p(t, \bm z_0)$ is a periodic solution of the autonomous system
-eq. \eqref{eq:sm_state} if $\bm z_p(t, \bm z_{0}) = \bm z_p(t+T, \bm z_{0})$
+A solution $\bm z_p(t; \bm z_0)$ is a periodic solution of the autonomous system
+eq. \eqref{eq:sm_state} if $\bm z_p(t; \bm z_{0}) = \bm z_p(t+T; \bm z_{0})$
 where $T$ is the minimal period. Unlike forced motion, the period is not known a
-priori. The notation is written as $\bm z(t)=\bm z(t, \bm z_0)$ to indicate the
-dependence on initial conditions $\bm z(0, \bm z_0) = \bm z_0$.
+priori. The notation is written as $\bm z(t)=\bm z(t; \bm z_0)$ to indicate the
+dependence on initial conditions $\bm z(0; \bm z_0) = \bm z_0$.
 From above, the periodic condition is
 
 \begin{equation}
   \label{eq:sm_per_cond}
-  \bm h(\bm z_{p0},T) \equiv \bm z(T, \bm z_{p0}) - \bm z_{p0} = \bm 0
+  \bm h(\bm z_{p},T) \equiv \bm z(T; \bm z_{p}) - \bm z_{p} = \bm 0
 \end{equation}
 where $\bm h$ is called the shooting function.
 
@@ -125,9 +125,10 @@ In summary, the periodic solution is found by solving
   \label{eq:sm_bvp_problem}
   \bm h_{NNM} =
   \begin{bmatrix}
-    \bm h(\bm z_{p}, T) = 0 \\
-    g(\bm z_{p} ) = 0
+    \bm h(\bm z_{p}, T) \\
+    g(\bm z_{p} )
   \end{bmatrix}
+  = 0
 \end{equation}
 
 The solution is found by corrections to the initial guess, done by
@@ -165,7 +166,7 @@ order terms. Thus the corrections are found by solving the linear equation
 
 Since $\bm h_{NNM}$ have the transformation $\mathbb{R}^{2n+1} \rightarrow
 \mathbb{R}^{2n+1}$ the Newton system is over determined, ie. the matrix to
-invert is not square, and have to be solved in a least square sense.
+invert is not square and have to be solved in a least square sense.
 
 The state is updated as
 
@@ -175,21 +176,21 @@ The state is updated as
   T^{k+1} = T^k + \Delta T^k
 \end{equation}
 where $k$ is iteration number. The iteration is stopped when $\bm h_{nnm} = 0$
-to some tolerance. Newmark-Raphson is a local algorithm. Convergence is
-guarantied when the initial guess is close to solution, otherwise not. The
-initial guess could for instance be the first linear mode and corresponding
-period. If the Jacobian matrix $\bm J = [\bm h_{\bm z}, \bm h_T] $ is exact, the
-convergence is second order.
+to some tolerance. Newmark-Raphson is a local algorithm, meaning that
+convergence is guarantied when the initial guess is close to solution, otherwise
+not. The initial guess is chosen as one the of linear mode shapes and
+corresponding period. If the extended Jacobian matrix $\bm J = [\bm h_{\bm z},
+\bm h_T] $ is exact, the convergence is second order.
 
 
 The partial derivatives of the shooting function are found as:
 \begin{align}
   \label{eq:sm_jac1}
   \bm h_{\bm{z}}&=
-  \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0}\bigg|_{t=T} - \bm I \\
+  \frac{\p \bm z(t; \bm z_0)}{\p \bm z_0}\bigg|_{t=T} - \bm I \\
   \bm h_T &=
-  \frac{\p \bm z(t, \bm z_0)}{\p t}\bigg|_{t=T} =
-  \bm h_{ham}(\bm z(T, \bm z_0))
+  \frac{\p \bm z(t; \bm z_0)}{\p t}\bigg|_{t=T} =
+  \bm h_{ham}(\bm z(T; \bm z_0))
   \label{eq:sm_jac2}
 \end{align}
 where $\bm h_{T}$ is a $2n$ vector, $\bm h_{\bm z_{0}}$ is $2n\times 2n$ matrix.
@@ -229,9 +230,9 @@ z_0$
 with initial condition
 \begin{equation}
   \label{eq:sm_sens_init}
-  \frac{\p \bm z(0,\bm z_0)}{\p \bm z_0} = \bm I
+  \frac{\p \bm z(0,\bm z_0)}{\p \bm z_0} = \bm I_{2n}
 \end{equation}
-since $\bm z(0,\bm z_0) = \bm z_0$.
+since $\bm z(0;\bm z_0) = \bm z_0$.
 
 Then eq. \eqref{eq:sm_sens} is integrated over $T$ to obtain the Jacobian matrix
 at time $t=T$. This integration is linear and carried out at the same time as
@@ -241,17 +242,23 @@ appendix \ref{sec:newmark_sens} for a derivation. The sensitivity analysis
 requires the nonlinear forces to be smooth. If they are nonsmooth, finite
 difference have to be used.
 
-\subsubsection{Stability}
+\subsubsection{Marginal stability}
 \label{sec:sm_stab}
+
+
+For Hamiltonian systems the periodic solutions can at most be marginally stable
+since the system is without damping. Thus without dissipation, nearby orbits are
+not attracted to the periodic solution (ie. volume is conserved in phase plane),
+but the orbit \textit{is} still stable.
 
 The stability of a periodic solution is found from the Jacobian matrix evaluated
 at $t=T$, called the \textit{monodromy matrix}
 
 \begin{equation}
   \label{eq:sm_stab}
-  \Phi = \frac{\p \bm z(t, \bm z_0)}{\p \bm z_0}\bigg|_{t=T}
+  \Phi = \frac{\p \bm z(t; \bm z_0)}{\p \bm z_0}\bigg|_{t=T}
 \end{equation}
-From it, it is determined whether a small initial perturbation decays or grows.
+
 The stability is found from the eigenvalues $\sigma_i$ of $\Phi$, the Floquet
 multipliers. If an Floquet multiplier is larger than one (i.e., $|\sigma_i|>
 1$), the orbit is unstable. Conversely, the periodic orbit is stable if
@@ -259,8 +266,7 @@ $|\sigma_i| \leq 1, \forall i$
 
 Equivalently the Floquet exponents $\lambda$ could be used. If there is at least
 one Floquet exponents with a real part larger than 0 the solution is unstable.
-They are related through the relation
-
+They are related through,
 \begin{equation}
   \label{eq:floquet_relations}
   \sigma_i = e^{\lambda_i T}
@@ -270,17 +276,69 @@ Both variants are depicted on the complex plane and either compared to the unit
 circle or the imaginary axis, respectively. See section \ref{sec:bifurcations},
 fig \ref{fig:bifurcation} for a graphical representation.
 
+It should be noted that for Hamiltonian systems, for marginally stable
+solutions, the Floquet multipliers will always be complex conjugate pairs
+\textit{on} the unit circle, not within as it is the case for asymptotically
+stable solutions obtained from damped systems.
+Further there is always one pair of eigenvalues at $(1,0)$, ie. where the x-axis
+cross the unit circle in the complex plane. For Floquet exponents this means
+that the a pair is always located at 0, expressed as $\max(\Re(\lambda)) = 0$.
+This is due to the monodromy matrix of a Hamiltonian system being
+\textit{symplectic} \autocite{steves2006a}.
+
+
+\subsubsection{Damped and forced motion}
+
+If the shooting method is used for damped and forced motion, only the state
+space formulation have to be changed.
+
+The state space formulated for the full eom \eqref{eq:per_eom} is
+
+\begin{equation}
+  \label{eq:app_state_space}
+  \dot{\bm z}(t) = \bm L\bm z(t) - \bm g_{nl}(\bm z) + \bm g_{ext}(\omega,t)
+\end{equation}
+where
+
+\begin{equation}
+  \begin{aligned}
+    \bm z =
+    \begin{bmatrix}
+      \bm x \\ \dot{\bm y}
+    \end{bmatrix}, \quad
+    \bm L =
+    \begin{bmatrix}
+      \bm 0 & \bm I_n \\
+      -\bm M^{-1}\bm K & -\bm M^{-1} \bm C
+    \end{bmatrix} \\
+    \bm g_{nl} =
+    \begin{bmatrix}
+      \bm 0 \\ \bm M^{-1} \bm f_{nl}(\bm x, \dot{\bm x})
+    \end{bmatrix}, \quad
+    \bm g_{ext}
+    \begin{bmatrix}
+      \bm 0 \\ \bm M^{-1} \bm p_{ext}(\omega, t)
+    \end{bmatrix}
+  \end{aligned}
+\end{equation}
+
+Calculating the periodic motion for the full EOM, instead of the unforced and
+undamped case, only requires changing the evaluation of the state space to the
+formula above. The sensitivity analysis in section \ref{sec:newmark_sens} is
+derived for the full EOM. Thus very few lines of code needs changing.
+
+
 \subsection{Harmonic balance}
 \label{sec:harmonic_bal}
 
 Where the shooting method finds a periodic solution by solving the system in
 time domain, HB finds the periodic solution in frequency domain. The method is
-described in \textcite{detroux2016a}.
+described by \textcite{detroux2016a}.
 
 A periodic solution to the damped and forced eom eq. \eqref{eq:per_eom} is
 sought.
-As the signal $\bm x$ and forces $\bm f(\bm x, \dot{\bm x}, \omega ,t) = \bm
-p(\omega, t)- \bm f_{nl}(\bm x, \dot{\bm x})$ are assumed periodic, they are
+As the displacements $\bm x$ and forces $\bm f(\bm x, \dot{\bm x}, \omega ,t) =
+\bm p(\omega, t)- \bm f_{nl}(\bm x, \dot{\bm x})$ are assumed periodic, they are
 approximated by Fourier series truncated to the $N_H$-th harmonic
 
 \begin{align}
@@ -311,7 +369,7 @@ Gathering the coefficients into vectors
       (\bm s^f_{N_H})^T & (\bm c^f_{N_H})^T
     \end{bmatrix}^T
 \end{align}
-then using a compact notion, the displacement and force is written as
+then using a compact notion, the displacements and forces is written as
 
 \begin{align}
   \label{eq:hm_x_compact}
@@ -366,13 +424,13 @@ where $\bm A$ describes the linear dynamics
   \bm{I}_{2N_H} \otimes \bm K
 \end{equation}
 
-If $\bm z$ is a solution of \eqref{eq:hb_feom_compact}, then the time signal $x^*$
-constructed from $z^*$ is periodic and satisfies the eom \eqref{eq:per_eom}. As
-with the shooting function, eq. \eqref{eq:hb_feom_compact} is nonlinear (due to
-$\bm b$ dependence on $\bm z$) and have to be solved iteratively by
-Newton-Rahpson iterations. It should however be noted that $\bm h(\bm z,
-\omega)$ is an (nonlinear) algebraic equation, ie. there is no need for
-time integration.
+If $\bm z$ is a solution of \eqref{eq:hb_feom_compact}, then the time signal
+$\bm x$ constructed from $\bm z$ is periodic and satisfies the eom
+\eqref{eq:per_eom}. As with the shooting function, eq.
+\eqref{eq:hb_feom_compact} is nonlinear (due to $\bm b$ dependence on $\bm z$)
+and have to be solved iterative by Newton-Rahpson iterations. It should
+however be noted that $\bm h(\bm z, \omega)$ is an (nonlinear) algebraic
+equation, ie. there is no need for time integration. The increments are found as
 
 \begin{equation}
   \label{eq:hb_nr}
@@ -384,13 +442,13 @@ time integration.
 \subsubsection{Expression of nonlinear terms and Jacobian matrix}
 \label{sec:hb_exp_nonlin_jac}
 
-Solution of eq \eqref{eq:hb_nr} requires calculation of $\bm H$ and of the
-Jacobian matrix $\bm H_{\bm z}$, which in turn requires calculation of $\bm b$
+Solution of eq \eqref{eq:hb_nr} requires calculation of $\bm h$ and of the
+Jacobian matrix $\bm h_{\bm z}$, which in turn requires calculation of $\bm b$
 and its derivatives.
 
 It is not known how the Fourier coefficients in $\bm b$ relates to the
 coefficients in $\bm z$, ie. it is not possible to directly calculate $\bm b(\bm
-z)$ due to $\bm f_{nl}$ depends on $x$. Instead a technique called the
+z)$ due to $\bm f_{nl}$ depends on $\bm x$. Instead a technique called the
 \textit{alternating frequency-time domain}(AFT) method is used. Here $\bm b$ is
 calculated through successive Fourier transformations as shown in figure
 \ref{fig:hb_aft}
@@ -424,8 +482,9 @@ The Jacobian matrix is given by
     \bm h_{\bm z} = \frac{\p \bm h}{\p \bm z} = \bm A - \frac{\p \bm b}{\p \bm z}
 \end{equation}
 where the hard part is to compute $\bm b_{\bm z}$. The method for calculating
-the Jacobian matrix follows the AFT method as well. To do that, the inverse
-Fourier transform is written as the linear operator $\bm \Gamma(\omega)$
+the Jacobian matrix (explicit $\bm b_{\bm z}$) follows the AFT method as well.
+To do that, the inverse Fourier transform is written as the linear operator $\bm
+\Gamma(\omega)$
 
 \begin{equation}
   \label{eq:hb_gamma}
@@ -484,8 +543,8 @@ Thus the inverse and direct Fourier transform are written
     \tilde{\bm x} = \bm \Gamma(\omega) \bm z, \quad
     \bm z =( \bm \Gamma(\omega))^+ \tilde{\bm x}
 \end{equation}
-where $()^+$ is the Moore-Penrose pseduinverse since $\Gamma$ is not square. In
-implementation the solution is found by a least square solver.
+where $()^+$ is the Moore-Penrose pseduinverse and used as $\Gamma$ is not
+square. In implementation the solution is found by a least square solver.
 
 The Fourier coefficients of the external and nonlinear forces are then
 \begin{equation}
@@ -495,7 +554,7 @@ The Fourier coefficients of the external and nonlinear forces are then
 and the Jacobian is computed as
 \begin{equation}
   \label{eq:hb_jac}
-  \bm H_{\bm z} = \bm A - \frac{\p \bm b}{\p \bm z} =
+  \bm h_{\bm z} = \bm A - \frac{\p \bm b}{\p \bm z} =
   \bm A -
   \frac{\p\bm b}{\p \tilde{\bm f}}
   \frac{\p \tilde{\bm f}}{\p \tilde{\bm x}}
@@ -546,7 +605,7 @@ where
   \label{eq:hb_stab_B12}
   \bm B_1 =
   \begin{bmatrix}
-    \bm \Delta B_1 & \bm h_{\bm z} \\
+    \bm \Delta  & \bm h_{\bm z} \\
     -\bm{I}    & \bm 0
   \end{bmatrix}, \quad
   \bm B_2 = -
@@ -567,7 +626,7 @@ square matrix
     \bm{I}                    & \bm 0
   \end{bmatrix}
 \end{equation}
-or from the generalised eigenvalueproblem eq. \eqref{eq:hb_stab_B12}.
+or from the generalised eigenvalueproblem eq. \eqref{eq:hb_double_eigen}
 
 Only $2n$ eigenvalues approximate the Floquet exponents $\tilde{\bm \lambda}$,
 the rest are spurious. The ones needed are the $2n$ values with smallest
@@ -583,7 +642,7 @@ The diagonal matrix
     & & \tilde \lambda_{2n}
   \end{bmatrix}
 \end{equation}
-gathers the Floquet exponents identified from the $(2_{N_H} + 1)2n$ Hill's
+gathers the Floquet exponents identified from the $(2 N_H + 1)2n$ Hill's
 coefficients. Besides stability, they are used for detecting bifurcations in
 section \ref{sec:detecting_bifs}.
 
@@ -592,8 +651,13 @@ section \ref{sec:detecting_bifs}.
 
 Figure \ref{fig:hb_duffing_periodic} shows the periodic of the coupled duffing
 Duffing system. Although the excitation is pure sine, the response contains
-multiple harmonics due to nonlinearity. The normalized harmonic components are
-found as
+multiple harmonics due to the nonlinearity.
+As the fifth harmonic only participates marginally, it can be assumed that
+even higher harmonics are not important for describing the periodic motion.
+The number of harmonic participating, and their weights, depends on the forcing
+frequency and the level of nonlinearity(ie. including the forcing level).
+
+The normalised harmonic components are found as
 
 \begin{equation}
   \label{eq:hb_normal_coeff}
@@ -602,6 +666,7 @@ found as
     \phi_0 = \frac{c_0^x}{\sqrt{2}}, \quad \phi_i = \sqrt{(s^x_i) + (c^x_i)^2}
   \end{aligned}
 \end{equation}
+
 
 \begin{figure}[!ht]
   \centering
@@ -614,9 +679,12 @@ found as
     \includegraphics[width=\linewidth, height=6cm]{2dof_duffing/hb_har}
     \caption{}
   \end{subfigure}
-    \caption{Periodic solution of the coupled Duffing system for $f=2$,
-    $\omega=1.2$ and $N_H=5$.
-    \textbf{(a)}: Time series;
+  \caption{Periodic solution of the coupled Duffing system \eqref{eq:2dof} for
+    $f=2$N,
+    $\omega=1.2$rad/s and $N_H=5$.
+    \textbf{(a)}: Time series.
+    \sampleline{}: $x_1$,
+    \sampleline{dashed}: $x_2$;
     \textbf{(b)}: Normalized harmonic components of $x_1$.}
   \label{fig:hb_duffing_periodic}
 \end{figure}
@@ -645,9 +713,7 @@ Summarising the shooting method
   \item Slow for larger systems
   \end{itemize}
 \end{multicols}
-If the shooting method should be used for damped and forced motion, only the
-state space formulation have to be changed. See appendix
-\ref{sec:shooting_appendix} for the few changes.
+
 
 Summarising the harmonic balance method
 \begin{multicols}{2}
@@ -658,6 +724,7 @@ Summarising the harmonic balance method
   \item Can be used for filtering, ie. by defining the number of harmonics in
     the solution.
   \end{itemize}
+  \vfill\null
   \columnbreak
   Cons
   \begin{itemize}
@@ -670,7 +737,7 @@ Summarising the harmonic balance method
 
 Stability of a periodic solution can be assessed through  their Floquet
 multipliers or exponents. When the Shooting method is used, they are found from
-the monodromy matrix. When \gls{hb} is used, they are found from Hills matrix.
+the monodromy matrix. When HB is used, they are found from Hills matrix.
 
 
 %%% Local Variables:

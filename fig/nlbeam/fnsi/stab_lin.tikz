@@ -76,7 +76,8 @@ table {%
 143.637424209384 14
 397.814955266678 14
 };
-
+\path [draw=black, dashed] (axis cs:5,6)
+--(axis cs:500,6);
 
 \end{axis}
 

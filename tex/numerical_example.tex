@@ -10,16 +10,17 @@ and natural frequencies and damping ratio for the two modes listed in table
 \ref{tab:duf_eigen}. The equations of motion are
 
 \begin{equation}
+  \label{eq:2dof}
   \begin{aligned}
-    &m_1\ddot x_1 + c \dot x_1 + kx_1 + \mu_1x_1^3 + d(x_1 - x_2) = p \\
-    &m_2\ddot x_2 + c \dot x_2 + kx_2 + \mu_2x_2^3 + d(x_2 - x_1) = 0 \\
+    &m_1\ddot x_1 + c \dot x_1 + kx_1 + \mu x_1^3 + d(x_1 - x_2) = p \\
+    &m_2\ddot x_2 + c \dot x_2 + kx_2 + \mu x_2^3 + d(x_2 - x_1) = 0 \\
   \end{aligned}
 \end{equation}
 where $x_1,x_2, p$ all depends on time.
 
-An example on how a real beam with different nonlinear boundary conditions is
-transformed into a coupled MDOF nonlinear duffing oscillator is given in
-\textcite{mhermansen2017a}
+An example on how a real continous beam with different nonlinear boundary
+conditions is transformed into a coupled MDOF nonlinear duffing oscillator is
+given in \textcite{mhermansen2017a}
 
 
 \begin{center}
@@ -56,12 +57,13 @@ transformed into a coupled MDOF nonlinear duffing oscillator is given in
   \label{fig:duf_schematic}
 \end{figure}
 
-For generating data for detection and characterisation with MW and RFS, the
-system is simulated using a logarithmic sine sweep.
-For identification, a single band-limited (0-80 rad/s) normally distributed
+For generating data for characterisation with WT and RFS, the system is
+simulated using a logarithmic sine sweep with a sweep rate of 1 oct/min.
+
+For identification, a single band-limited (0-15 rad/s) normally distributed
 random signal with 5000 points repeated 9 times and a root mean square(rms)
 value of 3N is used. This signal is called a multisine. The frequencies are
-chosen to include the third harmonics.
+chosen to include third harmonics of the highest natural frequency.
 
 
 %%% Local Variables:

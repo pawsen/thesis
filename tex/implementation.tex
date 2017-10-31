@@ -7,15 +7,16 @@ The methods presented in the previous chapters are implemented as a library in
 python and available online \autocite{paw2017}. The code depends on the standard
 python libraries numpy, scipy and matplotlib and can run on all operating
 systems. Care have been taking in order to ensure correctness of the
-implementations; as much as it have been possible examples from papers and data given
-from Liege have been recalculated to ensure that the same results were obtained.
-All code is written for this thesis and implement most notably:
+implementations; as much as it have been possible examples from papers and data
+given from University of Liege(ULg) have been recalculated to ensure that the same
+results were obtained. All code are written for this thesis and implement most
+notably:
 \begin{itemize}
 \item FEM code: generate FE matrices $\bm M, \bm K$ from a \textit{gmsh}-mesh
   file. Different types of elements are available. Boundary conditions are
   enforced on system matrices.
 \item Nonlinear newmark integration with sensitivity analysis
-\item Morlet wavelet
+\item Morlet wavelet/wavelet transform
 \item Restoring force surface
 \item Integration, filtering and periodicity calculation of signals
 \item NNM continuation and stability
@@ -27,7 +28,7 @@ All code is written for this thesis and implement most notably:
   between periods is calculated.
 \item Modal properties including MAC calculation.
 \item Sine sweep(linear and logarithmic) and random periodic excitation.
-\item Polynomial and piecewise cubic splines available for identification.
+\item Polynomial and piecewise cubic splines available for estimation.
 \item Additional types of nonlinearities available for simulation with Newmark,
   HB and NNM: Piecewise linear and hyperbolic tangent(tanh), the latter only for
   damping.
@@ -39,6 +40,7 @@ storing all information, making multiple runs with different settings easy. To
 keep the examples short, they are run with default settings.
 
 \begin{lstlisting}[language=Python,frame=single,breaklines=true,basicstyle=\tiny]
+# Paw, 2017
 from numpy import np
 from vib.signal import Signal
 from vib.fnsi import FNSI
@@ -75,6 +77,7 @@ modal = modal_properties(fnsi.A, fnsi.C)
 and for HB:
 
 \begin{lstlisting}[language=Python,frame=single,breaklines=true,basicstyle=\tiny]
+# Paw, 2017
 import numpy as np
 from vib.hb.hb import HB
 from vib.hb.hbcommon import hb_signal
@@ -109,15 +112,21 @@ hb2.continuation(bifurcation=False)
 All the examples from the previous chapters are included in the examples
 directory in the source code, and should run on any python3 installation.
 
+The desired functionality is loaded from the vibration library in the top of
+each example. For instance \texttt{from vib.signal import Signal} includes a
+class(methods) for calculating periodicity, filtering and integrating the
+acceleration signal. The signal class is the passed to the FNSI process, loaded
+by \texttt{from vib.fnsi import FNSI}.
+
 It is noted that the functionality of this library correspond to the Ni2D
 software by Nolinsys, a company founded by researches at Liege University, and
 should run at the same speed. The python library includes \textit{all} methods
 included by Ni2D. The notable difference is that Ni2D have a graphical interface
 and requires, besides a license to Ni2D, a license to matlab. The python library
 does however have a interactive graphical interface for selecting RFS and
-inspecting the evolution of \{stability changes, ie. Floquet exponents, harmonic
+inspecting the evolution of \{stability changes(ie. Floquet exponents), harmonic
 components and periodic solution\}(not shown in this report); both are inspired
-by Ni2D.
+by Ni2D. Ni2D cannot use splines for estimation.
 
 
 %%% Local Variables:

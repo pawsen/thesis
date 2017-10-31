@@ -8,7 +8,7 @@
     style=numeric-comp,
     %style=numeric,
     sortlocale=none,%de_DE,
-    autocite=superscript,
+   % autocite=superscript,
    % natbib=true,
     url=false,
     doi=true,
@@ -39,7 +39,7 @@
 \usepackage{multicol}
 
 % for figures
-\usepackage[font={small,it},labelfont={sc, bf}]{caption}
+\usepackage[font={small},labelfont={sc, bf}]{caption}
 \usepackage{graphicx, subcaption}
 % for matplotlib2tikz
 \usepackage{pgfplots}
@@ -130,6 +130,12 @@
     }}
 }
 
+% Make bold math upright(roman)
+\let\oldbm\bm
+\renewcommand{\bm}[1]{\oldbm{\mathrm{#1}}}
+% Rotate text
+\newcommand*\rot{\rotatebox{90}}
+
 % Lav cirkel uden om bogstav. Kræver pakken \usepackage{tikz}. Benyttes med fx. \mycirc{A}
 \newcommand*\mycirc[1]{
   \tikz[baseline=(C.base)]\node[draw,circle,inner sep=0.5pt](C) {#1};\! }
@@ -149,7 +155,7 @@
 \newcommand{\degreeC}{\ensuremath{^\circ \mathrm{C}}}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
-\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\sign}{sgn}
 
 \newcommand{\Arch}{\operatorname{\mathit{A\kern-.06em r}}} % http://wikipedia.org/wiki/Archimedes-Zahl
 \newcommand{\Biot}{\operatorname{\mathit{B\kern-.06em i}}} % http://wikipedia.org/wiki/Biot-Zahl
