@@ -61,6 +61,7 @@
 \usepackage{chngcntr} % reset numbering after each section
 \usepackage{import}
 \usepackage{listings}
+\usepackage{pdfpages}
 
 \usepackage[acronym,nomain,toc,nonumberlist]{glossaries} % ,xindy
 \makeglossaries
@@ -69,7 +70,6 @@
 % rækkefølge til billedformat
 \DeclareGraphicsExtensions{.tikz,.pdf,.png,.jpg}
 \graphicspath{{./fig/}} 			% stivej til bibliotek med figurer
-
 
 \newcounter{infobox}[section]
 \newenvironment{infobox}[1][]{%
@@ -85,6 +85,7 @@
 }{%
     \end{mdframed}
 }
+
 
 % Bemærk at "nye" kommandoer bør stå efter \usepackage
 

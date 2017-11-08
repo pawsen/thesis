@@ -1,64 +1,12 @@
 \chapter{Introduction}
 \label{sec:introduction}
 
-In all structures, nonlinearities which will affect the dynamic behavior of the
-structure are present to some extend. Depending on excitation level, the
-structure will exhibit linear or nonlinear dynamics. Nonlinearities have always
-existed, but are often neglected.
+This project demonstrates methods for estimating linear parameters obtained from
+nonlinear vibration signals. The project also demonstrates methods predicting
+the behaviour of identified nonlinear systems. The methods are implemented in a
+vibration library.
 
-To get a further understanding of the nonlinear effects present, an efficient
-set of tools for identification, characterization and estimation of
-nonlinearities in engineering structures from experimental observations is be
-useful.
-
-The motivation for this thesis is to provide that understanding, hopefully
-giving the reader a ``toolbox'' applicable to nonlinear systems. A toolbox is to
-be understood as a collection of methods, applicable to nonlinear problems.
-Like modal testing is one method in the linear toolbox.
-
-
-To exemplify and test this toolbox, a part of the thesis is dedicated to
-developing, implementing and exemplifying the methods of the toolbox
-numerically.
-
-By using such a ``numerical toolbox'', further understanding of the nonlinear
-dynamics can be obtained by simulation, then what is gained by pure experiment,
-and hopefully assist in virtual prototyping.
-
-One requirement for the toolbox is that it works on experimental data, e.g. time
-series, alone. Methods exists which can do identification and estimation, but
-they often require either that the Equations of Motions(EOM) are assembled or a
-detailed Finite Element Model(FEM) is constructed, and are thus often difficult
-and time consuming to use.
-
-Another aspect of the toolbox is to quantify the size, or importance, of
-nonlinearity:
-
-Even if the area of nonlinear identification and modeling have received a great
-deal more attention within the last ten years, it is still far behind the linear
-counterpart, both in theory and application. Thus a nonlinear toolbox certainly
-requires some specialization to use.
-If the nonlinearity is weak it might suffice with linear analysis, giving access
-to all the traditional methods, with reduced time spend on the analysis as a
-consequence.
-
-% identification, characterization and modeling of localized nonlinearities in
-% structural dynamics. The goal of creating such a toolbox is to get 
-
-% Such a toolbox already exists to some degree, e.g. Ni2D \citep{Ni2D}, developed
-% at Liège University.
-
-% Even if the area of nonlinear identification and modeling have received a great
-% deal more attention within the last ten years, it is still far behind the linear
-% counterpart, both in theory and application. Thus a nonlinear toolbox
-% usefulness is still somewhat limited and certainly requires some specialization
-% to use. This is also true for the Ni2D software.
-
-% The 
-% The identification is done on experimental time data and 
-
-
-\subsection{Why nonlinear modeling}
+\section{Why nonlinear modeling}
 \label{sec:why-nonl-model}
 
 For nonlinear systems, the superposition and thus invariance of modes and
@@ -73,8 +21,8 @@ literature today treats localized nonlinearity, assuming the location of the
 nonlinearity is known.
 Another reason for dealing with localized nonlinearities, is that no robust
 method for localization exists. In his thesis \textcite{kragh2010a} test different
-methods for localizing nonlinearity and concludes that ``it was not possible to
-obtain consistent localization of the nonlinearities'' even for simple structures.
+methods for localizing nonlinearity and concludes that \textit{it was not possible to
+obtain consistent localization of the nonlinearities} even for simple structures.
 
 With the introduction of ever lighter structures, exotic materials, high speed
 machinery, etc., nonlinear tools are needed to fully understand the dynamics.
@@ -86,25 +34,23 @@ For a general introduction to nonlinear dynamics, the textbook by
 
 
 
-\subsection{Nonlinear system identification?}
+\section{Nonlinear system identification?}
 \label{sec:nonl-syst-ident}
 
 \textcite{kerschen2006a} proposed to regard the identification of nonlinear
-structural models as a progression through three steps: {\textit detection}, {\textit
-  characterization} and {\textit estimation}, as outlined in figure
+structural models as a progression through three steps: \textit{detection},
+\textit{characterization} and \textit{estimation}, as outlined in figure
 \ref{fig:ident_process}
 
-The first book on the topic was \textcite{worden2000nonlinearity}, and even
+The first book on the topic was \autocite{worden2000nonlinearity}, and even
 though many new methods has been introduced since then, it still gives a good
 introduction to the subject as well as a overview of the common types of
-nonlinearity.
+nonlinearities.
 
 A comprehensive review of the development in nonlinear system identification was
-given by \parencite{kerschen2006a} and just recently by \textcite{noel2016a}. For
+given by \autocite{kerschen2006a} and just recently by \autocite{noel2016a}. For
 comparison of the many techniques in use, the reader is refereed to these
-reviews. In this thesis, the choice of technique will be motivated but
-alternative techniques will not necessarily be mentioned.
-
+reviews. In this thesis, alternative techniques will not be mentioned.
 
 %\begin{infobox}]
 
@@ -138,7 +84,7 @@ alternative techniques will not necessarily be mentioned.
 % \end{infobox}
 
 
-\subsubsection{Detection}
+\subsection{Detection}
 
 Of the three steps, detection is the easiest. During test, the structure should
 be excited by a sine-sweep and a mere visual inspection of the time series will
@@ -148,7 +94,7 @@ excitation level needs to be at an amplitude where the nonlinearity is
 activated.
 
 Random excitation is in general not useful, as the randomness of the amplitude
-and phase of the excitation creates ``linearized'' frequency response functions
+and phase of the excitation creates \textit{linearized} frequency response functions
 (FRFs). At least multiple test with different rms levels are required, and still
 then it might be difficult to excite the nonlinearities, since the total power
 of the input spectrum is spread over the band-limited frequency range used.
@@ -168,7 +114,7 @@ Formal methods for detection includes
 \item (ordinary) Coherence function \\
   The coherence function compares power spectral densities (PSDs) and are
   required to be unity for all accessible frequencies for the system to be
-  linear {\textit and} free of noise. The advantage is that only one test is needed,
+  linear \textit{and} free of noise. The advantage is that only one test is needed,
   but the method does not distinguish between cases of noise and
   nonlinearity. Instead it is recommend do use:
 \item Hilbert transforms \\
@@ -193,7 +139,7 @@ but only lowered, the cross correlation coefficient will not decrease as much as
 in the stiffness nonlinearity case. In general damping nonlinearity is difficult
 to identify and will only be touched briefly in this thesis.
 
-\subsubsection{Characterisation}
+\subsection{Characterisation}
 \label{sec:characterization}
 
 The second step is the most important and also the most difficult, when
@@ -203,7 +149,7 @@ nonlinearity, e.g. displacement or velocity and a representative functional form
 to represent the nonlinearity.
 
 
-The most used technique is the {\textit restoring force surface} (RFS). The RFS
+The most used technique is the restoring force surface(RFS). The RFS
 provides information of restoring force in the excited range. To visualize the
 functional of the restoring force and the dissipative force, two slices in the
 RFS is made: at zero displacement and zero velocity. The functional form is then
@@ -221,19 +167,18 @@ estimating the type of nonlinearity,
 % and flexible mathematical structure to capture all relevant dynamics.
 
 
-\subsubsection{Estimation}
+\subsection{Estimation}
 \label{sec:estimation}
 
 The RFS method can be used for estimation as well, fitting the functional form
 to the surface. But in order to scale the RFS correct, an estimate of the mass
 (or inertia) is needed or the full EOM has to be assembled. This is often
-difficult for MDOF systems and violates the ambition for the toolbox: that it
-works on time series exclusively.
+difficult for MDOF systems.
 
-A newer method, introduced by \textcite{noel2013a}, is the frequency-domain
+A newer method, introduced by \autocite{noel2013a}, is the frequency-domain
 nonlinear subspace identification(FNSI). This method works on
-time series alone and is able to estimate nonlinear parameters and the
-underlaying linear transfer function.
+time series exclusive and is able to estimate nonlinear parameters and the
+underlying frequency response function(FRF).
 
 % Frequency domain
 % methods should generally be less sensitive to noise than time domain
@@ -247,7 +192,7 @@ underlaying linear transfer function.
 
 
 
-\subsection{Beyond nonlinear system identification}
+\section{Beyond nonlinear system identification}
 \label{sec:beyond-nonl-syst}
 
 When the identification steps is completed, a structural model can be build from
@@ -258,70 +203,143 @@ linear model is often reduced using the Craig-Bampton reduction technique
 \autocite{craig1968a}.
 
 If the predictions from the nonlinear FEM can be verified by the
-experimental results, the numerical model can be used to {\textit get further
+experimental results, the numerical model can be used to \textit{get further
   understanding of the nonlinear dynamics}. The latter is the whole goal of the
 identification, as it allows for uncovering new nonlinear regimes of motion and
 to make design modifications. The concept of using numerical experiments to
-assist with the design is referred to as {\textit virtual prototyping}.
+assist with the design is referred to as \textit{virtual prototyping}.
 
 
-\subsubsection{Internal resonance}
+\subsection{Internal resonance}
 \label{sec:internal-resonance}
 
 
 Nonlinear resonances are investigated using an extension of linear normal modes
 (LNMs) to nonlinear theory, the nonlinear normal modes (NNMs) described in
-appendix \ref{sec:nonl-norm-modes}.
+section \ref{sec:nonl-norm-modes}.
 Where a LNM is interpreted as the deformation along the axis of the vibrating
 structure or the rotation, a NNM does not have such a clear interpretation.
 An NNM is said to be a periodic oscillation of the underlaying undamped and
 unforced nonlinear system and depends on the frequency and energy of the
-system.
+system. NNMs are described in depth in \autocites{kerschen2009b, kerschen2009a}.
 
 
-\subsubsection{Bifurcation}
+\subsection{Bifurcation}
 \label{sec:bifurcation}
 
 
 Using the HB method, nonlinear forced response curves(NFRCs) for a periodic
 excitation are calculated. The transition from a stable periodic solution to an
 unstable solution occurs through bifurcations. The type of bifurcation is used
-to qualify the type of unstable solution emerging.
+to qualify the type of unstable solution emerging. The HB method followed here
+were introduced in \autocite{detroux2015a}.
+
 % , following the outline in
-% \textcite{detroux2015a}.
 
 
-% \subsection{Thesis outline}
-% \label{sec:thesis-outline}
+\section{Thesis outline}
+\label{sec:thesis-outline}
 
-% Section 2 introduces the theoretical methods used: NNMs, RFS and FNSI,
+To summarise, chapter 2 introduces the wavelet transform and RFS for
+characterisation and FNSI for estimation; the methods used for identification as
+depicted in fig. \ref{fig:ident_process}. All methods are working exclusively on
+time series.
 
-% Section 3 introduces the numerical methods: FEM discretization and model
-% reduction, Newmark time integration, harmonic balance and continuation for
-% calculating NNMs and NFRF.
+Chapter 3 introduces numerical methods working on a finite element
+discretization of the identified system. These methods are used to get
+qualitative information on the nonlinear behavior.
 
-% It also briefly discusses methods for integrating and differentiating time
-% signals and filtering techniques.
+Chapter 4 introduce the python library implementing the methods and gives a
+brief example on how to use it. All examples from this thesis can be found
+online together with the library.
 
-% Section 4 introduce identification and simulation of benchmark data from a
-% nonlinear system, the COST beam, \cite{GOLINVAL2003}, which have a cubic
-% stiffening nonlinear due to geometry and a squared nonlinearity due to clamping.
+In chapter 5 the methods from chapter 2 and 3 are demonstrated on two nonlinear
+systems.
 
-% Section 5 introduces numerical experiments to investigate how the methods
-% performs and their sensitivity to noise.
-
-% Finally section 6 contains an discussion and conclusion and suggest further
-% studies and implementations.
-
-% There will not be given much attention to the detection of nonlinearity.
-
-% \subsection{Summary}
-% \label{sec:intro-summary}
+All methods are exemplified on the nonlinear two degree of freedom system(2DOF)
+\eqref{eq:2dof} presented next.
 
 
-% With a toolbox for detection, characterization and estimation of nonlinear
-% parameters, numerical modeling will provide additional insight into the dynamics
-% of the system.
+
+\section{Numerical example}
+\label{sec:numerical-example}
+
+
+To illustrate the methods presented, the 2-DOF system shown in figure
+\ref{fig:duf_schematic} is used throughout the thesis. It will be referred to as
+the coupled duffing system, with parameters listed in table \ref{tab:duf_par}
+and natural frequencies and damping ratio for the two modes listed in table
+\ref{tab:duf_eigen}. The equations of motion are
+
+\begin{equation}
+  \label{eq:2dof}
+  \begin{aligned}
+    &m_1\ddot x_1 + c \dot x_1 + kx_1 + \mu x_1^3 + d(x_1 - x_2) = p \\
+    &m_2\ddot x_2 + c \dot x_2 + kx_2 + \mu x_2^3 + d(x_2 - x_1) = 0 \\
+  \end{aligned}
+\end{equation}
+where $x_1,x_2, p$ all depends on time.
+
+An example on how a real continous beam with different nonlinear boundary
+conditions is transformed into a coupled MDOF nonlinear duffing oscillator is
+given in \textcite{mhermansen2017a}
+
+
+\begin{center}
+  \begin{tabular}{*{6}{c}}
+    \hline
+    $m_1$ (kg) & $m_2$ (kg) & $k$ (N/m) & $d$ (N/m) & $c$ (N/ms) & $\mu$ (N/$m^3$) \\
+    1 & 1 & 1 & 5 & 0.1 & 1 \\
+    \hline
+  \end{tabular}
+  \captionof{table}{Linear and nonlinear parameters for the coupled Duffing
+    system}
+  \label{tab:duf_par}
+\end{center}
+
+
+\begin{center}
+  \begin{tabular}{*{3}{c}}
+    \hline
+    Mode & Frequency (rad/s) & Damping ratio (\%) \\
+    1 & 1.00 & 5.00 \\
+    2 & 3.32 & 1.51 \\
+    \hline
+  \end{tabular}
+  \captionof{table}{Linear natural frequencies and damping ratios for the
+    coupled Duffing system}
+  \label{tab:duf_eigen}
+\end{center}
+
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.5\linewidth]{2dof_duffing/2dof_duffing}
+  \caption{Schematic representation of the coupled duffing system}
+  \label{fig:duf_schematic}
+\end{figure}
+
+For generating data for characterisation with WT and RFS, the system is
+simulated using a logarithmic sine sweep with a sweep rate of 1 oct/min.
+
+For identification, a single band-limited (0-15 rad/s) normally distributed
+random signal with 5000 points repeated 9 times and a root mean square(rms)
+value of 3N is used. This signal is called a multisine. The frequencies are
+chosen to include third harmonics of the highest natural frequency.
+
+Formally a multisine is defined as a \textit{sum of sine waves with related
+  frequencies}\autocite{overschee1996a}:
+
+\begin{equation}
+  \label{eq:multisine}
+  u(t) = N^{1/2} \sum_{-N/2+1}^{N/2-1} U_k e^{j \left( 2\pi k \frac{f_s}{N}t + \phi_k \right)}
+\end{equation}
+where $N$ is the number of time sample and $f_s$ the sampling frequency. The
+phases $\phi_k$ are drawn from a uniform distribution on $[0, 2\pi[$ and the
+amplitudes $U_k$ are controlled to create the desired spectrum(normally flat in
+the desired frequency spectrum). The signal $u$ is asymptotically normally
+distributed as $N$ tends to infinity.
+
 
 %%% Local Variables:
 %%% mode: latex

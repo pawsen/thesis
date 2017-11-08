@@ -307,15 +307,16 @@ See figure \ref{fig:fnsi_methodolgoy} for a overview.
       where $\underline{\bm \Gamma_i}$ and $\overline{\bm \Gamma_i}$ are the
       matrix $\bm \Gamma_i$ without its first and last $l$ rows.
       $\bm C$ is extracted as the first block row of $\bm \Gamma_i$.
-    \item Estimate $\bm B$ and $\bm D$ by defining the transfer function matrix
-      $\bm G_s$,
+    \item Estimate $\bm B$ and $\bm D$ by defining the extended FRF  $\bm
+      H^e(k)$ (or as this within the $z$-transform it might be termed
+      \textit{transfer function}).
       \begin{equation*}
-        \bm G_s(k) = \bm C(z_k \bm I - \bm A)^{-1} \bm B + \bm D
+        \bm H^e(k) = \bm C(z_k \bm I - \bm A)^{-1} \bm B + \bm D
       \end{equation*}
       and minimise the difference between the measured and modelled output
       spectra in a linear least square sense, i.e.
       \begin{equation*}
-        \hat {\bm B}, \hat {\bm D} = \arg \min_{\bm B, \bm D} \sum_{k=1}^F |\bm Y(k) - \bm G_s(k) \bm E(k)|^2
+        \hat {\bm B}, \hat {\bm D} = \arg \min_{\bm B, \bm D} \sum_{k=1}^F |\bm Y(k) - \bm H^e(k) \bm E(k)|^2
       \end{equation*}
     \item Convert $\bm A, \bm B, \bm C$ and $\bm D$ into continuous-time
       matrices and form the extended FRF $\bm H^e(\omega)$.
@@ -329,7 +330,7 @@ See figure \ref{fig:fnsi_methodolgoy} for a overview.
       nonlinear coefficients $\mu_s$ are found from \eqref{eq:extend_FRF_He} as
       \begin{equation}
         \label{eq:FRE_H}
-        \bm H(\omega) = \bm H(\omega)
+        \bm Y(\omega) = \bm H(\omega)
         \begin{Bmatrix}
           \bm I & -\mu_1\bm b_1 & ... & -\mu_s \bm b_s
         \end{Bmatrix}
@@ -382,14 +383,8 @@ exhibit oscillations around the origin. An alternative is to use piecewise cubic
 spines instead. Even if they cannot realise a perfect fitting (they are
 continuous by nature), they are appropriate for representing sudden events, like
 sharp changes in stiffness(or damping) curves. Cubic splines and polynomials can
-be mixed.
-
-In order to get the basis functions from cubic splines, the abscissas and number
-of knots is specified on beforehand and the ordinate expressed as the free
-parameters to be estimated. The number of knots and their abscissas should
-ideally be chosen by minimising the difference in some metric between the
-predictions of the non-linear model and measured data. In reality it is still
-done by trial and error.
+be mixed. See section \ref{sec:contact_identification} for the formulation
+needed for using splines.
 
 Using cubic splines might be termed \textit{gray box} identification where using
 polynomials is \textit{white box}. The difference is that with gray box, the
@@ -397,8 +392,6 @@ nonlinearities are described by functions that may represent a vast variety of
 nonlinear behaviour and thus requiring less specific knowledge of the underlying
 physics.
 
-See section \ref{sec:syst-with-clear} for the formulation of cubic splines used
-as basis functions.
 
 \subsection{Estimating model order}
 
@@ -515,7 +508,8 @@ periods 4-9 could be used.
   \includegraphics[width=0.7\linewidth]{fnsi/frf_per.png}
   \caption{Periodicity (or difference between periods) of recorded signal at DOF
     0. Vertical lines indicate periods. A low periodicity shows that transient
-    effects have died out}
+    effects have died out. Blue is the original signal and yellow the
+    periodicity.}
   \label{fig:periodicity}
 \end{figure}
 
@@ -603,15 +597,84 @@ theoretical linear FRF.
 It seems that the FNSI method works quite well - both nonlinear and linear
 parameters are estimated with high accuracy - as seen from the simple example
 and in a broader sense:~\autocites{noel2013a, noel2014a, noel2014b,
-  noel2012time, gourc2016a}. And indeed it does work well. But it is not exact,
-even for simple examples without noise, the method introduce spurious undesired
-terms, and while they are small in magnitude, they still alters the identified
-model.
+  noel2012time}.
 
-\textbf{Mangler at blive skrevet ind. Ideen er at regne baglæns fra de
-  identificerede state-space matricer til eom. Det viser sig at eom indeholder
-  ekstra led, svarende til 'spurious''' dæmpning}.
+However as shown in \autocite{gourc2016a} spurious terms appears in the
+estimated $\bm B_c$ matrix. These terms have only limited affect on the
+estimated parameters, but if the estimated state space matrices are used
+directly for simulation purposes, ie. coupling a numerical continuation method
+directly with the state space model to obtain a NFRC without building a FE
+model, the spurious terms does affect the location of resonance peaks as they
+are acting as damping.
 
+The spurious terms in $\bm B_c$ arise from the conversion between discrete- and
+continuous time. As stated, the identification is done in discrete time, but the state space
+model is used in continuous time.
+To quote J.P Noel, who introduced FNSI, from a mail correspondence:
+\begin{quote}
+The continuous-time models are well suited for mechanical applications. The reason
+for this is that continuous-time identification assumes that data are acquired
+in band-limited conditions, i.e. that the input and the output are only
+measured over a finite set of frequencies, which is always the case in a
+mechanical setup. However, from a numerical point of view, it is more stable to
+carry out the identification in discrete time which is done, knowing that this
+creates an error.
+\end{quote}
+
+A final remark is that the state space matrices are not found within a basis for
+the physical coordinate system, ie. wrt. to the vector basis $\bm x=[\bm y^T,
+\dot{\bm y}^T]^T$. It was not mentioned in the overview fig.
+\ref{fig:fnsi_methodolgoy}, but the estimation of the extended observability
+matrix $\bm \Gamma$ is done within a similarity transformation matrix $\bm
+T$, ie.
+\begin{equation}
+  \bm \Gamma = \bm U_1 \bm S_1^{1/2} \bm T
+\end{equation}
+where the similarity transform is chosen as $\bm T = \bm I$ and thus omitted in
+successive steps. But this fixes the state-space basis and as the nonlinear
+components of $\bm B$ changes with the basis, they cannot be extracted from $\bm
+B$ by using a similarity transform changing the basis to physical coordinates.
+This is the reason why the nonlinear coefficients have to be extracted from the
+invariant extended FRF $\bm H^e$ and not simply found by inspection of $\bm B$.
+
+Without any explanation it is stated the similarity transform
+\begin{equation}
+  \bm T =
+  \begin{bmatrix}
+    \hat{\bm C} \\
+    \hat{\bm C} \hat{\bm A}
+  \end{bmatrix}
+  , \quad
+  \bm A = \bm T \hat{\bm A} \bm T^{-1}, \quad
+  \bm C = \hat{\bm C} \bm T^{-1}
+\end{equation}
+gives the state matrices $\bm A, \bm C$ in physical space, ie. matching the
+formulation eq. \eqref{eq:state_to_physical_mat}. \^{} denotes the estimated
+matrices.
+
+% Another reason for the difficulty
+% To demonstrate this, it is noted that the state space matrices are obtained by a
+% similarity transformation matrix $\bm T$:
+% \begin{equation}
+%   \bm A_c = \bm T \hat{\bm A}_c \bm T^{-1}, \quad
+%   \bm B_c = \bm T \hat{\bm B}_c, \quad
+%   \bm C_c = \hat{\bm C}_c \bm T^{-1}, \quad
+%   \bm D_c = \hat{\bm D}
+% \end{equation}
+% where \^{} denotes estimated quantities. Normally $\bm T$ is simply chosen as
+% the identity matrix, and thus ignored in the overview fig.
+% \ref{fig:fnsi_methodolgoy}, as the nonlinear coefficients are not invariant wrt.
+% to
+
+% as the nonlinear coefficients are not extracted directly
+% from $\bm B$ but from the invariant extended FRF eq. \eqref{eq:FRE_H}.
+
+% which is why it is not included in the overview of FNSI in
+% fig \ref{fig:fnsi_methodolgoy}. As the nonlinear
+
+% but to obtain the
+% state-space matrices in physical coordinates, ie. wrt. to the vector basis $\bm
+% x=[\bm y^T, \dot{\bm y}^T]^T$
 
 \subsection{Summary}
 \label{sec:summary-fnsi}

@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{395.18717447bp}%
+    \setlength{\unitlength}{395.18717067bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,13 +48,20 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.55792716)%
+  \begin{picture}(1,0.65612562)%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{beam.pdf}}%
-    \put(0.927018,0.30517107){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$u$}}}%
-    \put(0.94791333,0.23033196){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$z$}}}%
-    \put(0.88465656,0.40249915){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$k_-$}}}%
-    \put(0.7375455,0.31151863){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$a_-$}}}%
-    \put(0.88555088,0.13777081){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$k_+$}}}%
-    \put(0.73872876,0.21930071){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$a_+$}}}%
+    \put(0.92701801,0.39965095){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$u$}}}%
+    \put(0.94791334,0.32481184){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$z$}}}%
+    \put(0.83940225,0.5006976){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$k_-$}}}%
+    \put(0.69988254,0.40971707){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$a_-$}}}%
+    \put(0.84036082,0.22984914){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$k_+$}}}%
+    \put(0.7011301,0.31137903){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$a_+$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{beam.pdf}}%
+    \put(0.30354465,0.22676801){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$Q(t)$}}}%
+    \put(0.48383895,0.07222999){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$L$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{beam.pdf}}%
+    \put(0.30354463,0.00716138){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$z_f$}}}%
+    \put(0.73869101,0.00851692){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$z_b$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{beam.pdf}}%
   \end{picture}%
 \endgroup%

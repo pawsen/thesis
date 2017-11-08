@@ -21,8 +21,9 @@ clamped beam with a thin beam part at the end of the main beam.
   \centering
   \includegraphics[width=1\textwidth]{nlbeam/beam_setup.png}
   \caption{Experimental setup for the COST beam. Both vertical and horizontal
-    setups were tested. Horizontal setups avoids gravitational effects which
-    cannot be ignored due to the thin beam.}
+    setups were tested at University Liege(ULg). Horizontal setups avoids
+    gravitational effects which cannot be ignored due to static deflection of
+    the thin beam.}
   \label{fig:beam_setup}
 \end{figure}
 
@@ -52,7 +53,8 @@ setup.
 
 The time series were obtained from University Liege(ULg), where the beam was
 built as part of the COST F3 project. Unfortunately, despite several request,
-only noise-free simulated data were given.
+only noise-free simulated data were given and not the original experimental
+data.
 
 For characterisation the beam is excited with a sine sweep. The wavelet
 transform and RFS is seen in fig. \ref{fig:nlbeam_characterisation}. From the
@@ -140,7 +142,7 @@ nonlinearities are described by these functions.
 The identified linear parameters are shown in table \ref{tab:nlbeam_par}. At
 high excitation using linear analysis, the natural frequency increases for the
 first mode which is expected from a hardening nonlinearity.
-Using the two basis functions, ie. nonlinear analysis, the parameters are
+Using the two basis functions for nonlinear analysis, the parameters are
 estimated to be same as obtained at low level, ie. correct.
 
 \begin{center}
@@ -174,9 +176,9 @@ estimated to be same as obtained at low level, ie. correct.
   \label{tab:nlbeam_par}
 \end{center}
 
-The identified nonlinear coefficients are shown in figure \ref{fig:nlbeam_knl}.
+The estimated nonlinear coefficients are shown in figure \ref{fig:nlbeam_knl}.
 The deviation of the real part is just within 1\% and the imaginary part are
-around three orders of magnitude smaller, indicating a good identification.
+around three orders of magnitude smaller, indicating a good estimation.
 
 \begin{figure}[!ht]
   \centering
@@ -194,7 +196,7 @@ around three orders of magnitude smaller, indicating a good identification.
     The imaginary part is about three orders of magnitude smaller. Both
     indicates a good quality of the estimation. The spectral averages of the
     real part and logarithmic ratio between the real and imaginary part
-    ($\log_{10} \left(\frac{\Re(\mu)}{\Im(\mu)} \right)$) are:
+    ($\log_{10} \left(\tfrac{\Re(\mu)}{\Im(\mu)} \right)$) are:
     \textbf{(a)}: $\mu_1 = 8.0 \times 10^9 m/n^3$, ratio = 3.34;
     \textbf{(b)}: $\mu_2 = -1.05 \times 10^7 m/n^2$, ratio = 3.96.
   }
@@ -341,15 +343,15 @@ Finally, the NNM backbone traces the lotus as seen in fig.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=1\textwidth]{nlbeam/hb/nfrc.pdf}
+  \includegraphics[width=0.6\textwidth]{nlbeam/hb/nfrc.pdf}
   \caption{
-    \textbf{(left)}:
+    % \textbf{(left)}:
     NFRC for forcing amplitudes (1,2,3,4)N from HB. The dashed line is
     the backbone of the first NNM and tracks the lotus;
-    \textbf{(right)}:
-    Phase lag wrt. the excitation force.;
-    Shown for the tip of the main beam. $\square$
-    denote $F=4N$.
+    % \textbf{(right)}:
+    % Phase lag wrt. the excitation force.;
+    % Shown for the tip of the main beam.
+    $\square$ denote $F=4N$.
     }
   \label{fig:nlbeam_sweep}
 \end{figure}
@@ -360,12 +362,17 @@ Finally, the NNM backbone traces the lotus as seen in fig.
 \label{sec:syst-with-clear}
 
 A single DOF model with two clearances is simulated to obtain data for
-characterisation with WT and RFS and identification with FNSI.
+characterisation with WT and RFS and estimation with FNSI. The model is only
+briefly introduced below and the section is not intended to be a complete or
+thorough derivation; as the interesting part is not the model, but applications
+of the methods treated in this thesis.
+Only changes in stiffness during impact is considered, ie. impact damping as
+given by some impact models is ignored
 
 \subsection{Model}
 
 The model is a clamped-free beam with a pair of elastic stops at the free end
-with asymmetrical clearance distances $a_\pm$, see fig
+with optionally asymmetrical clearance distances $a_\pm$, see fig
 \ref{fig:clear_schematic}.
 
 
@@ -379,7 +386,7 @@ with asymmetrical clearance distances $a_\pm$, see fig
 \end{figure}
 
 
-The bending vibrations of the beam is given by
+The bending vibrations of the beam are given by
 \begin{equation}
   \label{eq:clear_EOM}
   \rho A \frac{\p^2 u(z,t)}{\p t^2} + \frac{\p^2}{\p z^2}
@@ -387,11 +394,11 @@ The bending vibrations of the beam is given by
   f_{res}(u(z_b,t)) \delta (z-z_b) +
   P_0 \sin(\Omega t) \delta(z-z_f)= 0
 \end{equation}
-where $EI, \rho, A, \delta(z), Q_0, u(z,t)$ denotes the stiffness bending, mass
+where $EI, \rho, A, \delta(z), Q_0, u(z,t)$ denotes the bending stiffness, mass
 density, cross section area, Dirac delta function, forcing amplitude and
 relative transverse displacement, respectively, for the assumed uniform beam.
-The external force act in $z_f$. The vibro-impact force at the impact location
-$z_b$ is given by
+The forces are assumed point loads, where the external force act in $z_f$ and the
+vibro-impact force at the impact location $z_b$ is given by
 
 \begin{equation}
   \label{eq:clear_vibro_force}
@@ -407,23 +414,22 @@ stiffness's. Thus the stops behaves as one-sided springs.
 
 The left end is clamped, giving the boundary conditions
 \begin{equation}
-  u(0,t) = 0, \quad u(0,t)_z = 0
+  u(0,t) = 0, \quad u_z(0,t) = 0
 \end{equation}
-and at the right end, between stops, the beam moves freely giving a free moment
-and transverse stress condition
+and at the right end, between stops, the beam moves freely giving a moment-
+and transverse stress free condition
 \begin{equation}
  a_+ > u > a_-: \quad u_{zz}(L,t) = 0, \quad u_{zzz}(L,t) = 0
 \end{equation}
 
-When the elastic stops are hit, the stress $\sigma = k^2u_{zzz}$ is no longer
+When the elastic stops are hit, the stress $\sigma = EIu_{zzz}$ is no longer
 zero
 \begin{equation}
-  a_+ < u, u < a_-: \quad \sigma(L,t) = - f_{res}(u)
+  a_+ < u, u < a_-: \quad \sigma(z_b,t) = - f_{res}(u)
 \end{equation}
-where $k^2$ is the scaled elastic modulus. Notice that the stress is opposite in
-direction to the displacement. For $k_\pm \to \infty$, the stops are rigid and
-velocity changes sign instantly at each impact, known as the Signorini
-nonpenetration condition.
+Notice that the stress is opposite in direction to the displacement. For $k_\pm
+\to \infty$, the stops are rigid and velocity changes sign instantly at each
+impact, known as the Signorini nonpenetration condition.
 
 
 An approximate solution to \eqref{eq:clear_EOM} is given by the modal expansion
@@ -431,7 +437,8 @@ An approximate solution to \eqref{eq:clear_EOM} is given by the modal expansion
   \label{eq:clear_modal}
   u_n(z,t) = \sum_{i=1}^n \phi_i(z) q_i(t)
 \end{equation}
-where $\phi_i$ is the mode shape related to the $i$'th natural frequency
+where $\phi_i$ is the mode shape satisfying the stated essential boundary
+conditions and related to the $i$'th natural frequency
 $\omega_i$; together they define the $i$'th mode for linear system of eq.
 \eqref{eq:clear_EOM}, ie. with $f_{res}(u) = 0$.
 
@@ -440,29 +447,34 @@ equation
 \begin{equation}
   \ddot q_i(t) + 2 \xi \omega_i \dot q_i(t) + \omega_i^2 q_i(t) +
   \frac{\phi_i(z_b)}{\rho A L} f_{res}(u_n(z_b,t)) +
-  \frac{\phi_i(z_f) Q_0}{\rho A L}\sin(\Omega t)
+  \frac{\phi_i(z_f) }{\rho A L}Q_0\sin(\Omega t)
   = 0, \quad
-  \text{for} i=1,...,n
+  i=1,...,n
 \label{eq:clear_mode_expansion}
 \end{equation}
-where viscous damping have been added to account for dissipative effects. This
-is not easily solved, but a technique to find approximate analytical solutions
-to vibro-impact problems is found in \parencite{thomsen2008a}.
-
+where viscous damping have been added to account for dissipative effects.
+This is not easily solved. The preprint by Rebouças~\autocite{reboucas2017a}
+list different techniques for solving vibro-impact models as well as an example
+of a thorough derivation of the nondimensionalized EOMs(though for a
+parametrically excited vibro-impact).
 
 \subsubsection{Numerical solution}
 
-By using the approximation eq. \eqref{eq:clear_modal} with
-\ref{eq:clear_mode_expansion}, the vector $x(t)= (u(z_1,t),...,u(z_n,t))^T $ is
-the solution to the nonlinear FE model eq. \eqref{eq:per_eom}.
+When eq. \eqref{eq:clear_modal} is driven around its first resonance, the higher
+order modes ($i\geq 2$) are expected to have low influence as they are
+increasingly damped. Thus a single-mode expansion can be used, as long as the
+driving frequency is kept well below the second resonance.
 
-To solve the FE model, the derivative of the restoring force must be calculated
-and is required to be continuous. This is enforced using local regularisation
-with Hermite polynomials in the interval $[a-\Delta, a+\Delta]$, where $2\Delta$
-is the size of the regularisation interval.
-Figure \ref{fig:fnl_piecewise} shows an example of a regularised tri-linear
-restoring force; the purely linear behavior of the restoring force outside the
-regularisation interval is kept.
+Solving the system using Newmarks method, requires the derivatives of the
+restoring force to be continuous. \autocite{kim2003a} list different smoothening
+functions and the smoothening effect on the nonlinear response.
+However I prefer using local regularisation with Hermite polynomials in the
+interval $[a-\Delta, a+\Delta]$, where $2\Delta$ is the size of the
+regularisation interval. Figure \ref{fig:fnl_piecewise} shows an example of a
+regularised tri-linear restoring force; the purely linear behaviour of the
+restoring force outside the regularisation interval is kept, which is why this
+approach is favoured. \autocite{kim2003a} ensures continuity by changing the
+piecewise linear functions to trigonometric functions.
 
 \begin{figure}[!ht]
   \centering
@@ -474,21 +486,21 @@ regularisation interval is kept.
 \end{figure}
 
 
-A trilinear model for stiffness' $k_-, k, k_+$ and clearances $a_-, a_+$ is
-given by, %\autocite{renson2014_phd}
+A regularised trilinear model for stiffness' $k_-, k, k_+$ and clearances $a_-,
+a_+$ is given by, %\autocite{renson2014_phd}
 \begin{equation}
   \label{eq:fnl_piecewise}
   f_{nl}(x) =
   \begin{cases}
-    \sign(x) \left( ka_+ + k_+(x-a_+) \right) & x \geq a_+ + \Delta_+ \\
+    ka_+ + k_+(x-a_+) & x \geq a_+ + \Delta_+ \\
     p_+(t(x)) & a_+ + \Delta_+ > x > a_+ - \Delta_+ \\
     kx & a_+ - \Delta_+ \geq x \geq  -(a_- - \Delta_-) \\
     p_-(t(x)) & -(a_- + \Delta_-) > x > -(a_- + \Delta_-) \\
-    \sign(x) \left( ka_- + k_-(x-a_-) \right) & x \leq -(a_- + \Delta_-) \\
+    ka_- + k_-(x-a_-) & x \leq -(a_- + \Delta_-) \\
   \end{cases}
 \end{equation}
 where $x$ is the relative distance between the two DOFs defining the nonlinear
-connections.
+connections, ie. the displacement for the single mode expansion.
 
 The Hermite polynomials $p_\pm$ are defined as
 \begin{equation}
@@ -496,33 +508,255 @@ The Hermite polynomials $p_\pm$ are defined as
   p_\pm(t) = h_{00}(t)p_k + h_{10}(t)(x_{k+1}-x_k)m_k + h_{01}(t)p_{k+1} + h_{11}(t)(x_{k+1} - x_k)m_{k+1}
 \end{equation}
 where $p_k$ and $p_{k+1}$ are the values of the restoring force at points $x_k =
-\sign(x)(a - \Delta)$ and $x_{k+1} = \sign(x)(a + \Delta)$, respectively. $m_k$
+a_\pm - \Delta$ and $x_{k+1} = a_\pm + \Delta$, respectively. $m_k$
 and $m_{k+1}$ are the values of the restoring force derivative at the same $x_k$
 and $x_{k+1}$ points; they correspond to the stiffness coefficients k and
-$k_\pm$. The local scaled abscissa and $h_{ij}$ functions are
+$k_\pm$. The normalised displacement $t$ (termed the \textit{local scaled
+  abscissa}) and $h_{ij}$ functions are
 
 \begin{equation}
   \label{eq:fnl_piecewise_coeff}
+  \begin{gathered}
+    t(x) = \frac{x - x_k}{x_{k+1} - x_k}\\
+    h_{00}(t) =  2t^3 - 3t^2 + 1, \quad
+    h_{10}(t) = t^3 - 2t^2 + t \\
+    h_{01} = -2t^3 + 3t^2, \quad
+    h_{11} = t^3 - t^2 \\
+  \end{gathered}
+\end{equation}
+
+It should be noted that numerically solving systems with a large difference in
+stiffness(\textit{stiff} systems) might not be easy. When the
+beam hit the stops, some spurious high frequencies might appear in the numerical
+solution. These spurious frequencies may disappear by choosing a smaller
+time-step and if not, the solutions becomes unstable. In that case a time
+integration method with numerical damping should be used. A possibility is to
+use a Newmark scheme with $\gamma > \frac{1}{2}$ in order to introduce some
+numerical damping. Unfortunately this scheme is only of first order convergence
+and the effect of the damping can affect amplitude of the solution. Preferable
+another scheme should be used, see appendix \ref{sec:newmark_summary} for at bit
+more on the Newmark method and references to alternatives.
+
+As a single mode model is used, an easier approach is to use a stiff first order ODE
+solver, eg. a \textit{Radau}-type. Then either event-detection for impacts or the
+reformulation of the piecewise function \eqref{eq:clear_vibro_force} into
+
+\begin{equation}
+  \label{eq:clear_oneline}
+  f_{res}(u) = u + (1-\alpha)\frac{|u-a|-|u+a}{2}
+\end{equation}
+which is valid for symmetric stops $a = a_+=a_-$ could be used. $||$ is the
+absolute value and $\alpha \leq 1$ is the slope in-between the stops, ie. 0. The
+slope of \eqref{eq:clear_oneline} is one after impact. To get stiffer impacts
+$f_{res}$ is simply multiplied by a desired factor. The latter reformulation
+should be preferred as long as the time steps are not too large, which could
+correspond to a large penetration of the stop \footnote{For solving ODEs
+  \autocite{pydstool} is recommended. The system is automatically compiled into
+  c-code, along with any event-detection. As a result, simulation is ten-fold
+  faster than what can be achieved by matlab.}.
+
+
+
+\subsection{Identification}
+\label{sec:contact_identification}
+
+The one-mode approximation
+\begin{equation}
+  \label{eq:one_mode}
+  \ddot x + 2 \xi \omega \dot x + \omega^2x + 3f_{res}(x) = q\sin(\omega_t t)
+\end{equation}
+with symmetrical stops $a= 0.1745$, $\omega^2 = 1$, $\xi=0.025$, $q = 0.03$ and
+$f_{res}$ given by \eqref{eq:clear_oneline} is used. The factor 3 controls the
+impact stiffness.
+
+
+\subsubsection{Characterisation}
+
+The system \eqref{eq:one_mode} is excited by a linear sine sweep from
+$\omega_t=[0.001,2]$rad/s with a sweep rate of $0.01$Hz/min.
+
+Figure shows the time series for a forward sweep and the NFRC calculated by HB.
+For HB the general model for $f_{res}$ \eqref{eq:fnl_piecewise} is used, as the
+derivative of the restoring force is needed.
+A stiffening effect is seen, which is explained by the constraining effects of the
+stops. When the energy is increased, the stiffer stops prevents the amplitude
+from increasing proportionally and the system responds by increased
+frequency.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{contact/nfrc.pdf}
+  \caption{Forward sweep and HB for system \eqref{eq:one_mode}. Sweep rate:
+    0.01Hz/min and $q=0.03$. Dashed line indicates a unstable periodic solution.}
+  \label{fig:contact_nfrc}
+\end{figure}
+
+
+Figure \ref{fig:contact_characterisation}(a) shows the wavelet transform, where
+uneven higher harmonics are seen. The magnitude and number of the higher
+harmonics are controlled by the impact duration, ie. a short impact, or rapid
+change in velocity, results in more harmonics as the impact resembles a narrower
+impulse with a broader frequency content.
+
+Figure \ref{fig:contact_characterisation}(b) shows the restoring force and is
+clearly piecewise linear. The vertical dashed lines indicate the stops and the
+clearance distance can be determined quite accurate from the plot.
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\linewidth, height=6cm]{contact/wt.png}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\linewidth, height=6cm]{contact/rfs.tikz}
+    \caption{}
+  \end{subfigure}
+  \caption{Characterisation of system \eqref{eq:one_mode} using a forward sine sweep.
+    \textbf{(a)}: Wavelet transform;
+    \textbf{(b)}: Restoring force surface slice showing the restoring force.
+    Dashed lines shows the location of the stops.}
+  \label{fig:contact_characterisation}
+\end{figure}
+
+
+
+\subsubsection{Estimation}
+
+The estimation of the of the system \eqref{eq:one_mode} is done by FNSI using
+cubic splines as basis functions.
+
+\paragraph{Spline formulation}
+
+To resemble a linear piecewise function, a polynomial of sufficiently high order
+can be used. But as stated, high order polynomials shows oscillations around
+origin. Instead piecewise cubic polynomials (splines) are used, as introduced in
+\autocite{noel2014b}. Spline formulations are found in the handbook
+\autocite{boor2001a}.
+
+To find the cubic spline representation of the nonlinear force $f(x)$, let $x$
+be divided into $R$ segments of arbitrary length defined by their abscissas
+$x_k$ for $k=1,...,R+1$. Each abscissa is associated with a ordinate $f_k$;
+together they define a knot $(x_k, f_k)$.
+
+Thus for the displacement $x$ between knots $k$ and $k+1$, the corresponding
+spline approximation of $f$ is given by
+
+\begin{equation}
+  \label{eq:spline_interp}
   \begin{aligned}
-    t(x) &= \frac{x - x_k}{x_{k+1} - x_k}\\
-    h_{00}(t) &=  2t^3 - 3t^2 + 1 \\
-    h_{10}(t) &= t^3 - 2t^2 + t \\
-    h_{01} &= -2t^3 + 3t^2 \\
-    h_{11} &= t^3 - t^2 \\
+    f(x) =& (2t^3-3t^2+1)x_k + (-2t^3+3t^2)x_{k+1} + \\
+    &(t^3-2t^2+t)(x_{k+1}-x_k)x'_k + (t^3-t^2)(x_{k+1}-x_k)x'_{k+1}
+  \end{aligned}
+\end{equation}
+where $t$ is the normalised displacement. To calculate the first order
+derivatives $x'_k = \frac{\p x_k}{\p x}$, $R+1$ constraints are needed.
+Forcing the cubic splines and the first two derivatives to be continuous across
+each interior knot gives $R-1$ constraints:
+
+\begin{equation}
+  \label{eq:spline_contraint1}
+  \begin{aligned}
+    \frac{x'_{k-}}{x_k-x_{k-1}} + 2 \left( \frac{1}{x_k-x_{k-1}} +
+      \frac{1}{x_{k+1}-x_{k}} \right) x'_k + \frac{x'_{k+1}}{x_{k+1}-x_k} = \\
+    3
+    \left( \frac{x_k-x_{k-1}}{(x_k-x_{k-1})^2} +
+      \frac{x_{k+1}-x_{k}}{(x_{k+1}-x_{k})^2} \right)
   \end{aligned}
 \end{equation}
 
+As the nonlinear force is required to be nonlinearizable, ie. is zero and have
+zero slope at equilibrium, this is also enforced for the segment containing the
+equilibrium point, giving the last two constraints. This is generally called the
+boundary condition for generic spline interpolation.
 
-It should be noted that solving systems with a large difference in stiffness
-might not be easy. When the beam hit the stops, some spurious high frequencies
-may appear. These spurious frequencies may disappear by choosing a smaller
-time-step and if not, the solutions become unstable. In that case a time
-integration method with numerical damping should be used. A possibility is to
-use a Newmark scheme with $\gamma > \frac{1}{2}$ in order to introduce some
-numerical damping in the higher modes. Unfortunately, this scheme is only of
-first order and the effect of the damping can affect the lower modes of the
-solution and the amplitude of the displacement. Preferable another scheme should
-be used, see appendix \ref{sec:newmark_summary}.
+\begin{align}
+  \label{eq:spline_constraint2}
+  \begin{aligned}
+    (t_0^3 -2t_0^2 +t_0)(x_{k+1} - x_k)x'_k +
+    (t_0^3-t_0^2)(x_{k+1} - x_k)x'_{k+1} = \\
+    -(2t_0^3-3t_0^2+1)x_k -
+    (-2t_0^3 +3t_0^2)x_{k+1}
+  \end{aligned}\\
+  \begin{aligned}
+    (3t_0^2 -4t_0 +1)(x_{k+1} - x_k)x'_k +
+    (3t_0^2-2t_0)(x_{k+1} - x_k)x'_{k+1} = \\
+    6(t_0-t_0^2)(x_k + x_{k+1})
+  \end{aligned}
+  \label{eq:spline_contraint3}
+\end{align}
+where $t_0 = \frac{-x_k}{x_{k+1}-x_k}$.
+
+Thus to summarise:
+Given the displacements $\bm x$ and knot placements $x_k$, the linear constraint
+equations \eqref{eq:spline_contraint1}-\eqref{eq:spline_contraint3} are
+solved(as a tridiagonal system) and used to find the basis function from eq.
+\eqref{eq:spline_interp}.
+The number of knots and their abscissas($x_k$) should ideally be chosen by minimising
+the difference in some metric between the predictions of the nonlinear model and
+measured data. In reality it is still done by trial and error. In the current
+implementation the abscissas are distributed so the segments are divided into
+equal lengths.
+
+\paragraph{Results}
+
+Using a low and high level multisine excitation's with RMS values of $0.005$ and
+$0.2$, the identified linear parameters are seen in table \ref{tab:contact_par}.
+At low level, where the stops are not activated, the expected linear parameters
+are obtained to high precision. At high level, without nonlinear basis
+functions, an increased natural frequency is obtained. Using the cubic splines,
+the correct linear frequency is obtained whereas the damping is estimated too
+low.
+
+\begin{center}
+\resizebox{\columnwidth}{!}{%
+  \begin{tabular}{@{} l *{4}{c} @{}}
+    \hline
+    & Mode & Frequency (rad/s) & Damping ration (\%) & Deviation from linear freq. (\%) \\
+    \hline
+    \tiny{Low}  &1 & 1  & 2.5 \\
+    \hline
+    \tiny{High, lin} &1 & 1.15 & 1.0  & 14.8 \\
+    \hline
+    \tiny{High, nonlin} &1 & 0.995 & 1.6 & 0.5 \\
+    \hline
+  \end{tabular}
+  }
+  \captionof{table}{Estimated linear natural frequencies and damping ratios for
+    the system \eqref{eq:one_mode} .
+    \textbf{(upper)}: Low level, linear identification;
+    \textbf{(middle)}: High level, linear identification;
+    \textbf{(lower)}: High level, nonlinear identification.
+  }
+  \label{tab:contact_par}
+\end{center}
+
+
+Comparing the estimated nonlinear restoring force by the cubic splines to the
+exact in fig. \ref{fig:contact_rf}, it is seen FNSI is able to capture the
+discontinuity using splines. 15 spline segments are specified for estimation,
+giving 16 basis functions(one for each knot ordinate). The high number of
+splines is chosen to show that FNSI is able to estimate many parameters.
+It have not been investigated why the damping estimation is wrong or if
+tweaking the number of splines would result in a better estimate.
+
+Is is however expected that FNSI gives better estimates for natural frequencies
+than damping, as discussed in sec. \ref{sec:fnsi-estimation-error}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth, height=8cm]{contact/rf}
+  \caption{
+    Nonlinear restoring force for the system \eqref{eq:one_mode}.
+    \sampleline{}: Restoring force from splines estimation. Markers show knot locations;
+    \textcolor{blue}{\sampleline{dashed}}: Analytical restoring force
+  }
+  \label{fig:contact_rf}
+\end{figure}
+
+
+
 
 
 \FloatBarrier
