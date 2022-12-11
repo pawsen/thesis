@@ -235,6 +235,127 @@ $g$ is related to $\bm G$ by Cramer's rule
 \end{equation}
 
 
+\subsection{Localisation}
+
+When a bifurcation is detected using the test functions, the precise frequency
+where it happens should be localised. To do this, a augmented system is formed
+by adding the scalar test function $\phi$ to eom eq. \eqref{eq:hb_feom_compact}.
+
+\begin{equation}
+  \bm h_{aug}(\\bm z, \omega) =
+  \begin{bmatrix}
+    \bm h(\bm z, \omega) \\
+    \phi(\bm z, \phi)
+  \end{bmatrix}
+  = 0
+\end{equation}
+
+The bordered technique \eqref{eq:bordered_system} is used to define the test
+function $\phi$, ie. $\phi = g$ with $\bm G$ defined as: For fold and BPs, $\bm
+G = \bm h_{\bm z}$. For NS and PD, $\bm G = \tilde{\bm B}_\odot$.
+
+Thus for localising the bifurcation, the augmented system:
+\begin{align}
+  \label{eq:bif_aug}
+  &\bm h_{aug} =
+  \begin{bmatrix}
+    \bm h(\bm z, \omega) \\
+    g(\bm z, \phi)
+  \end{bmatrix}
+  = 0 \\
+  &\bm J_{aug} =
+  \begin{bmatrix}
+    \bm h_{\bm z} & \bm h_{\omega} \\
+    g_{\bm z} & g_{\omega}
+  \end{bmatrix}
+\end{align}
+is solved using Newton-Raphson iterations. The derivatives of the test function
+is needed. Using the bordered system, the derivatives are
+
+\begin{equation}
+  g_\alpha = -\bm v* \bm G_\alpha \bm w
+\end{equation}
+where $\alpha$ denotes one of the components of $\bm z$ or $omega$. $bm v$ and
+$\bm w$ is found by solving the bordered system and its transpose, restated here:
+
+
+\begin{equation}
+  \begin{bmatrix}
+    \bm G & \bm p \\
+    \bm q* & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    \bm w \\ q
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \bm 0 \\ 1
+  \end{bmatrix}, \quad
+    \begin{bmatrix}
+    \bm G & \bm p \\
+    \bm q* & 0
+  \end{bmatrix}*
+  \begin{bmatrix}
+    \bm v \\ q
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \bm 0 \\ 1
+  \end{bmatrix}
+  \label{eq:bordered_system2}
+\end{equation}
+Thus only $G_\alpha$ needs to be calculated.
+
+For fold and BPs,
+\begin{equation}
+  G_\alpha = \bm h_{\bm z \alpha}
+\end{equation}
+where $\bm h_{\bm z \alpha}$ is the derivative of the Jacobian $\bm h_z$ wrt.
+$\alpha$, calculated by finite difference. When $\alpha = z_1,...,z_{(2N_H
+  +1)n}$, $\bm h_{\bm z \bm z}$ is the Hessian matrix.
+
+For NS and PD, properties of the bialternate product gives:
+\begin{equation}
+  \bm G_\alpha = \frac{\p}{\p \alpha} \left( \tilde{\bm B}_\odot \right) =
+  \left( \frac{\p}{\p \alpha} \tilde{\bm B}_\odot \right) =
+  \begin{bmatrix}
+    \frac{\p \tilde{\lambda}_1}{\p \alpha} \\
+    & \frac{\p \tilde{\lambda}_2}{\p \alpha} \\
+    & & \ddots \\
+    & & & \frac{\p \tilde{\lambda}_{2n}}{\p \alpha}
+  \end{bmatrix}_\odot
+\end{equation}
+
+Instead of calculating the derivatives of the Floquet exponents by finite
+difference, which would require calculating the eigenvalues of $\bm B$ for each
+perturbation of the components of $\bm z$ and $\omega$, $(2N_H+1)n + 1$
+evaluations, the properties of eigenvalues derivatives is
+used~\autocite{aa2007a}
+
+\begin{equation}
+  \label{eq:eigen_deriv}
+  \frac{\p \tilde{\lambda}_i}{\p \alpha} =
+  \left( \bm \Lambda^{-1} \frac{\p \bm B}{\p \alpha} \bm \Lambda \right)_{\xi_i, \xi_i}
+\end{equation}
+where $\bm \Lambda$ is the matrix of right eigenvectors of $\bm B$ and $\xi_i$
+is a indexation vector containing the index of the $2n$ Floquet exponents
+$\tilde{\bm \lambda}$ among the eigenvalues $\bm B$(ie.
+$\tilde{\lambda}_i=\lambda_{\xi_i}$).
+An analytic expression for $\frac{\p \bm B}{\p \alpha}$ can then be found from
+\eqref{eq:hb_B}.
+
+Eq \eqref{eq:eigen_deriv} is valid as long as there is no repeated eigenvalues,
+which is verified for most situations except when a pair of complex conjugates
+turn into a pair of real eigenvalues. Since this transition occurs quickly, it
+is reasonable to assume \eqref{eq:eigen_deriv} is valid. For scenarios with
+repeated eigenvalues, other expressions can be found in~\autocite{aa2007a}.
+
+Remark that $\bm h_{\bm z \alpha}$ is a zero matrix for all components in $\bm
+z$ related to linear dof/Fourier coefficients. Thus it is not necessary to
+evaluate all $(2N_H+1)n +1$ terms $g_\alpha$, but only the $(2N_H+1)n_{red} +1$
+where $n_{red}$ is related to nonlinear dofs.
+
+
 \subsection{Example}
 \label{sec:bif_example}
 

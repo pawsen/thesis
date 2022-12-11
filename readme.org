@@ -1,58 +1,7 @@
-Hej Marie og Jon,
+#+title: Readme
 
-Her er min midtvejrapport. Der er stadig nogle mangler, de er angivet herunder,
-men medmindre I finder større mangler, håber jeg den endelige udgave kan være
-klar om to uger.
+Try
+: nix build github:pawsen/thesis
+: xdg-open result/report.pdf
 
-I må endelig ikke bruge for megen tid på den. Jeg er mest interesseret í om den
-hænger nogenlunde sammen, om jeg virker usikker/(ie ikke har forstået det jeg
-skriver) og om jeg har udeladt for meget.
-Til trods for at jeg har prøvet holde sidetallet nede, er den desværre blevet
-lidt for lang alligevel. Så hvis I finder afsnit der skal fjernes eller i
-appendix gør jeg gerne det.
-
-Ps. Jeg ved ikke om mail'en ser rodet ud. Den er sat op til blive vist med
-monospace typer, så hvis jeres mail-program ikke bruger dét springer listen
-herunder måske lidt rundt.
-
-Ting der skal ordnes:
-- Rodet notation.
-  + Jeg bruger y som afhængig variabel(forskydninger) i kapitel 1 og x i kapitel
-    to. Det ændrer jeg selvfølgelig så der er konsitent notation.
-    Det er fordig jeg springer nogle detaljer over med FNSi: Formelt burde eom
-    for FNSI afsnittet være
-    Mq'' + Cq' + Mq + fnl = p (eom)
-    hvor q \in R^n. n er antallet af frihedsgrader. Men da ikke alle
-    frihedsgrader kan observeres i data, projiceres eom ned på oberserverede
-    frihedsgrader:
-    Mx'' + Cx' + Mx + fnl = p
-    hvor x \in R^{l<=n} og p \in R^{m<=n}. l er antallet af observerede
-    frihedsgrader(eller modes) og m er antallet målte kraftpåvirkninger.
-    Men den slags detaljer er ikke vigtige, så jeg slettede alt mht q og fik så
-    bare byttet om på x og y ift kapitel 2.
-  + Jeg har skiftet henvisningsstil til litteratur flere gange. Jeg er endt med
-    to typer:
-    1) opløftet numerisk henvisning, fx: 'for at hindre lækage bruges periodiske
-       signaler^[1]'
-    2) Navn + numerisk, fx: 'nonlinear duffing oscillator is given in
-       Hermansen[13]'
-    Tanken er at den opløftede henvisning er slags fodnote og ikke specielt
-    vigtig, mens navn er en reel henvisning.
-    Det er ikke gjort konsekvent og skal rettes.
-  + Der er blanding af vector og bitmap grafik. Jeg skal prøve at figurer til at
-    se mere ensartet ud
-
-- Deciderede mangler - disse er også markeret i rapporten
-  + Introduktion til 1 kapitel, ie. estimering, identifikation mv.
-  + FNSI
-    * Kort afsnit om modelleringsfejl.
-    * En lille notits om estimering med støj i data.
-  + Application
-    * nlbeam. De data jeg har brugt til fnsi er ikke målte data. Det er nogle de
-      har simuleret i Liege. Jeg troede det var målte. Jeg har skrevet til J.P.
-      Noel og spurgt om de vil udlevere målte data.
-      Hvis ikke, er dette afsnit ikke meget værd da det blot er så endnu en gang
-      numerisk demonstration på konstruerede data, hvor alle metoder vides at
-      fungere godt.
-    * Demonstration af kontakt og estimering af clearance. Alt mangler.
-  + En bedre diskussion
+Btw, =zathura= is the pdf-reader I use...
